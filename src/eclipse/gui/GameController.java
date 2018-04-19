@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 /**
  * FXML Controller class
  *
- * @author Jonathan
+ * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
 public class GameController implements Initializable {
 

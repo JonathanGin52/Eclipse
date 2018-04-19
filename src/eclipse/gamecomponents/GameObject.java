@@ -2,8 +2,10 @@ package eclipse.gamecomponents;
 
 /**
  *
- * @author Jonathan
+ * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
-public class GameObject {
+public abstract class GameObject {
+    
+    
     
 }
