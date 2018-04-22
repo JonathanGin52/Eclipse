@@ -43,27 +43,52 @@ public class GameController implements Initializable {
     @FXML
     private Canvas gameArea;
 
+	boolean[] inputs = new boolean[4];
+
     public void setApp(Main application) {
 	this.application = application;
     }
 
     private void installKeyListener(Scene scene) {
-	scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
-	    KeyCode code = ke.getCode();
-	    System.out.println("Key pressed: " + code);
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
+			KeyCode code = ke.getCode();
+			System.out.println("Key pressed: " + code);
 
-	    // Diagonal movement not working
-	    if (code == KeyCode.UP) {
-		player.moveUp();
-	    } else if (code == KeyCode.DOWN) {
-		player.moveDown();
-	    }
-	    if (code == KeyCode.LEFT) {
-		player.moveLeft();
-	    } else if (code == KeyCode.RIGHT) {
-		player.moveRight();
-	    }
-	});
+			switch(code) {
+				case UP:
+					inputs[0] = true;
+					break;
+				case DOWN:
+					inputs[1] = true;
+					break;
+				case LEFT:
+					inputs[2] = true;
+					break;
+				default:
+					inputs[3] = true;
+					break;
+			}
+		});
+
+		scene.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent ke) -> {
+			KeyCode code = ke.getCode();
+			System.out.println("Key released: " + code);
+
+			switch(code) {
+				case UP:
+					inputs[0] = false;
+					break;
+				case DOWN:
+					inputs[1] = false;
+					break;
+				case LEFT:
+					inputs[2] = false;
+					break;
+				default:
+					inputs[3] = false;
+					break;
+			}
+		});
     }
 
     void initGame(int FRAME_RATE) {
@@ -92,7 +117,8 @@ public class GameController implements Initializable {
     }
 
     private void updateScreen(GraphicsContext gc) {
-	player.update(gc);
+		player.move(inputs);
+		player.update(gc);
 	// Remove dead enemies and stuff
 	enemies.forEach((Enemy enemy) -> { // This is java8 stream syntax combined with a lamda expression, it's really compact and legible so imma use it a lot
 	    System.out.println(enemy);
