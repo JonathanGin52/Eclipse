@@ -64,7 +64,7 @@ public class GameController implements Initializable {
 				case LEFT:
 					inputs[2] = true;
 					break;
-				default:
+				case RIGHT:
 					inputs[3] = true;
 					break;
 			}
@@ -84,7 +84,7 @@ public class GameController implements Initializable {
 				case LEFT:
 					inputs[2] = false;
 					break;
-				default:
+				case RIGHT:
 					inputs[3] = false;
 					break;
 			}
