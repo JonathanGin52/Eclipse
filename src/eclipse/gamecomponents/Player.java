@@ -1,7 +1,7 @@
 package eclipse.gamecomponents;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -9,14 +9,17 @@ import javafx.scene.shape.Circle;
  */
 public class Player extends GameObject {
 
-    Circle circle;
-    int x;
-    int y;
-
+    private final static Image SPRITE = new Image("file:plane.png");
+    
     public Player() {
-	circle = new Circle(50);
-	x = 0;
-	y = 0;
-	circle.setFill(Color.ALICEBLUE);
+	x = 100;
+	y = 300;
     }
+
+    @Override
+    public void update(GraphicsContext gc) {
+	gc.clearRect(0, 0, 800, 600);
+	gc.drawImage(SPRITE, x, y, 50, 50);
+    }
+
 }

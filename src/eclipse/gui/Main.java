@@ -18,8 +18,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private Stage stage;
+    private Scene scene;
     private final double MINIMUM_WINDOW_WIDTH = 390.0;
     private final double MINIMUM_WINDOW_HEIGHT = 500.0;
+    private final int FRAME_RATE = 60;    
 
     /**
      * @param args the command line arguments
@@ -32,7 +34,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 	try {
 	    stage = primaryStage;
-	    stage.setTitle("PUT TITLE");
+	    stage.setTitle("ICS Summative");
 	    stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
 	    stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
 	    gotoGame();
@@ -46,9 +48,15 @@ public class Main extends Application {
 	try {
 	    GameController game = (GameController) replaceSceneContent("Game.fxml");
 	    game.setApp(this);
+	    game.initGame(FRAME_RATE);
+	    game.start();
 	} catch (Exception ex) {
 	    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 	}
+    }
+    
+    public Scene getScene() {
+	return scene;
     }
 
     private Initializable replaceSceneContent(String fxml) throws Exception {
@@ -62,7 +70,7 @@ public class Main extends Application {
 	} finally {
 	    in.close();
 	}
-	Scene scene = new Scene(page, 800, 600);
+	scene = new Scene(page, 800, 600);
 	stage.setScene(scene);
 	stage.sizeToScene();
 	return (Initializable) loader.getController();
