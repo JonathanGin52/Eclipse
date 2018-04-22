@@ -9,34 +9,34 @@ import javafx.scene.image.Image;
  */
 public class Player extends GameObject {
 
-    private final static Image SPRITE = new Image("file:plane.png");
-    
+    private final Image SPRITE = new Image(IMAGE_DIR + "plane.png");
+
     public Player() {
 	x = 100;
 	y = 300;
+	x_speed = 3;
+	y_speed = 3;
     }
 
-//    @Override
+    @Override
     public void update(GraphicsContext gc) {
-	gc.clearRect(0, 0, 800, 600);
+	// Clear rectangle the size of image +- distance of movement
+	gc.clearRect(x - x_speed, y - y_speed, 50 + x_speed * 2, 50 + y_speed * 2);
 	gc.drawImage(SPRITE, x, y, 50, 50);
     }
 
     public void move(boolean[] directions) {
-        if (directions[0]) {
-            moveUp();
-        }
-
-        if (directions[1]) {
-            moveDown();
-        }
-
-        if (directions[2]) {
-            moveLeft();
-        }
-
-        if (directions[3]) {
-            moveRight();
-        }
+	if (directions[0]) {
+	    moveLeft();
+	}
+	if (directions[1]) {
+	    moveUp();
+	}
+	if (directions[2]) {
+	    moveRight();
+	}
+	if (directions[3]) {
+	    moveDown();
+	}
     }
 }

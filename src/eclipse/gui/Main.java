@@ -21,7 +21,7 @@ public class Main extends Application {
     private Scene scene;
     private final double MINIMUM_WINDOW_WIDTH = 390.0;
     private final double MINIMUM_WINDOW_HEIGHT = 500.0;
-    private final int FRAME_RATE = 60;    
+    private final int FRAME_RATE = 60;
 
     /**
      * @param args the command line arguments
@@ -54,7 +54,7 @@ public class Main extends Application {
 	    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
-    
+
     public Scene getScene() {
 	return scene;
     }

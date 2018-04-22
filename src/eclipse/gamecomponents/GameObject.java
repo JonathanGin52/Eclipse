@@ -8,25 +8,27 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public abstract class GameObject {
 
-    protected int x;
-    protected int y;
-    private final int MOVE_DIST = 3; // Distance (px) moved per key press
+    public final static String IMAGE_DIR = "file:src/eclipse/images/";
+    int x;
+    int y;
+    int x_speed; // Distance (px) moved per key press
+    int y_speed; // Distance (px) moved per key press
 
     public abstract void update(GraphicsContext gc);
 
     public void moveUp() {
-	y -= MOVE_DIST;
+	y -= y_speed;
     }
 
     public void moveDown() {
-	y += MOVE_DIST;
+	y += y_speed;
     }
-    
+
     public void moveLeft() {
-	x -= MOVE_DIST;
+	x -= x_speed;
     }
-    
+
     public void moveRight() {
-	x += MOVE_DIST;
+	x += x_speed;
     }
 }
