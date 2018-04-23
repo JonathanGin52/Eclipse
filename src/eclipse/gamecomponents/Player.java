@@ -13,18 +13,18 @@ public class Player extends GameObject {
     private int lives;
 
     public Player() {
-	x = 100;
-	y = 300;
+	xPos = 100;
+	yPos = 300;
 	lives = 3;
-	x_speed = 3;
-	y_speed = 3;
+	xSpeed = 3;
+	ySpeed = 3;
     }
 
     @Override
     public void update(GraphicsContext gc) {
 	// Clear rectangle the size of image +- distance of movement
-	gc.clearRect(x - x_speed, y - y_speed, 50 + x_speed * 2, 50 + y_speed * 2);
-	gc.drawImage(SPRITE, x, y, 50, 50);
+	gc.clearRect(xPos - xSpeed, yPos - ySpeed, 50 + xSpeed * 2, 50 + ySpeed * 2);
+	gc.drawImage(SPRITE, xPos, yPos, 50, 50);
     }
 
     public void move(boolean[] directions) {

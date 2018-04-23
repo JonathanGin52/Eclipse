@@ -1,6 +1,6 @@
 package eclipse.gamecomponents;
 
-import javafx.scene.shape.Path;
+import javafx.animation.PathTransition;
 
 /**
  *
@@ -10,5 +10,5 @@ public abstract class Enemy extends GameObject {
     
     boolean isAlive = true;
     
-    public abstract void move(Path path);
+    public abstract void move(PathTransition path);
 }
