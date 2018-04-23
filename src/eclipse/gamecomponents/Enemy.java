@@ -1,16 +1,14 @@
 package eclipse.gamecomponents;
 
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.Path;
 
 /**
  *
  * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
-public class Enemy extends GameObject {
-
-    @Override
-    public void update(GraphicsContext gc) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+public abstract class Enemy extends GameObject {
+    
+    boolean isAlive = true;
+    
+    public abstract void move(Path path);
 }

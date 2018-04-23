@@ -10,10 +10,12 @@ import javafx.scene.image.Image;
 public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "plane.png");
+    private int lives;
 
     public Player() {
 	x = 100;
 	y = 300;
+	lives = 3;
 	x_speed = 3;
 	y_speed = 3;
     }
