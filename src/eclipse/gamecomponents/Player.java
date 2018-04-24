@@ -1,7 +1,8 @@
 package eclipse.gamecomponents;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -10,6 +11,7 @@ import javafx.scene.image.Image;
 public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "plane.png");
+    ImageView img;
     private int lives;
 
     public Player() {
@@ -18,13 +20,17 @@ public class Player extends GameObject {
 	lives = 3;
 	xSpeed = 3;
 	ySpeed = 3;
+	img = new ImageView(SPRITE);
+	img.setFitWidth(50);
+	img.setFitHeight(50);
+	this.getChildren().add(img);
     }
 
     @Override
-    public void update(GraphicsContext gc) {
-	// Clear rectangle the size of image +- distance of movement
-	gc.clearRect(xPos - xSpeed, yPos - ySpeed, 50 + xSpeed * 2, 50 + ySpeed * 2);
-	gc.drawImage(SPRITE, xPos, yPos, 50, 50);
+    public void update(Pane pane) {
+	pane.getChildren().remove(this);
+	this.relocate(xPos, yPos);
+	pane.getChildren().add(this);
     }
 
     public void move(boolean[] directions) {

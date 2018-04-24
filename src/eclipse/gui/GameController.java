@@ -1,6 +1,7 @@
 package eclipse.gui;
 
 import eclipse.gamecomponents.Enemy;
+import eclipse.gamecomponents.Enemy1;
 import eclipse.gamecomponents.Player;
 import java.net.URL;
 import java.util.ArrayList;
@@ -14,8 +15,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -31,19 +30,15 @@ public class GameController implements Initializable {
 
     private Main application;
     private Timeline gameLoop;
-    private GraphicsContext gc;
 
     private Player player;
+    boolean[] directionInput = new boolean[4];
     private List<Enemy> enemies;
 
     @FXML
     private AnchorPane root;
     @FXML
-    private Pane pane;
-    @FXML
-    private Canvas gameArea;
-
-    boolean[] inputs = new boolean[4];
+    private Pane gameArea;
 
     public void setApp(Main application) {
 	this.application = application;
@@ -53,34 +48,54 @@ public class GameController implements Initializable {
 	scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
 	    KeyCode code = ke.getCode();
 	    if (code.isArrowKey()) {
-		inputs[code.ordinal() - 16] = true;
-	    } else if (code == KeyCode.SPACE) {
+		directionInput[code.ordinal() - 16] = true;
+	    }
+	    if (code == KeyCode.SPACE) {
 		System.out.println("Pew pew");
 	    }
 	});
 	scene.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent ke) -> {
 	    KeyCode code = ke.getCode();
 	    if (code.isArrowKey()) {
-		inputs[code.ordinal() - 16] = false;
+		directionInput[code.ordinal() - 16] = false;
 	    }
 	});
     }
 
-    void initGame(int FRAME_RATE) {
+    void initGame(final int FRAME_RATE) {
 	installKeyListener(application.getScene());
 	final Duration oneFrameLength = Duration.millis(1000 / FRAME_RATE);
 	final KeyFrame oneFrame = new KeyFrame(oneFrameLength, new EventHandler() {
 	    @Override
 	    public void handle(Event event) {
 		// Update screen
-		updateScreen(gc);
+		updateScreen(gameArea);
 		// Check collisions
+		checkCollisions();
 		// Pass pixels to AI
+//		int[] pixels = new int[(int) (gameArea.getHeight() * gameArea.getWidth())];
+//		System.out.println(Arrays.toString(pixels));
+//		gameArea.snapshot(new SnapshotParameters(), null).getPixelReader()
+//			.getPixels(0, 0, (int) gameArea.getWidth(), (int) gameArea.getHeight(), WritablePixelFormat.getIntArgbInstance(), pixels, 0, (int) gameArea.getWidth());
+//		System.out.println(Arrays.toString(pixels));
 		// Etc
 	    }
 	});
 	gameLoop = new Timeline(FRAME_RATE, oneFrame);
 	gameLoop.setCycleCount(Animation.INDEFINITE);
+    }
+
+    private void updateScreen(Pane pane) {
+	player.move(directionInput);
+	player.update(pane);
+	// Remove dead enemies and stuff
+	enemies.forEach((Enemy enemy) -> { // This is java8 stream syntax combined with a lamda expression, it's really compact and legible so imma use it a lot
+	    enemy.update(pane);
+	});
+    }
+
+    private void checkCollisions() {
+
     }
 
     public void start() {
@@ -91,23 +106,11 @@ public class GameController implements Initializable {
 	gameLoop.stop();
     }
 
-    private void updateScreen(GraphicsContext gc) {
-	player.move(inputs);
-	player.update(gc);
-	// Remove dead enemies and stuff
-	enemies.forEach((Enemy enemy) -> { // This is java8 stream syntax combined with a lamda expression, it's really compact and legible so imma use it a lot
-	    System.out.println(enemy);
-	}); // This is filler
-    }
-
     // Initializes the controller class.
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	player = new Player();
 	enemies = new ArrayList<>();
-
-	gameArea.setHeight(600); // Hard-coded width and height oops
-	gameArea.setWidth(800);
-	gc = gameArea.getGraphicsContext2D();
+	enemies.add(new Enemy1());
     }
 }

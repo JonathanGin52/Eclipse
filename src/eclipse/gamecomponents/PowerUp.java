@@ -1,6 +1,6 @@
 package eclipse.gamecomponents;
 
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -9,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class PowerUp extends GameObject {
 
     @Override
-    public void update(GraphicsContext gc) {
+    public void update(Pane pane) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
