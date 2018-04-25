@@ -4,12 +4,9 @@ import javafx.animation.PathTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 
 /**
- *
  * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
 public abstract class Enemy extends GameObject {
@@ -19,7 +16,7 @@ public abstract class Enemy extends GameObject {
     BooleanProperty collision;
 
     final ChangeListener DETECT_COLLISION = (ChangeListener) (ObservableValue observable, Object oldValue, Object newValue) -> {
-	isAlive = false;
+        isAlive = false;
     };
 
     public Enemy() {
@@ -29,15 +26,15 @@ public abstract class Enemy extends GameObject {
 
     @Override
     public void update(Pane pane) {
-	pane.getChildren().remove(this);
-	if (!isAlive) {
-	    return;
-	} else {
-	    pane.getChildren().add(this);
-	}
-	if (startAnimation) {
-	    startAnimation = false;
-	}
+        pane.getChildren().remove(this);
+        if (!isAlive) {
+            return;
+        } else {
+            pane.getChildren().add(this);
+        }
+        if (startAnimation) {
+            startAnimation = false;
+        }
     }
 
     public abstract PathTransition getPath();
