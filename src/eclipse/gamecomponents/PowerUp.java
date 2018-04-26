@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 public class PowerUp extends GameObject {
 
     @Override
-    public void update(Pane pane) {
+    public void update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

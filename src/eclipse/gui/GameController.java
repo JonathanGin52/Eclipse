@@ -2,6 +2,7 @@ package eclipse.gui;
 
 import eclipse.gamecomponents.Enemy;
 import eclipse.gamecomponents.Enemy1;
+import eclipse.gamecomponents.GameObject;
 import eclipse.gamecomponents.Player;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -31,7 +32,7 @@ public class GameController implements Initializable {
     private Main application;
     private Timeline gameLoop;
     private Player player;
-    private List<Enemy> enemies;
+    private List<GameObject> gameObjects;
 
     @FXML
     private AnchorPane root;
@@ -50,6 +51,10 @@ public class GameController implements Initializable {
             }
             if (code == KeyCode.SPACE) {
                 System.out.println("Pew pew");
+            }
+            // Add enemy test
+            if (code == KeyCode.Z) {
+                gameObjects.add(new Enemy1());
             }
         });
         scene.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent ke) -> {
@@ -76,11 +81,21 @@ public class GameController implements Initializable {
     }
 
     private void updateScreen(Pane pane) {
-        player.move(directionInput);
-        player.update(pane);
+        player.update();
         // Remove dead enemies and stuff
-        enemies.forEach((Enemy enemy) -> { // This is java8 stream syntax combined with a lambda expression, it's really compact and legible so imma use it a lot
-            enemy.update(pane);
+        gameObjects.forEach(obj -> {
+            if (obj instanceof Player) {
+                ((Player) obj).move(directionInput);
+            } else if (obj instanceof Enemy) {
+                Enemy enemy = (Enemy) obj;
+                if (enemy.isAlive) {
+                    enemy.update();
+                } else {
+                    pane.getChildren().remove(enemy);
+                    enemy = null;
+                }
+            }
+            obj.update();
         });
     }
 
@@ -100,7 +115,11 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         player = new Player();
-        enemies = new ArrayList<>();
-        enemies.add(new Enemy1());
+        gameObjects = new ArrayList<>();
+
+        gameObjects.add(player);
+        gameObjects.add(new Enemy1());
+
+        gameArea.getChildren().addAll(gameObjects);
     }
 }

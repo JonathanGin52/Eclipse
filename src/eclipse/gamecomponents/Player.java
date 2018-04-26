@@ -2,7 +2,6 @@ package eclipse.gamecomponents;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 
 /**
  * @author Jonathan Gin, Justin Reiter, Alex Yang
@@ -23,13 +22,12 @@ public class Player extends GameObject {
         img.setFitWidth(50);
         img.setFitHeight(50);
         this.getChildren().add(img);
+
     }
 
     @Override
-    public void update(Pane pane) {
-        pane.getChildren().remove(this);
+    public void update() {
         this.relocate(xPos, yPos);
-        pane.getChildren().add(this);
     }
 
     public void move(boolean[] directions) {

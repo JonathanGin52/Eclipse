@@ -9,7 +9,7 @@ public class Projectile extends GameObject {
 
 
     @Override
-    public void update(Pane pane) {
+    public void update() {
 
     }
 }

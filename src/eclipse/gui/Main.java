@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.geometry.Dimension2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -17,11 +19,12 @@ import java.util.logging.Logger;
  */
 public class Main extends Application {
 
-    private Stage stage;
-    private Scene scene;
     private final double MINIMUM_WINDOW_WIDTH = 390.0;
     private final double MINIMUM_WINDOW_HEIGHT = 500.0;
     private final int FRAME_RATE = 60;
+    private Dimension2D dimensions;
+    private Stage stage;
+    private Scene scene;
 
     /**
      * @param args the command line arguments
@@ -50,7 +53,6 @@ public class Main extends Application {
             game.setApp(this);
             game.initGame(FRAME_RATE);
             game.start();
-
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,6 +60,14 @@ public class Main extends Application {
 
     public Scene getScene() {
         return scene;
+    }
+
+    public Dimension2D getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(Node node) {
+//        dimensions = new Dimension2D(node.la, node.prefHeight());
     }
 
     private Initializable replaceSceneContent(String fxml) throws Exception {

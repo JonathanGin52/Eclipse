@@ -11,13 +11,12 @@ import javafx.scene.layout.Pane;
  */
 public abstract class Enemy extends GameObject {
 
-    boolean isAlive = true;
-    boolean startAnimation = true;
-    BooleanProperty collision;
-
+    public boolean isAlive = true;
     final ChangeListener DETECT_COLLISION = (ChangeListener) (ObservableValue observable, Object oldValue, Object newValue) -> {
         isAlive = false;
     };
+    boolean startAnimation = true;
+    BooleanProperty collision;
 
     public Enemy() {
 //	collision.set(false);
@@ -25,16 +24,7 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
-    public void update(Pane pane) {
-        pane.getChildren().remove(this);
-        if (!isAlive) {
-            return;
-        } else {
-            pane.getChildren().add(this);
-        }
-        if (startAnimation) {
-            startAnimation = false;
-        }
+    public void update() {
     }
 
     public abstract PathTransition getPath();
