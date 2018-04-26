@@ -22,7 +22,7 @@ public class Main extends Application {
     private final double MINIMUM_WINDOW_WIDTH = 390.0;
     private final double MINIMUM_WINDOW_HEIGHT = 500.0;
     private final int FRAME_RATE = 60;
-    private Dimension2D dimensions;
+    private static Dimension2D dimensions;
     private Stage stage;
     private Scene scene;
 
@@ -62,12 +62,13 @@ public class Main extends Application {
         return scene;
     }
 
-    public Dimension2D getDimensions() {
+    public static Dimension2D getDimensions() {
         return dimensions;
     }
 
     public void setDimensions(Node node) {
-//        dimensions = new Dimension2D(node.la, node.prefHeight());
+        dimensions = new Dimension2D(node.getBoundsInLocal().getWidth(), node.getBoundsInLocal().getHeight());
+        System.out.println(dimensions.toString());
     }
 
     private Initializable replaceSceneContent(String fxml) throws Exception {
@@ -84,6 +85,7 @@ public class Main extends Application {
         scene = new Scene(page, 800, 600);
         stage.setScene(scene);
         stage.sizeToScene();
+        dimensions = new Dimension2D(800, 600);
         return (Initializable) loader.getController();
     }
 }

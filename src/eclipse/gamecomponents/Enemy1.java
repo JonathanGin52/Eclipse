@@ -1,5 +1,6 @@
 package eclipse.gamecomponents;
 
+import eclipse.gui.Main;
 import javafx.animation.PathTransition;
 import javafx.scene.shape.Rectangle;
 
@@ -17,14 +18,16 @@ public class Enemy1 extends Enemy {
 //	super();
         rect = new Rectangle(50, 50);
         this.getChildren().add(rect);
-//        if (Main.getBounds() != null) {
-//            this.xPos = rand.nextInt((int) Main.getBounds().getWidth());
-//            this.yPos = rand.nextInt((int) Main.getBounds().getHeight());
-//        } else {
-//            this.xPos = 100;
-//            this.yPos = 100;
-//        }
-//        this.relocate(xPos, yPos);
+        if (Main.getDimensions() != null) {
+            System.out.println(Main.getDimensions().toString());
+            this.xPos = rand.nextInt((int) Main.getDimensions().getWidth() - 50);
+            this.yPos = rand.nextInt((int) Main.getDimensions().getHeight() - 50);
+            System.out.println(xPos + " " + yPos);
+        } else {
+            this.xPos = 100;
+            this.yPos = 100;
+        }
+        this.relocate(xPos, yPos);
     }
 
     public Enemy1(int x, int y) {

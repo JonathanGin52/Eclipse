@@ -54,7 +54,9 @@ public class GameController implements Initializable {
             }
             // Add enemy test
             if (code == KeyCode.Z) {
-                gameObjects.add(new Enemy1());
+                Enemy enemy = new Enemy1();
+                gameObjects.add(enemy);
+                gameArea.getChildren().add(enemy);
             }
         });
         scene.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent ke) -> {
@@ -78,6 +80,7 @@ public class GameController implements Initializable {
         });
         gameLoop = new Timeline(FRAME_RATE, oneFrame);
         gameLoop.setCycleCount(Animation.INDEFINITE);
+//        application.setDimensions(gameArea);
     }
 
     private void updateScreen(Pane pane) {
@@ -88,9 +91,10 @@ public class GameController implements Initializable {
                 ((Player) obj).move(directionInput);
             } else if (obj instanceof Enemy) {
                 Enemy enemy = (Enemy) obj;
-                if (enemy.isAlive) {
-                    enemy.update();
-                } else {
+                if (enemy.getBoundsInParent().intersects(player.getBoundsInParent())) {
+                    enemy.isAlive = false;
+                }
+                if (!enemy.isAlive) {
                     pane.getChildren().remove(enemy);
                     enemy = null;
                 }

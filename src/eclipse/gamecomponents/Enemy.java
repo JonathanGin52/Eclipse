@@ -4,7 +4,6 @@ import javafx.animation.PathTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.layout.Pane;
 
 /**
  * @author Jonathan Gin, Justin Reiter, Alex Yang
