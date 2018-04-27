@@ -28,11 +28,11 @@ import java.util.ResourceBundle;
  */
 public class GameController implements Initializable {
 
-    boolean[] directionInput = new boolean[4];
     private Main application;
     private Timeline gameLoop;
-    private Player player;
     private List<GameObject> gameObjects;
+    private Player player;
+    private boolean[] directionInput = new boolean[4];
 
     @FXML
     private AnchorPane root;
@@ -53,7 +53,7 @@ public class GameController implements Initializable {
                 System.out.println("Pew pew");
             }
             // Add enemy test
-            if (code == KeyCode.Z) {
+            if (code == KeyCode.J) {
                 Enemy enemy = new Enemy1();
                 gameObjects.add(enemy);
                 gameArea.getChildren().add(enemy);
@@ -68,6 +68,7 @@ public class GameController implements Initializable {
     }
 
     void initGame(final int FRAME_RATE) {
+
         installKeyListener(application.getScene());
         final Duration oneFrameLength = Duration.millis(1000 / FRAME_RATE);
         final KeyFrame oneFrame = new KeyFrame(oneFrameLength, event -> {

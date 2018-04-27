@@ -2,6 +2,7 @@ package eclipse.gamecomponents;
 
 import eclipse.gui.Main;
 import javafx.animation.PathTransition;
+import javafx.geometry.Dimension2D;
 import javafx.scene.shape.Rectangle;
 
 import java.util.Random;
@@ -11,19 +12,18 @@ import java.util.Random;
  */
 public class Enemy1 extends Enemy {
 
-    Rectangle rect;
-    Random rand = new Random();
-
     public Enemy1() {
-//	super();
-        rect = new Rectangle(50, 50);
+        super();
+        Rectangle rect = new Rectangle(50, 50);
+        super.setDimension(new Dimension2D(50, 50));
         this.getChildren().add(rect);
-        if (Main.getDimensions() != null) {
+        try {
             System.out.println(Main.getDimensions().toString());
-            this.xPos = rand.nextInt((int) Main.getDimensions().getWidth() - 50);
-            this.yPos = rand.nextInt((int) Main.getDimensions().getHeight() - 50);
+            Random rand = new Random();
+            this.xPos = rand.nextInt((int) (Main.getDimensions().getWidth() - super.getWidth()));
+            this.yPos = rand.nextInt((int) (Main.getDimensions().getHeight() - super.getHeight()));
             System.out.println(xPos + " " + yPos);
-        } else {
+        } catch (NullPointerException e) {
             this.xPos = 100;
             this.yPos = 100;
         }
