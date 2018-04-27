@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Dimension2D;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -19,10 +18,10 @@ import java.util.logging.Logger;
  */
 public class Main extends Application {
 
+    private static Dimension2D dimensions = new Dimension2D(800, 600);
     private final double MINIMUM_WINDOW_WIDTH = 390.0;
     private final double MINIMUM_WINDOW_HEIGHT = 500.0;
     private final int FRAME_RATE = 60;
-    private static Dimension2D dimensions;
     private Stage stage;
     private Scene scene;
 
@@ -31,6 +30,15 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static Dimension2D getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(Dimension2D dimensions) {
+        this.dimensions = dimensions;
+        System.out.println(dimensions.toString());
     }
 
     @Override
@@ -62,15 +70,6 @@ public class Main extends Application {
         return scene;
     }
 
-    public static Dimension2D getDimensions() {
-        return dimensions;
-    }
-
-    public void setDimensions(Node node) {
-        dimensions = new Dimension2D(node.getBoundsInLocal().getWidth(), node.getBoundsInLocal().getHeight());
-        System.out.println(dimensions.toString());
-    }
-
     private Initializable replaceSceneContent(String fxml) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         InputStream in = Main.class.getResourceAsStream(fxml);
@@ -85,7 +84,6 @@ public class Main extends Application {
         scene = new Scene(page, 800, 600);
         stage.setScene(scene);
         stage.sizeToScene();
-        dimensions = new Dimension2D(800, 600);
         return (Initializable) loader.getController();
     }
 }
