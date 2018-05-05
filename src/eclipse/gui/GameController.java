@@ -1,20 +1,15 @@
 package eclipse.gui;
 
-import eclipse.gamecomponents.Enemy;
-import eclipse.gamecomponents.Enemy1;
-import eclipse.gamecomponents.GameObject;
-import eclipse.gamecomponents.Player;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import eclipse.gamecomponents.*;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,8 +24,9 @@ import java.util.ResourceBundle;
 public class GameController implements Initializable {
 
     private Main application;
-    private Timeline gameLoop;
+    private AnimationTimer gameLoop;
     private List<GameObject> gameObjects;
+    private Score score;
     private Player player;
     private boolean[] directionInput = new boolean[4];
 
@@ -38,6 +34,8 @@ public class GameController implements Initializable {
     private AnchorPane root;
     @FXML
     private Pane gameArea;
+    @FXML
+    private Label scoreLabel;
 
     public void setApp(Main application) {
         this.application = application;
@@ -45,6 +43,7 @@ public class GameController implements Initializable {
 
     private void installKeyListener(Scene scene) {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
+            List<GameObject> toAdd = new ArrayList<>();
             KeyCode code = ke.getCode();
             if (code.isArrowKey()) {
                 directionInput[code.ordinal() - 16] = true;
@@ -52,12 +51,20 @@ public class GameController implements Initializable {
             if (code == KeyCode.SPACE) {
                 System.out.println("Pew pew");
             }
+            if (code == KeyCode.B) {
+                System.out.println("Boom boom");
+                toAdd.add(new Bomb(player.getMidpointX(), player.getMidpointY()));
+            }
+            if (code == KeyCode.L) { // Debugging purposes
+                System.out.println(gameObjects);
+                System.out.println(gameArea.getChildren());
+            }
             // Add enemy test
             if (code == KeyCode.J) {
-                Enemy enemy = new Enemy1();
-                gameObjects.add(enemy);
-                gameArea.getChildren().add(enemy);
+                toAdd.add(new Enemy1());
             }
+            gameArea.getChildren().addAll(toAdd);
+            gameObjects.addAll(toAdd);
         });
         scene.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent ke) -> {
             KeyCode code = ke.getCode();
@@ -68,48 +75,43 @@ public class GameController implements Initializable {
     }
 
     void initGame(final int FRAME_RATE) {
-
         installKeyListener(application.getScene());
-        final Duration oneFrameLength = Duration.millis(1000 / FRAME_RATE);
-        final KeyFrame oneFrame = new KeyFrame(oneFrameLength, event -> {
-            // Update screen
-            updateScreen(gameArea);
-            // Check collisions
-            checkCollisions();
-            // Pass pixels to AI
-            // Etc
-        });
-        gameLoop = new Timeline(FRAME_RATE, oneFrame);
-        gameLoop.setCycleCount(Animation.INDEFINITE);
+        gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                // Update screen
+                updateScreen(now);
+                // Pass pixels to AI
+                // Etc
+            }
+        };
 //        application.setDimensions(gameArea);
     }
 
-    private void updateScreen(Pane pane) {
-        player.update();
-        // Remove dead enemies and stuff
-        gameObjects.forEach(obj -> {
+    private void updateScreen(long now) {
+        List<GameObject> toRemove = new ArrayList<>(); // Adding toRemove list to prevent concurrency issues (altering list during loop)
+        for (GameObject obj : gameObjects) {
             if (obj instanceof Player) {
                 ((Player) obj).move(directionInput);
             } else if (obj instanceof Enemy) {
                 Enemy enemy = (Enemy) obj;
-                if (enemy.getBoundsInParent().intersects(player.getBoundsInParent())) {
-                    enemy.isAlive = false;
+                if (player.checkIntersection(enemy)) {
+                    score.add(enemy.kill());
+                    toRemove.add(enemy);
                 }
-                if (!enemy.isAlive) {
-                    pane.getChildren().remove(enemy);
-                    enemy = null;
+            } else if (obj instanceof Bomb) {
+                if (((Bomb) obj).isDestroyed()) {
+                    toRemove.add(obj);
                 }
             }
-            obj.update();
-        });
-    }
-
-    private void checkCollisions() {
-
+            obj.update(now);
+        }
+        gameArea.getChildren().removeAll(toRemove);
+        gameObjects.removeAll(toRemove);
     }
 
     public void start() {
-        gameLoop.playFromStart();
+        gameLoop.start();
     }
 
     public void stop() {
@@ -120,10 +122,13 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         player = new Player();
+        score = new Score(0);
+        // Add change listener to score property. When change is detected, update scoreLabel
+        score.scoreProperty().addListener((o) -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
+
         gameObjects = new ArrayList<>();
 
         gameObjects.add(player);
-        gameObjects.add(new Enemy1());
 
         gameArea.getChildren().addAll(gameObjects);
     }

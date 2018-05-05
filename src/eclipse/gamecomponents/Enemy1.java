@@ -13,16 +13,13 @@ import java.util.Random;
 public class Enemy1 extends Enemy {
 
     public Enemy1() {
-        super();
         Rectangle rect = new Rectangle(50, 50);
         super.setDimension(new Dimension2D(50, 50));
         this.getChildren().add(rect);
         try {
-            System.out.println(Main.getDimensions().toString());
             Random rand = new Random();
             this.xPos = rand.nextInt((int) (Main.getDimensions().getWidth() - super.getWidth()));
             this.yPos = rand.nextInt((int) (Main.getDimensions().getHeight() - super.getHeight()));
-            System.out.println(xPos + " " + yPos);
         } catch (NullPointerException e) {
             this.xPos = 100;
             this.yPos = 100;
