@@ -7,21 +7,26 @@ import javafx.animation.PathTransition;
  */
 public abstract class Enemy extends GameObject {
 
-    public boolean isAlive = true;
-    boolean startAnimation = true;
+    private boolean startAnimation = true;
+    private boolean isAlive = true;
 
     public Enemy() {
-        super();
     }
 
     @Override
-    public void update() {
+    public void update(long now) {
 
     }
 
     public abstract PathTransition getPath();
 
-    public void checkCollision() {
+    // Return score associated with killing this enemy
+    public int kill() {
+        isAlive = false;
+        return 100;
     }
 
+    public boolean isAlive() {
+        return isAlive;
+    }
 }

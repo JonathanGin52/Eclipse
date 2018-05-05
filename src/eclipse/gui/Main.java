@@ -21,7 +21,7 @@ public class Main extends Application {
     private static Dimension2D dimensions = new Dimension2D(800, 600);
     private final double MINIMUM_WINDOW_WIDTH = 390.0;
     private final double MINIMUM_WINDOW_HEIGHT = 500.0;
-    private final int FRAME_RATE = 60;
+    private final int FRAME_RATE = -1; // -1 to automatically set frame rate
     private Stage stage;
     private Scene scene;
 
@@ -37,7 +37,7 @@ public class Main extends Application {
     }
 
     public void setDimensions(Dimension2D dimensions) {
-        this.dimensions = dimensions;
+        Main.dimensions = dimensions;
         System.out.println(dimensions.toString());
     }
 
@@ -71,13 +71,12 @@ public class Main extends Application {
     }
 
     private Initializable replaceSceneContent(String fxml) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
         InputStream in = Main.class.getResourceAsStream(fxml);
         loader.setBuilderFactory(new JavaFXBuilderFactory());
-        loader.setLocation(Main.class.getResource(fxml));
         AnchorPane page;
         try {
-            page = (AnchorPane) loader.load(in);
+            page = loader.load(in);
         } finally {
             in.close();
         }

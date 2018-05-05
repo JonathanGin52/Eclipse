@@ -11,13 +11,12 @@ public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "plane.png");
     private ImageView img;
-    private int lives;
+    private int hitpoints;
 
     public Player() {
-        super();
         xPos = 100;
         yPos = 300;
-        lives = 3;
+        hitpoints = 100;
         xSpeed = 3;
         ySpeed = 3;
         super.setDimension(new Dimension2D(50, 50));
@@ -27,13 +26,8 @@ public class Player extends GameObject {
         this.getChildren().add(img);
     }
 
-    public Player(int x, int y) {
-        this();
-
-    }
-
     @Override
-    public void update() {
+    public void update(long now) {
         this.relocate(xPos, yPos);
     }
 
