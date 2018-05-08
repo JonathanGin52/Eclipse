@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * FXML Controller class
@@ -104,6 +105,8 @@ public class GameController implements Initializable {
 
     private void updateScreen(long now) {
         List<GameObject> toRemove = new ArrayList<>(); // Adding toRemove list to prevent concurrency issues (altering list during loop)
+//        List ded = gameObjects.stream().filter(gameObject -> gameObject instanceof Enemy && gameObject.checkIntersection(obj)).collect(Collectors.toList());
+
         for (GameObject obj : gameObjects) {
             if (obj instanceof Player) {
                 if (mouseMove) {
@@ -113,12 +116,19 @@ public class GameController implements Initializable {
                 }
             } else if (obj instanceof Enemy) {
                 Enemy enemy = (Enemy) obj;
-                if (player.checkIntersection(enemy)) {
+                List<GameObject> collideBomb = gameObjects.stream().filter(gameObject -> gameObject instanceof Bomb && gameObject.checkIntersection(obj)).collect(Collectors.toList());
+                if (!collideBomb.isEmpty()) {
                     score.add(enemy.kill());
                     toRemove.add(enemy);
                 }
             } else if (obj instanceof Bomb) {
-                if (((Bomb) obj).isDestroyed()) {
+                Bomb bomb = (Bomb) obj;
+                List<GameObject> collideEnemy = gameObjects.stream().filter(gameObject -> gameObject instanceof Enemy && gameObject.checkIntersection(obj)).collect(Collectors.toList());
+                if (!collideEnemy.isEmpty()) {
+                    System.out.println("BOOM!!!!");
+                    bomb.explode();
+                }
+                if (bomb.isDestroyed()) {
                     toRemove.add(obj);
                 }
             }

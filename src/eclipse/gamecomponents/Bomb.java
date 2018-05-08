@@ -1,7 +1,10 @@
 package eclipse.gamecomponents;
 
+import javafx.geometry.Dimension2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 
 public class Bomb extends GameObject {
 
@@ -22,15 +25,20 @@ public class Bomb extends GameObject {
     private final Image FRAME12 = new Image(IMAGE_DIR + "bomb/bomb12.png");
     private final Image FRAME13 = new Image(IMAGE_DIR + "bomb/bomb13.png");*/
     private final ImageView SPRITE = new ImageView(new Image(IMAGE_DIR + "bomb/bomb.png"));
-    private final int FRAME_RATE = 125000000; // Delay between frame in nanoseconds
+    private final long FRAME_RATE = 125000000L; // Delay between frame in nanoseconds
     private int animationFrame = 0;
     private long lastUpdate = -1;
     private boolean destroy = false;
+    private boolean explode = false;
 
     public Bomb(double xPos, double yPos) {
-        System.out.println(xPos + " " + yPos);
         this.xPos = xPos;
         this.yPos = yPos;
+        speed = 8;
+        super.setDimension(new Dimension2D(50, 50));
+        SPRITE.setFitHeight(super.getHeight());
+        SPRITE.setFitWidth(super.getWidth());
+        setSprite();
         this.getChildren().add(SPRITE);
     }
 
@@ -40,21 +48,35 @@ public class Bomb extends GameObject {
 
     @Override
     public void update(long now) {
+        if (lastUpdate == -1) {
+            lastUpdate = now;
+        }
+
+        if (!explode) {
+            if (yPos - speed <= 0) { // Destroy bomb if it goes off screen
+                destroy = true;
+            }
+            move(0, -1);
+        }
+
+        if (explode && now - lastUpdate >= FRAME_RATE){
+            animationFrame++;
+            setSprite();
+            lastUpdate = now;
+        }
+
+        relocate(xPos, yPos);
+
         if (animationFrame > 13) {
             destroy = true;
-        } else {
-            relocate(xPos, yPos);
-            if (lastUpdate == -1) {
-                lastUpdate = now;
-            } else if (now - lastUpdate >= FRAME_RATE) {
-                setSprite();
-                animationFrame++;
-                lastUpdate = now;
-            }
         }
     }
 
     private void setSprite() {
         SPRITE.setImage(new Image(IMAGE_DIR + "bomb/bomb" + animationFrame + ".png"));
+    }
+
+    public void explode() {
+        explode = true;
     }
 }
