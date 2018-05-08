@@ -17,8 +17,7 @@ public class Player extends GameObject {
         xPos = 100;
         yPos = 300;
         hitpoints = 100;
-        xSpeed = 3;
-        ySpeed = 3;
+        speed = 3;
         super.setDimension(new Dimension2D(50, 50));
         img = new ImageView(SPRITE);
         img.setFitHeight(super.getHeight());
@@ -32,17 +31,44 @@ public class Player extends GameObject {
     }
 
     public void move(boolean[] directions) {
-        if (directions[0]) {
-            moveLeft();
+        double d = 1 / Math.sqrt(2); // dx and dy when moving diagonally
+        if (directions[0] && directions[1]) { // Left and Up
+            move(-d, -d);
+        } else if (directions[1] && directions[2]) { // Up and Right
+            move(d, -d);
+        } else if (directions[2] && directions[3]) { // Right and Down
+            move(d, d);
+        } else if (directions[0] && directions[3]) { // Left and Down
+            move(-d, d);
+        } else { // Movement in a single direction
+            if (directions[0]) { // Left
+                move(-1, 0);
+            }
+            if (directions[1]) { // Up
+                move(0, -1);
+            }
+            if (directions[2]) { // Right
+                move(1, 0);
+            }
+            if (directions[3]) { // Down
+                move(0, 1);
+            }
         }
-        if (directions[1]) {
-            moveUp();
+    }
+
+    public void mouseMove(double x, double y){
+        // Player moves directly towards cursor
+        double slope = (yPos - y) / (xPos - x);
+        double dx = Math.sqrt(1 / (1 + slope * slope));
+        if (xPos > x) {
+            dx *= -1;
         }
-        if (directions[2]) {
-            moveRight();
+
+        if (Math.abs(x - xPos) >= speed) {
+            move(dx, 0);
         }
-        if (directions[3]) {
-            moveDown();
+        if (Math.abs(y - yPos) >= speed) {
+            move(0, dx * slope);
         }
     }
 }

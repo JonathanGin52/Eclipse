@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -29,6 +30,8 @@ public class GameController implements Initializable {
     private Score score;
     private Player player;
     private boolean[] directionInput = new boolean[4];
+    private double mouseX, mouseY;
+    private boolean mouseMove;
 
     @FXML
     private AnchorPane root;
@@ -47,6 +50,7 @@ public class GameController implements Initializable {
             KeyCode code = ke.getCode();
             if (code.isArrowKey()) {
                 directionInput[code.ordinal() - 16] = true;
+                mouseMove = false;
             }
             if (code == KeyCode.SPACE) {
                 System.out.println("Pew pew");
@@ -74,8 +78,18 @@ public class GameController implements Initializable {
         });
     }
 
+    private void installMouseListener(Scene scene) {
+        scene.addEventFilter(MouseEvent.MOUSE_MOVED, (MouseEvent me) -> {
+            mouseX = me.getSceneX();
+            mouseY = me.getSceneY();
+
+            mouseMove = true;
+        });
+    }
+
     void initGame(final int FRAME_RATE) {
         installKeyListener(application.getScene());
+        installMouseListener(application.getScene());
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -92,7 +106,11 @@ public class GameController implements Initializable {
         List<GameObject> toRemove = new ArrayList<>(); // Adding toRemove list to prevent concurrency issues (altering list during loop)
         for (GameObject obj : gameObjects) {
             if (obj instanceof Player) {
-                ((Player) obj).move(directionInput);
+                if (mouseMove) {
+                    ((Player) obj).mouseMove(mouseX, mouseY);
+                } else {
+                    ((Player) obj).move(directionInput);
+                }
             } else if (obj instanceof Enemy) {
                 Enemy enemy = (Enemy) obj;
                 if (player.checkIntersection(enemy)) {

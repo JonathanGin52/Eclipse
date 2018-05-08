@@ -12,35 +12,22 @@ public abstract class GameObject extends Parent {
     final static String IMAGE_DIR = "file:src/eclipse/images/";
     double xPos;
     double yPos;
-    int xSpeed; // Distance (px) moved per key press
-    int ySpeed; // Distance (px) moved per key press
+    int speed; // Base speed
     private double containerHeight = Main.getDimensions().getHeight();
     private double containerWidth = Main.getDimensions().getWidth();
     private Dimension2D dimension; // Dimensions of the gameObject
 
     public abstract void update(long now);
 
-    public void moveLeft() {
-        if (xPos - xSpeed >= 0) {
-            xPos -= xSpeed;
+    public void move(double dx, double dy) {
+        double newXPos = xPos + speed * dx;
+        if (0 <= newXPos && (newXPos + getWidth() <= containerWidth)) {
+            xPos = newXPos;
         }
-    }
 
-    public void moveUp() {
-        if (yPos - ySpeed >= 0) {
-            yPos -= ySpeed;
-        }
-    }
-
-    public void moveRight() {
-        if (!(xPos + xSpeed + getWidth() > containerWidth)) {
-            xPos += xSpeed;
-        }
-    }
-
-    public void moveDown() {
-        if (!(yPos + ySpeed + getHeight() > containerHeight)) {
-            yPos += ySpeed;
+        double newYPos = yPos + speed * dy;
+        if (0 <= newYPos && (newYPos + getHeight() <= containerHeight)) {
+            yPos = newYPos;
         }
     }
 
