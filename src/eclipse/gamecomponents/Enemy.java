@@ -10,7 +10,8 @@ public abstract class Enemy extends GameObject {
     private boolean startAnimation = true;
     private boolean isAlive = true;
 
-    public Enemy() {
+    public Enemy(double xPos, double yPos) {
+        super(xPos, yPos, 50, 50, 8);
     }
 
     @Override

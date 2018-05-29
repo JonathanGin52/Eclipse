@@ -2,8 +2,11 @@ package eclipse.gui;
 
 import eclipse.gamecomponents.*;
 import javafx.animation.AnimationTimer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -15,6 +18,7 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -55,6 +59,7 @@ public class GameController implements Initializable {
             }
             if (code == KeyCode.SPACE) {
                 System.out.println("Pew pew");
+                toAdd.add(new Laser(player.getMidpointX(), player.getMidpointY()));
             }
             if (code == KeyCode.B) {
                 System.out.println("Boom boom");
@@ -66,7 +71,16 @@ public class GameController implements Initializable {
             }
             // Add enemy test
             if (code == KeyCode.J) {
-                toAdd.add(new Enemy1());
+                int x, y;
+                try {
+                    Random rand = new Random();
+                    x = rand.nextInt((int) (Main.getDimensions().getWidth()));
+                    y = rand.nextInt((int) (Main.getDimensions().getHeight()));
+                } catch (NullPointerException e) {
+                    x = 100;
+                    y = 100;
+                }
+                toAdd.add(new Enemy1(x, y));
             }
             gameArea.getChildren().addAll(toAdd);
             gameObjects.addAll(toAdd);
@@ -83,7 +97,6 @@ public class GameController implements Initializable {
         scene.addEventFilter(MouseEvent.MOUSE_MOVED, (MouseEvent me) -> {
             mouseX = me.getSceneX();
             mouseY = me.getSceneY();
-
             mouseMove = true;
         });
     }
@@ -105,7 +118,7 @@ public class GameController implements Initializable {
 
     private void updateScreen(long now) {
         List<GameObject> toRemove = new ArrayList<>(); // Adding toRemove list to prevent concurrency issues (altering list during loop)
-//        List ded = gameObjects.stream().filter(gameObject -> gameObject instanceof Enemy && gameObject.checkIntersection(obj)).collect(Collectors.toList());
+//        List<Enemy> deadEnemies = gameObjects.stream().filter(obj -> obj instanceof Enemy && obj.checkIntersection()).collect(Collectors.toList());
 
         for (GameObject obj : gameObjects) {
             if (obj instanceof Player) {
@@ -116,20 +129,27 @@ public class GameController implements Initializable {
                 }
             } else if (obj instanceof Enemy) {
                 Enemy enemy = (Enemy) obj;
-                List<GameObject> collideBomb = gameObjects.stream().filter(gameObject -> gameObject instanceof Bomb && gameObject.checkIntersection(obj)).collect(Collectors.toList());
-                if (!collideBomb.isEmpty()) {
+                // Check intersection of projectiles
+                List<GameObject> proj = gameObjects.stream().filter(gameObject -> gameObject instanceof Projectile && gameObject.checkIntersection(obj)).collect(Collectors.toList());
+                if (!proj.isEmpty()) {
                     score.add(enemy.kill());
                     toRemove.add(enemy);
                 }
-            } else if (obj instanceof Bomb) {
-                Bomb bomb = (Bomb) obj;
-                List<GameObject> collideEnemy = gameObjects.stream().filter(gameObject -> gameObject instanceof Enemy && gameObject.checkIntersection(obj)).collect(Collectors.toList());
-                if (!collideEnemy.isEmpty()) {
-                    System.out.println("BOOM!!!!");
-                    bomb.explode();
-                }
-                if (bomb.isDestroyed()) {
+            } else if (obj instanceof Projectile) {
+                if (((Projectile) obj).isDestroyed()) {
                     toRemove.add(obj);
+                } else {
+                    List<GameObject> collideEnemy = gameObjects.stream().filter(gameObject -> gameObject instanceof Enemy && gameObject.checkIntersection(obj)).collect(Collectors.toList());
+                    if (obj instanceof Bomb) { // Bomb
+                        Bomb bomb = (Bomb) obj;
+                        if (!collideEnemy.isEmpty()) {
+                            System.out.println("BOOM!!!!");
+                            bomb.explode();
+                        }
+                    } else { // Laser
+                        Laser laser = (Laser) obj;
+
+                    }
                 }
             }
             obj.update(now);

@@ -12,25 +12,13 @@ import java.util.Random;
  */
 public class Enemy1 extends Enemy {
 
-    public Enemy1() {
-        Rectangle rect = new Rectangle(50, 50);
-        super.setDimension(new Dimension2D(50, 50));
-        this.getChildren().add(rect);
-        try {
-            Random rand = new Random();
-            this.xPos = rand.nextInt((int) (Main.getDimensions().getWidth() - super.getWidth()));
-            this.yPos = rand.nextInt((int) (Main.getDimensions().getHeight() - super.getHeight()));
-        } catch (NullPointerException e) {
-            this.xPos = 100;
-            this.yPos = 100;
-        }
-        this.relocate(xPos, yPos);
-    }
 
-    public Enemy1(int x, int y) {
-        this();
-        this.xPos = x;
-        this.yPos = y;
+    public Enemy1(int xPos, int yPos) {
+        super(xPos, yPos);
+        Rectangle rect = new Rectangle(50, 50);
+        dimensions = new Dimension2D(50, 50);
+        this.getChildren().add(rect);
+        this.relocate(xPos, yPos);
     }
 
     @Override

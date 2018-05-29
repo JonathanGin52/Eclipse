@@ -8,18 +8,35 @@ import javafx.scene.image.ImageView;
  */
 public class Projectile extends GameObject {
 
-    private final Image img = new Image(IMAGE_DIR);
-    private final ImageView SPRITE = new ImageView(img);
+    private Image img;
+    final ImageView SPRITE = new ImageView(img);
+    private boolean destroy = false;
 
-    public Projectile(double xPos, double yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    Projectile(double xPos, double yPos, Image image) {
+        super(xPos, yPos, 50, 50, 8);
+        this.img = image;
+        SPRITE.setImage(img);
+        SPRITE.setFitHeight(dimensions.getHeight());
+        SPRITE.setFitWidth(dimensions.getWidth());
         this.getChildren().add(SPRITE);
         this.relocate(xPos, yPos);
     }
 
+    public boolean isDestroyed() {
+        return destroy;
+    }
+
+    public void setDestroyed() {
+        destroy = true;
+    }
+
     @Override
     public void update(long now) {
+        if (yPos - speed <= 0) { // Destroy projectile if it goes off screen
+            destroy = true;
+        }
+        move(0, -1);
 
+        relocate(xPos, yPos);
     }
 }

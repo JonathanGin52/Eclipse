@@ -14,11 +14,8 @@ public class Player extends GameObject {
     private int hitpoints;
 
     public Player() {
-        xPos = 100;
-        yPos = 300;
+        super(100, 300, 50, 50, 3);
         hitpoints = 100;
-        speed = 3;
-        super.setDimension(new Dimension2D(50, 50));
         img = new ImageView(SPRITE);
         img.setFitHeight(super.getHeight());
         img.setFitWidth(super.getWidth());
@@ -56,7 +53,7 @@ public class Player extends GameObject {
         }
     }
 
-    public void mouseMove(double x, double y){
+    public void mouseMove(double x, double y) {
         // Player moves directly towards cursor
         double slope = (yPos - y) / (xPos - x);
         double dx = Math.sqrt(1 / (1 + slope * slope));

@@ -13,9 +13,16 @@ public abstract class GameObject extends Parent {
     double xPos;
     double yPos;
     int speed; // Base speed
-    private double containerHeight = Main.getDimensions().getHeight();
-    private double containerWidth = Main.getDimensions().getWidth();
-    private Dimension2D dimension; // Dimensions of the gameObject
+    double containerHeight = Main.getDimensions().getHeight();
+    double containerWidth = Main.getDimensions().getWidth();
+    Dimension2D dimensions; // Dimensions of the gameObject
+
+    GameObject(double xPos, double yPos, double width, double height, int speed) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.dimensions = new Dimension2D(width, height);
+        this.speed = speed;
+    }
 
     public abstract void update(long now);
 
@@ -35,20 +42,12 @@ public abstract class GameObject extends Parent {
         return this.getBoundsInParent().intersects(obj.getBoundsInParent());
     }
 
-    public Dimension2D getDimension() {
-        return dimension;
-    }
-
-    public void setDimension(Dimension2D dimension) {
-        this.dimension = dimension;
-    }
-
     public double getWidth() {
-        return dimension.getWidth();
+        return dimensions.getWidth();
     }
 
     public double getHeight() {
-        return dimension.getHeight();
+        return dimensions.getHeight();
     }
 
     public double getMidpointX() {
