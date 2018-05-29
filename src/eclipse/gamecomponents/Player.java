@@ -14,7 +14,7 @@ public class Player extends GameObject {
     private int hitpoints;
 
     public Player() {
-        super(100, 300, 50, 50, 3);
+        super(100, 300, 50, 50, 8);
         hitpoints = 100;
         img = new ImageView(SPRITE);
         img.setFitHeight(super.getHeight());
@@ -27,7 +27,7 @@ public class Player extends GameObject {
         this.relocate(xPos, yPos);
     }
 
-    public void move(boolean[] directions) {
+    public void keyMove(boolean[] directions) {
         double d = 1 / Math.sqrt(2); // dx and dy when moving diagonally
         if (directions[0] && directions[1]) { // Left and Up
             move(-d, -d);
