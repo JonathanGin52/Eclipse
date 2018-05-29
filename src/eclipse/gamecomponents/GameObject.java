@@ -1,5 +1,6 @@
 package eclipse.gamecomponents;
 
+import eclipse.gamecomponents.path.Vector;
 import eclipse.gui.Main;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Parent;
@@ -36,6 +37,18 @@ public abstract class GameObject extends Parent {
         if (0 <= newYPos && (newYPos + getHeight() <= containerHeight)) {
             yPos = newYPos;
         }
+    }
+
+    public void unboundedMove(double dx, double dy) {
+        xPos += speed * dx;
+        yPos += speed * dy;
+    }
+
+    public void unboundedMove(Vector vector) {
+        // find direction vector
+        double mag = Math.sqrt(vector.dx * vector.dx + vector.dy * vector.dy);
+        Vector direction = new Vector(vector.dx / mag, vector.dy / mag);
+        unboundedMove(direction.dx, direction.dy);
     }
 
     public boolean checkIntersection(GameObject obj) {
