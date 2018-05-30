@@ -153,6 +153,7 @@ public class GameController implements Initializable {
             }
             obj.update(now);
         }
+
         toAdd.addAll(levelReader.getNewObjects(now));
 
         gameArea.getChildren().addAll(toAdd);

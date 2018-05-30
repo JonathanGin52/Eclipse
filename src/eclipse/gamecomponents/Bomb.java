@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 
 public class Bomb extends Projectile {
 
+    private static final Image image = new Image(IMAGE_DIR + "bomb/bomb.png");
     private final double BOMB_RADIUS = 20;
     private final long FRAME_RATE = 125000000L; // Delay between frame in nanoseconds
     private int animationFrame = 0;
@@ -13,7 +14,7 @@ public class Bomb extends Projectile {
     private boolean explode = false;
 
     public Bomb(double xPos, double yPos) {
-        super(xPos, yPos, new Image(IMAGE_DIR + "bomb/bomb.png"), new Up(), false);
+        super(xPos, yPos, image, new Up(), false);
     }
 
     @Override

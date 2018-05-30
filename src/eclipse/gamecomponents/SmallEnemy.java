@@ -16,14 +16,13 @@ import java.util.List;
  */
 public class SmallEnemy extends Enemy {
 
-    private final Image SPRITE = new Image(IMAGE_DIR + "plane.png");
+    private final static Image SPRITE = new Image(IMAGE_DIR + "plane.png");
     private ImageView img;
     private VectorPath vectorPath;
     private FirePattern firePattern;
 
     public SmallEnemy(int xPos, int yPos, VectorPath vectorPath, FirePattern firePattern) {
-        super(xPos, yPos);
-        dimensions = new Dimension2D(50, 50);
+        super(xPos, yPos, 30, 30, 4);
         this.relocate(xPos, yPos);
         img = new ImageView(SPRITE);
         img.setFitHeight(super.getHeight());

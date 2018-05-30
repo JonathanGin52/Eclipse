@@ -17,8 +17,8 @@ public abstract class Enemy extends GameObject {
     long fireRate;
     long lastFire = Long.MIN_VALUE;
 
-    public Enemy(double xPos, double yPos) {
-        super(xPos, yPos, 50, 50, 4);
+    public Enemy(double xPos, double yPos, int width, int height, int speed) {
+        super(xPos, yPos, width, height, speed);
 
         fire = true;
     }
