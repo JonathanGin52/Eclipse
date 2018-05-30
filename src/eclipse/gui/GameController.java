@@ -1,12 +1,10 @@
 package eclipse.gui;
 
 import eclipse.gamecomponents.*;
+import eclipse.gamecomponents.path.Up;
 import javafx.animation.AnimationTimer;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -37,6 +35,7 @@ public class GameController implements Initializable {
     private boolean[] directionInput = new boolean[4];
     private double mouseX, mouseY;
     private boolean mouseMove;
+    private LevelReader levelReader;
 
     @FXML
     private AnchorPane root;
@@ -59,7 +58,7 @@ public class GameController implements Initializable {
             }
             if (code == KeyCode.SPACE) {
                 System.out.println("Pew pew");
-                toAdd.add(new Laser(player.getMidpointX(), player.getMidpointY()));
+                toAdd.add(new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false));
             }
             if (code == KeyCode.B) {
                 System.out.println("Boom boom");
@@ -69,19 +68,7 @@ public class GameController implements Initializable {
                 System.out.println(gameObjects);
                 System.out.println(gameArea.getChildren());
             }
-            // Add enemy test
-            if (code == KeyCode.J) {
-                int x, y;
-                try {
-                    Random rand = new Random();
-                    x = rand.nextInt((int) (Main.getDimensions().getWidth()));
-                    y = rand.nextInt((int) (Main.getDimensions().getHeight()));
-                } catch (NullPointerException e) {
-                    x = 100;
-                    y = 100;
-                }
-                toAdd.add(new Enemy1(x, y));
-            }
+
             gameArea.getChildren().addAll(toAdd);
             gameObjects.addAll(toAdd);
         });
@@ -102,6 +89,7 @@ public class GameController implements Initializable {
     }
 
     void initGame(final int FRAME_RATE) {
+        levelReader = new LevelReader("level1.txt");
         installKeyListener(application.getScene());
         installMouseListener(application.getScene());
         gameLoop = new AnimationTimer() {
@@ -117,22 +105,35 @@ public class GameController implements Initializable {
     }
 
     private void updateScreen(long now) {
+        List<GameObject> toAdd = new ArrayList<>(); // Adding to list to prevent concurrency issues (altering list during loop)
         List<GameObject> toRemove = new ArrayList<>(); // Adding toRemove list to prevent concurrency issues (altering list during loop)
-//        List<Enemy> deadEnemies = gameObjects.stream().filter(obj -> obj instanceof Enemy && obj.checkIntersection()).collect(Collectors.toList());
 
         for (GameObject obj : gameObjects) {
             if (obj instanceof Player) {
                 if (mouseMove) {
                     ((Player) obj).mouseMove(mouseX, mouseY);
                 } else {
-                    ((Player) obj).move(directionInput);
+                    ((Player) obj).keyMove(directionInput);
                 }
             } else if (obj instanceof Enemy) {
                 Enemy enemy = (Enemy) obj;
                 // Check intersection of projectiles
-                List<GameObject> proj = gameObjects.stream().filter(gameObject -> gameObject instanceof Projectile && gameObject.checkIntersection(obj)).collect(Collectors.toList());
+                List<GameObject> proj = gameObjects.stream().filter(gameObject -> gameObject instanceof Projectile && !((Projectile) gameObject).isDestroyed() && gameObject.checkIntersection(obj) && !((Projectile) gameObject).isEnemyProj()).collect(Collectors.toList());
                 if (!proj.isEmpty()) {
+                    // allow bombs to boom and kill multiple, lasers to vanish and kill one
+                    // this implementation assumes bomb and laser do not strike at the same time
+                    if (!(proj.get(0) instanceof Bomb)) {
+                        ((Projectile) proj.get(0)).setDestroyed();
+                    }
+
                     score.add(enemy.kill());
+                }
+
+                if (enemy.fire()) {
+                    toAdd.addAll(enemy.getNewProjectiles());
+                }
+
+                if (!enemy.isAlive()) {
                     toRemove.add(enemy);
                 }
             } else if (obj instanceof Projectile) {
@@ -143,17 +144,19 @@ public class GameController implements Initializable {
                     if (obj instanceof Bomb) { // Bomb
                         Bomb bomb = (Bomb) obj;
                         if (!collideEnemy.isEmpty()) {
-                            System.out.println("BOOM!!!!");
                             bomb.explode();
                         }
                     } else { // Laser
                         Laser laser = (Laser) obj;
-
                     }
                 }
             }
             obj.update(now);
         }
+        toAdd.addAll(levelReader.getNewObjects(now));
+
+        gameArea.getChildren().addAll(toAdd);
+        gameObjects.addAll(toAdd);
         gameArea.getChildren().removeAll(toRemove);
         gameObjects.removeAll(toRemove);
     }

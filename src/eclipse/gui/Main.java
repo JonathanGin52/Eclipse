@@ -18,9 +18,9 @@ import java.util.logging.Logger;
  */
 public class Main extends Application {
 
-    private static Dimension2D dimensions = new Dimension2D(800, 600);
-    private final double MINIMUM_WINDOW_WIDTH = 390.0;
-    private final double MINIMUM_WINDOW_HEIGHT = 500.0;
+    private static Dimension2D dimensions = new Dimension2D(450, 600);
+    private final double MINIMUM_WINDOW_WIDTH = 450.0;
+    private final double MINIMUM_WINDOW_HEIGHT = 600.0;
     private final int FRAME_RATE = -1; // -1 to automatically set frame rate
     private Stage stage;
     private Scene scene;
@@ -80,7 +80,7 @@ public class Main extends Application {
         } finally {
             in.close();
         }
-        scene = new Scene(page, 800, 600);
+        scene = new Scene(page, 450, 600);
         stage.setScene(scene);
         stage.sizeToScene();
         return (Initializable) loader.getController();

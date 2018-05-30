@@ -1,18 +1,26 @@
 package eclipse.gamecomponents;
 
+import eclipse.gamecomponents.path.Down;
 import javafx.animation.PathTransition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
 public abstract class Enemy extends GameObject {
 
-    private boolean startAnimation = true;
     private boolean isAlive = true;
-    long startingAge = -1;
+    private boolean fire = false;
+    private List<Projectile> newProjectiles = new ArrayList<>();
+    long fireRate;
+    long lastFire = Long.MIN_VALUE;
 
     public Enemy(double xPos, double yPos) {
-        super(xPos, yPos, 50, 50, 6);
+        super(xPos, yPos, 50, 50, 4);
+
+        fire = true;
     }
 
     @Override
@@ -29,6 +37,24 @@ public abstract class Enemy extends GameObject {
     // Enemy is dead because it hasn't been killed while on screen
     public void remove() {
         isAlive = false;
+    }
+
+    // returns whether Enemy is firing a projectile at this frame
+    public boolean fire() {
+        return fire;
+    }
+
+    public void setFire() {
+        fire = true;
+    }
+
+    public List<Projectile> getNewProjectiles() {
+        if (fire) fire = false;
+        return newProjectiles;
+    }
+
+    public void setNewProjectiles(List<Projectile> list) {
+        newProjectiles = new ArrayList(list);
     }
 
     public boolean isAlive() {
