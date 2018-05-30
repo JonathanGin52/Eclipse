@@ -1,5 +1,6 @@
 package eclipse.gamecomponents;
 
+import eclipse.gamecomponents.path.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -12,7 +13,7 @@ public class Bomb extends Projectile {
     private boolean explode = false;
 
     public Bomb(double xPos, double yPos) {
-        super(xPos, yPos, new Image(IMAGE_DIR + "bomb/bomb.png"));
+        super(xPos, yPos, new Image(IMAGE_DIR + "bomb/bomb.png"), new Up(), false);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class Bomb extends Projectile {
             if (yPos - speed <= 0) { // Destroy bomb if it goes off screen
                 setDestroyed();
             }
-            move(0, -1);
+            unboundedMove(getVector());
         }
 
         if (explode && now - lastUpdate >= FRAME_RATE) {
