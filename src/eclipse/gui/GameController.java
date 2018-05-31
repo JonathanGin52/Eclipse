@@ -4,7 +4,6 @@ import eclipse.gamecomponents.*;
 import eclipse.gamecomponents.path.Up;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -13,11 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
@@ -25,9 +21,8 @@ import java.util.stream.Collectors;
  *
  * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
-public class GameController implements Initializable {
+public class GameController extends ParentController {
 
-    private Main application;
     private AnimationTimer gameLoop;
     private List<GameObject> gameObjects;
     private Score score;
@@ -44,8 +39,45 @@ public class GameController implements Initializable {
     @FXML
     private Label scoreLabel;
 
-    public void setApp(Main application) {
-        this.application = application;
+    @Override
+    public void init() {
+        player = new Player(); // I'm not sure if proper practice tells us to initialize objects here, or if we can just do it at declaration ^^^
+        score = new Score(0);
+        gameObjects = new ArrayList<>();
+
+        // Add change listener to score property. When change is detected, update scoreLabel
+        score.scoreProperty().addListener((o) -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
+
+        gameObjects.add(player);
+        gameArea.getChildren().addAll(gameObjects);
+
+        levelReader = new LevelReader("level1.txt");
+
+        installKeyListener(application.getScene());
+        installMouseListener(application.getScene());
+        setupGameLoop();
+        // Start the game
+        gameLoop.start();
+    }
+
+    private void setupGameLoop() {
+        gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                // Update screen
+                updateScreen(now);
+                // Pass pixels to AI
+                // Etc
+            }
+        };
+    }
+
+    private void installMouseListener(Scene scene) {
+        scene.addEventFilter(MouseEvent.MOUSE_MOVED, (MouseEvent me) -> {
+            mouseX = me.getSceneX();
+            mouseY = me.getSceneY();
+            mouseMove = true;
+        });
     }
 
     private void installKeyListener(Scene scene) {
@@ -78,30 +110,6 @@ public class GameController implements Initializable {
                 directionInput[code.ordinal() - 16] = false;
             }
         });
-    }
-
-    private void installMouseListener(Scene scene) {
-        scene.addEventFilter(MouseEvent.MOUSE_MOVED, (MouseEvent me) -> {
-            mouseX = me.getSceneX();
-            mouseY = me.getSceneY();
-            mouseMove = true;
-        });
-    }
-
-    void initGame(final int FRAME_RATE) {
-        levelReader = new LevelReader("level1.txt");
-        installKeyListener(application.getScene());
-        installMouseListener(application.getScene());
-        gameLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                // Update screen
-                updateScreen(now);
-                // Pass pixels to AI
-                // Etc
-            }
-        };
-//        application.setDimensions(gameArea);
     }
 
     private void updateScreen(long now) {
@@ -168,20 +176,5 @@ public class GameController implements Initializable {
 
     public void stop() {
         gameLoop.stop();
-    }
-
-    // Initializes the controller class.
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        player = new Player();
-        score = new Score(0);
-        // Add change listener to score property. When change is detected, update scoreLabel
-        score.scoreProperty().addListener((o) -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
-
-        gameObjects = new ArrayList<>();
-
-        gameObjects.add(player);
-
-        gameArea.getChildren().addAll(gameObjects);
     }
 }
