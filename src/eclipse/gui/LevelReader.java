@@ -12,23 +12,17 @@ import java.util.List;
 
 public class LevelReader {
 
-    final static String LEVEL_DIR = "file:src/eclipse/levels/";
+    final static String LEVEL_DIR = "src/eclipse/resources/levels/";
 
-    private static BufferedReader reader;
     private static long wait = System.nanoTime();
     private static List<String> commands = new LinkedList<>();
 
     public LevelReader(String fileName) {
-        try {
-            System.out.println(LEVEL_DIR + fileName);
-            reader = new BufferedReader(new FileReader(new File(fileName)));
-
-            String nextLine;
+        String nextLine;
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(LEVEL_DIR + fileName)))) {
             while ((nextLine = reader.readLine()) != null) {
                 commands.add(nextLine);
             }
-
-            reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found. Please make sure the file " + fileName + " exists.");
             e.printStackTrace();
@@ -42,7 +36,9 @@ public class LevelReader {
     public List<GameObject> getNewObjects(long now) {
         List<GameObject> toAdd = new ArrayList<>();
 
-        if (now <= wait) return toAdd;
+        if (now <= wait) {
+            return toAdd;
+        }
 
         String next;
         String[] tokens;
@@ -67,7 +63,7 @@ public class LevelReader {
 
             VectorPath vectorPath = null;
 
-            switch(tokens[3]) {
+            switch (tokens[3]) {
                 case "Down":
                     vectorPath = new Down();
                     break;

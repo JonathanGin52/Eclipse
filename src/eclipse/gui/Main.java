@@ -9,12 +9,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main extends Application {
 
+    public static final File SCORE_FILE = new File("file:");
     private static final Dimension2D dimensions = new Dimension2D(450, 600);
     private final double MINIMUM_WINDOW_WIDTH = 450;
     private final double MINIMUM_WINDOW_HEIGHT = 600;

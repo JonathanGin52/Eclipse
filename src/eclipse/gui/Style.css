@@ -1,7 +1,7 @@
 /* -------------------    Global   ------------------- */
 @font-face {
     font-family: 'HyliaSerifBeta-Regular';
-    src: url("file:HyliaSerifBeta-Regular.otf");
+    src: url("file:src/eclipse/resources/HyliaSerifBeta-Regular.otf");
 }
 
 .text {
@@ -26,7 +26,7 @@
 }
 
 #pane {
-    -fx-background-image: url("file:src/eclipse/images/background.jpg");
+    -fx-background-image: url("file:src/eclipse/resources/images/background.jpg");
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
 }
