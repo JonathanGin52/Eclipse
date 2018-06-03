@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Score {
 
+    private String name = "";
     private IntegerProperty score;
 
     public Score() {
@@ -15,12 +16,25 @@ public class Score {
         score = new SimpleIntegerProperty(initialValue);
     }
 
+    public Score(String name, int value) {
+        this.name = name;
+        score = new SimpleIntegerProperty(value);
+    }
+
     public int getScore() {
         return score.get();
     }
 
     public void setScore(int score) {
         this.score.set(score);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void add(int score) {
@@ -33,6 +47,6 @@ public class Score {
 
     @Override
     public String toString() {
-        return "Score: " + getScore();
+        return (name == "" ? "Score" : name) + ": " + getScore();
     }
 }

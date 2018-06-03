@@ -12,10 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -185,13 +181,15 @@ public class GameController extends ParentController {
     private void gameOver() {
         gameLoop.stop();
 
-        int finalScore = score.getScore();
-        try (BufferedReader br = new BufferedReader(new FileReader(application.SCORE_FILE))) {
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        List<Score> scores = application.getScores();
+        int finalScore = this.score.getScore();
+        for (int i = 0; i < scores.size(); i++) {
+            if (finalScore >= scores.get(i).getScore()) {
+                scores.remove(9);
+                scores.add(i, this.score);
+                break;
+            }
         }
+        System.out.println(scores);
     }
 }

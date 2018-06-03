@@ -19,7 +19,7 @@ public class LevelReader {
 
     public LevelReader(String fileName) {
         String nextLine;
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File(LEVEL_DIR + fileName)))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(LEVEL_DIR + fileName))) {
             while ((nextLine = reader.readLine()) != null) {
                 commands.add(nextLine);
             }

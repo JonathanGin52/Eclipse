@@ -11,6 +11,8 @@ public class HomeScreenController extends ParentController {
     private Button start;
     @FXML
     private Button settings;
+    @FXML
+    private Button scoreboard;
 
     @Override
     public void init() {
@@ -22,5 +24,6 @@ public class HomeScreenController extends ParentController {
         });
         start.setOnMouseClicked(event -> startGame());
         settings.setOnMouseClicked(event -> settings());
+        scoreboard.setOnMouseClicked(event -> scoreboard());
     }
 }
