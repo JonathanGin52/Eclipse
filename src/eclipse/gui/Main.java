@@ -8,6 +8,8 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.logging.Logger;
 public class Main extends Application {
 
     public static final File SCORE_FILE = new File("resources/scores.txt");
+    public static final File MAIN_THEME = new File("resources/audio/Title.mp3");
     private static final Dimension2D dimensions = new Dimension2D(450, 600);
     private static List<Score> scores = null;
     private final double MINIMUM_WINDOW_WIDTH = 450;
@@ -42,6 +45,11 @@ public class Main extends Application {
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             gotoScene("HomeScreen");
             primaryStage.show();
+            
+            // Play the theme song at title screen
+            Media sound = new Media(MAINTHEME.toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
