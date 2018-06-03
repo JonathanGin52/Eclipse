@@ -5,7 +5,7 @@
 /.idea/
 /out/
 Eclipse.iml
-scores.txt
+resources/scores.txt
 
 # Compiled class file
 *.class
