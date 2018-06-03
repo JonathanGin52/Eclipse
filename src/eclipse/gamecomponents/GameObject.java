@@ -10,7 +10,7 @@ import javafx.scene.Parent;
  */
 public abstract class GameObject extends Parent {
 
-    final static String IMAGE_DIR = "file:src/eclipse/images/";
+    final static String IMAGE_DIR = "file:src/eclipse/resources/images/";
     double xPos;
     double yPos;
     int speed; // Base speed
