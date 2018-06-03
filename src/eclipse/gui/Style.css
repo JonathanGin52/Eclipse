@@ -1,0 +1,34 @@
+/* -------------------    Global   ------------------- */
+@font-face {
+    font-family: 'HyliaSerifBeta-Regular';
+    src: url("file:HyliaSerifBeta-Regular.otf");
+}
+
+.text {
+    -fx-font-family: 'HyliaSerifBeta-Regular';
+}
+
+/* ------------------- Home Screen ------------------- */
+.button {
+    -fx-background-color:
+        #c3c4c4,
+        linear-gradient(#d6d6d6 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+    -fx-pref-width: 100;
+}
+
+.button:hover {
+    -fx-cursor: hand;
+}
+
+#pane {
+    -fx-background-image: url("file:src/eclipse/images/background.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+/* ------------------- Game Screen ------------------- */
+/* -------------------    Other    ------------------- */
