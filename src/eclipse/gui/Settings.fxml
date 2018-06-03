@@ -45,7 +45,7 @@
             <Label style="-fx-font-size: 20;" text="B" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Slider blockIncrement="5.0" layoutX="169.0" layoutY="410.0" minorTickCount="4" prefHeight="24.0" prefWidth="215.0" showTickMarks="true" snapToTicks="true" value="50.0" />
+      <Slider blockIncrement="5.0" layoutX="169.0" layoutY="410.0" minorTickCount="4" prefHeight="24.0" prefWidth="215.0" showTickMarks="true" snapToTicks="true" value="100.0" />
       <ButtonBar layoutY="546.0" prefHeight="40.0" prefWidth="450.0">
         <buttons>
             <Button fx:id="home" mnemonicParsing="false" text="Back" />
