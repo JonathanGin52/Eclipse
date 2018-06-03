@@ -7,9 +7,9 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -45,26 +45,28 @@ public class Main extends Application {
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             gotoScene("HomeScreen");
             primaryStage.show();
-            
+
             // Play the theme song at title screen
-            Media sound = new Media(MAINTHEME.toURI().toString());
+            Media sound = new Media(MAIN_THEME.toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.play();
+            mediaPlayer.setAutoPlay(true);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Update score file with scores from current session
         stage.setOnCloseRequest(e -> {
-            try (PrintWriter reiter = new PrintWriter(new BufferedWriter(new FileWriter(SCORE_FILE, false)))) {
-                for (int i = 0; i < scores.size(); i++) {
-                    reiter.println(scores.get(i).getName() + "," + scores.get(i).getScore());
+            if (scores != null) {
+                try (PrintWriter reiter = new PrintWriter(new BufferedWriter(new FileWriter(SCORE_FILE, false)))) {
+                    for (int i = 0; i < scores.size(); i++) {
+                        reiter.println(scores.get(i).getName() + "," + scores.get(i).getScore());
+                    }
+                } catch (IOException exception) {
+                    System.out.println("IO Exception");
+                    exception.printStackTrace();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
-            } catch (IOException exception) {
-                System.out.println("IO Exception");
-                exception.printStackTrace();
-            } catch (Exception exception) {
-                exception.printStackTrace();
             }
         });
     }
