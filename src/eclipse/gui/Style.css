@@ -1,3 +1,13 @@
+/* -------------------    Global   ------------------- */
+@font-face {
+    font-family: 'HyliaSerifBeta-Regular';
+    src: url("file:HyliaSerifBeta-Regular.otf");
+}
+
+.text {
+    -fx-font-family: 'HyliaSerifBeta-Regular';
+}
+
 /* ------------------- Home Screen ------------------- */
 .button {
     -fx-background-color:
@@ -13,6 +23,12 @@
 
 .button:hover {
     -fx-cursor: hand;
+}
+
+#pane {
+    -fx-background-image: url("file:src/eclipse/images/background.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
 }
 /* ------------------- Game Screen ------------------- */
 /* -------------------    Other    ------------------- */

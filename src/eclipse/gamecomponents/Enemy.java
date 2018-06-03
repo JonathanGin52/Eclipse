@@ -1,6 +1,5 @@
 package eclipse.gamecomponents;
 
-import eclipse.gamecomponents.path.Down;
 import javafx.animation.PathTransition;
 
 import java.util.ArrayList;
@@ -11,11 +10,11 @@ import java.util.List;
  */
 public abstract class Enemy extends GameObject {
 
+    long fireRate;
+    long lastFire = Long.MIN_VALUE;
     private boolean isAlive = true;
     private boolean fire = false;
     private List<Projectile> newProjectiles = new ArrayList<>();
-    long fireRate;
-    long lastFire = Long.MIN_VALUE;
 
     public Enemy(double xPos, double yPos, int width, int height, int speed) {
         super(xPos, yPos, width, height, speed);

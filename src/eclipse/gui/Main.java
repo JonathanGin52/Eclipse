@@ -19,15 +19,11 @@ import java.util.logging.Logger;
 public class Main extends Application {
 
     private static final Dimension2D dimensions = new Dimension2D(450, 600);
-    private final double MINIMUM_WINDOW_WIDTH = 390.0;
-    private final double MINIMUM_WINDOW_HEIGHT = 500.0;
-    private final int FRAME_RATE = -1; // -1 to automatically set frame rate
+    private final double MINIMUM_WINDOW_WIDTH = 450;
+    private final double MINIMUM_WINDOW_HEIGHT = 600;
     private Stage stage;
     private Scene scene;
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }
@@ -66,13 +62,10 @@ public class Main extends Application {
 
     private Initializable replaceSceneContent(String fxml) throws Exception {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
-        InputStream in = Main.class.getResourceAsStream(fxml);
         loader.setBuilderFactory(new JavaFXBuilderFactory());
         AnchorPane page;
-        try {
+        try (InputStream in = Main.class.getResourceAsStream(fxml)) {
             page = loader.load(in);
-        } finally {
-            in.close();
         }
         scene = new Scene(page, dimensions.getWidth(), dimensions.getHeight());
         stage.setScene(scene);
