@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 
 public class Main extends Application {
 
-    private static Dimension2D dimensions = new Dimension2D(450, 600);
-    private final double MINIMUM_WINDOW_WIDTH = 450.0;
-    private final double MINIMUM_WINDOW_HEIGHT = 600.0;
+    private static final Dimension2D dimensions = new Dimension2D(450, 600);
+    private final double MINIMUM_WINDOW_WIDTH = 450;
+    private final double MINIMUM_WINDOW_HEIGHT = 600;
     private Stage stage;
     private Scene scene;
 
@@ -29,11 +29,6 @@ public class Main extends Application {
         return dimensions;
     }
 
-    public void setDimensions(Dimension2D dimensions) {
-        Main.dimensions = dimensions;
-        System.out.println(dimensions.toString());
-    }
-
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -41,19 +36,18 @@ public class Main extends Application {
             stage.setTitle("ICS Summative");
             stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
-            gotoGame();
+            gotoScene("HomeScreen");
             primaryStage.show();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void gotoGame() {
+    void gotoScene(String scene) {
         try {
-            GameController game = (GameController) replaceSceneContent("Game.fxml");
-            game.setApp(this);
-            game.initGame(-1);
-            game.start();
+            ParentController sceneContent = (ParentController) replaceSceneContent(scene + ".fxml");
+            sceneContent.setApp(this);
+            sceneContent.init();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,7 +64,7 @@ public class Main extends Application {
         try (InputStream in = Main.class.getResourceAsStream(fxml)) {
             page = loader.load(in);
         }
-        scene = new Scene(page, 450, 600);
+        scene = new Scene(page, dimensions.getWidth(), dimensions.getHeight());
         stage.setScene(scene);
         stage.sizeToScene();
         return (Initializable) loader.getController();
