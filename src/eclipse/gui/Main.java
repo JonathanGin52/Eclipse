@@ -46,8 +46,9 @@ public class Main extends Application {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        // Update score file with scores from current session
         stage.setOnCloseRequest(e -> {
-            try (PrintWriter reiter = new PrintWriter(new FileWriter(SCORE_FILE, false))) {
+            try (PrintWriter reiter = new PrintWriter(new BufferedWriter(new FileWriter(SCORE_FILE, false)))) {
                 for (int i = 0; i < scores.size(); i++) {
                     reiter.println(scores.get(i).getName() + "," + scores.get(i).getScore());
                 }
@@ -60,6 +61,7 @@ public class Main extends Application {
         });
     }
 
+    // Switches active scene
     void gotoScene(String scene) {
         try {
             ParentController sceneContent = (ParentController) replaceSceneContent(scene + ".fxml");
