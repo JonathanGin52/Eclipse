@@ -9,15 +9,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main extends Application {
 
-    public static final File SCORE_FILE = new File("file:");
+    public static final File SCORE_FILE = new File("resources/scores.txt");
     private static final Dimension2D dimensions = new Dimension2D(450, 600);
+    private static List<Score> scores = null;
     private final double MINIMUM_WINDOW_WIDTH = 450;
     private final double MINIMUM_WINDOW_HEIGHT = 600;
     private Stage stage;
@@ -43,6 +45,12 @@ public class Main extends Application {
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        stage.setOnCloseRequest(e -> {
+            // Update score file with current Score list
+            // Convert Score object to String in the form of "name,score"
+            // Preserve order
+        });
     }
 
     void gotoScene(String scene) {
@@ -57,6 +65,32 @@ public class Main extends Application {
 
     public Scene getScene() {
         return scene;
+    }
+
+    public List<Score> getScores() {
+        return scores == null ? loadScores() : scores;
+    }
+
+    public List<Score> loadScores() {
+        // Read scores and place into LinkedList (preserves insertion order)
+        scores = new ArrayList<>(10);
+        try (BufferedReader br = new BufferedReader(new FileReader(SCORE_FILE))) {
+            for (int i = 1; i <= 10; i++) {
+                String currentLine = br.readLine();
+                if (currentLine == null || currentLine.isEmpty()) {
+                    scores.add(new Score());
+                } else {
+                    int delim = currentLine.indexOf(",");
+                    scores.add(new Score(currentLine.substring(0, delim), Integer.parseInt(currentLine.substring(delim + 1))));
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(scores);
+        return scores;
     }
 
     private Initializable replaceSceneContent(String fxml) throws Exception {

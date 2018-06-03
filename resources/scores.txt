@@ -1,0 +1,4 @@
+Jonathan,1000
+Alex,900
+Justin,400
+Bill,200

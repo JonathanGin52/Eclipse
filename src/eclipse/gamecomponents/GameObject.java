@@ -5,12 +5,9 @@ import eclipse.gui.Main;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Parent;
 
-/**
- * @author Jonathan Gin, Justin Reiter, Alex Yang
- */
 public abstract class GameObject extends Parent {
 
-    final static String IMAGE_DIR = "file:src/eclipse/resources/images/";
+    final static String IMAGE_DIR = "file:resources/images/";
     double xPos;
     double yPos;
     int speed; // Base speed

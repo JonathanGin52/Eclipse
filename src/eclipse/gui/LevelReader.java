@@ -12,14 +12,14 @@ import java.util.List;
 
 public class LevelReader {
 
-    final static String LEVEL_DIR = "src/eclipse/resources/levels/";
+    final static String LEVEL_DIR = "resources/levels/";
 
     private static long wait = System.nanoTime();
     private static List<String> commands = new LinkedList<>();
 
     public LevelReader(String fileName) {
         String nextLine;
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File(LEVEL_DIR + fileName)))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(LEVEL_DIR + fileName))) {
             while ((nextLine = reader.readLine()) != null) {
                 commands.add(nextLine);
             }
