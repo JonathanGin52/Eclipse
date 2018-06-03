@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -14,13 +15,9 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * FXML Controller class
- *
- * @author Jonathan Gin, Justin Reiter, Alex Yang
- */
 public class GameController extends ParentController {
 
     private AnimationTimer gameLoop;
@@ -99,6 +96,9 @@ public class GameController extends ParentController {
             if (code == KeyCode.L) { // Debugging purposes
                 System.out.println(gameObjects);
                 System.out.println(gameArea.getChildren());
+            }
+            if (code == KeyCode.ESCAPE) { // Debugging - instalose
+                gameOver();
             }
 
             gameArea.getChildren().addAll(toAdd);
@@ -185,11 +185,21 @@ public class GameController extends ParentController {
         int finalScore = this.score.getScore();
         for (int i = 0; i < scores.size(); i++) {
             if (finalScore >= scores.get(i).getScore()) {
+                // Popup to get name of player
+                TextInputDialog dialog = new TextInputDialog("John");
+                dialog.setTitle("Text Input Dialog");
+                dialog.setHeaderText("Look, a Text Input Dialog");
+                dialog.setContentText("Please enter your name:");
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> score.setName(name));
+
                 scores.remove(9);
                 scores.add(i, this.score);
+
                 break;
             }
         }
-        System.out.println(scores);
+
+        returnHome(); // Return to main screen
     }
 }

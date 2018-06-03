@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Main extends Application {
 
-    public static final File SCORE_FILE = new File("src/eclipse/resources/scores.txt");
+    public static final File SCORE_FILE = new File("resources/scores.txt");
     private static final Dimension2D dimensions = new Dimension2D(450, 600);
     private static List<Score> scores = null;
     private final double MINIMUM_WINDOW_WIDTH = 450;
@@ -48,6 +48,12 @@ public class Main extends Application {
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        stage.setOnCloseRequest(e -> {
+            // Update score file with current Score list
+            // Convert Score object to String in the form of "name,score"
+            // Preserve order
+        });
     }
 
     void gotoScene(String scene) {

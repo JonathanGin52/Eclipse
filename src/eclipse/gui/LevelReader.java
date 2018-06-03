@@ -12,7 +12,7 @@ import java.util.List;
 
 public class LevelReader {
 
-    final static String LEVEL_DIR = "src/eclipse/resources/levels/";
+    final static String LEVEL_DIR = "resources/levels/";
 
     private static long wait = System.nanoTime();
     private static List<String> commands = new LinkedList<>();
