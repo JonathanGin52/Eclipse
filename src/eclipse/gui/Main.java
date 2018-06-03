@@ -47,9 +47,16 @@ public class Main extends Application {
         }
 
         stage.setOnCloseRequest(e -> {
-            // Update score file with current Score list
-            // Convert Score object to String in the form of "name,score"
-            // Preserve order
+            try (PrintWriter reiter = new PrintWriter(new FileWriter(SCORE_FILE, false))) {
+                for (int i = 0; i < scores.size(); i++) {
+                    reiter.println(scores.get(i).getName() + "," + scores.get(i).getScore());
+                }
+            } catch (IOException exception) {
+                System.out.println("IO Exception");
+                exception.printStackTrace();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         });
     }
 
