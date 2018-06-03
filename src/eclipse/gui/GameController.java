@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -75,11 +76,41 @@ public class GameController extends ParentController {
             mouseY = me.getSceneY();
             mouseMove = true;
         });
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (MouseEvent me) -> {
+            MouseButton mb = me.getButton();
+            GameObject toAdd = null;
+            if (mb == MouseButton.PRIMARY) {
+                System.out.println("Pew pew");
+                toAdd = new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false);
+            } else if (mb == MouseButton.SECONDARY) {
+                System.out.println("Boom boom");
+                toAdd = new Bomb(player.getMidpointX(), player.getMidpointY());
+            }
+            if (toAdd != null) {
+                gameArea.getChildren().add(toAdd);
+                gameObjects.add(toAdd);
+            }
+        });
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, (MouseEvent me) -> {
+            MouseButton mb = me.getButton();
+            GameObject toAdd = null;
+            if (mb == MouseButton.PRIMARY) {
+                System.out.println("Pew pew");
+                toAdd = new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false);
+            } else if (mb == MouseButton.SECONDARY) {
+                System.out.println("Boom boom");
+                toAdd = new Bomb(player.getMidpointX(), player.getMidpointY());
+            }
+            if (toAdd != null) {
+                gameArea.getChildren().add(toAdd);
+                gameObjects.add(toAdd);
+            }
+        });
     }
 
     private void installKeyListener(Scene scene) {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
-            List<GameObject> toAdd = new ArrayList<>();
+            GameObject toAdd = null;
             KeyCode code = ke.getCode();
             if (code.isArrowKey()) {
                 directionInput[code.ordinal() - 16] = true;
@@ -87,11 +118,11 @@ public class GameController extends ParentController {
             }
             if (code == KeyCode.SPACE) {
                 System.out.println("Pew pew");
-                toAdd.add(new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false));
+                toAdd = new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false);
             }
             if (code == KeyCode.B) {
                 System.out.println("Boom boom");
-                toAdd.add(new Bomb(player.getMidpointX(), player.getMidpointY()));
+                toAdd = new Bomb(player.getMidpointX(), player.getMidpointY());
             }
             if (code == KeyCode.L) { // Debugging purposes
                 System.out.println(gameObjects);
@@ -100,9 +131,10 @@ public class GameController extends ParentController {
             if (code == KeyCode.ESCAPE) { // Debugging - instalose
                 gameOver();
             }
-
-            gameArea.getChildren().addAll(toAdd);
-            gameObjects.addAll(toAdd);
+            if (toAdd != null) {
+                gameArea.getChildren().add(toAdd);
+                gameObjects.add(toAdd);
+            }
         });
         scene.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent ke) -> {
             KeyCode code = ke.getCode();
