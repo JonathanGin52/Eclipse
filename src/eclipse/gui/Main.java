@@ -57,8 +57,10 @@ public class Main extends Application {
         // Update score file with scores from current session
         stage.setOnCloseRequest(e -> {
             try (PrintWriter reiter = new PrintWriter(new BufferedWriter(new FileWriter(SCORE_FILE, false)))) {
-                for (int i = 0; i < scores.size(); i++) {
-                    reiter.println(scores.get(i).getName() + "," + scores.get(i).getScore());
+                if (scores != null) {
+                    for (int i = 0; i < scores.size(); i++) {
+                        reiter.println(scores.get(i).getName() + "," + scores.get(i).getScore());
+                    }
                 }
             } catch (IOException exception) {
                 System.out.println("IO Exception");
