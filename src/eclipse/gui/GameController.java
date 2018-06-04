@@ -14,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,9 +26,9 @@ import java.util.stream.Collectors;
 
 public class GameController extends ParentController {
 
-    final AudioClip PAUSE_OPEN_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Open.wav").toURI().toString());
-    final AudioClip PAUSE_CLOSE_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Close.wav").toURI().toString());
-    final AudioClip ARROW_CLIP = new AudioClip(new File("resources/audio/Arrow_Shoot.wav").toURI().toString());
+    private final AudioClip PAUSE_OPEN_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Open.wav").toURI().toString());
+    private final AudioClip PAUSE_CLOSE_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Close.wav").toURI().toString());
+    private final AudioClip ARROW_CLIP = new AudioClip(new File("resources/audio/Arrow_Shoot.wav").toURI().toString());
     boolean paused = false;
     private AnimationTimer gameLoop;
     private List<GameObject> gameObjects;
@@ -53,7 +55,9 @@ public class GameController extends ParentController {
         // Add change listener to score property. When change is detected, update scoreLabel
         score.scoreProperty().addListener(e -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
         player.getHealthProperty().addListener(e -> {
-            checkGameOver();
+            if (checkGameOver()) {
+                gameOver();
+            }
             System.out.println(player.getHealthProperty());
         });
 
@@ -70,6 +74,9 @@ public class GameController extends ParentController {
     }
 
     private boolean checkGameOver() {
+        if (player.getHealth() <= 0) {
+            return true;
+        }
         return false;
     }
 
@@ -273,29 +280,30 @@ public class GameController extends ParentController {
     }
 
     private void gameOver() {
-        application.stopMusic();
-        AudioClip gameOverWAV = new AudioClip(new File("resources/audio/Game_Over.mp3").toURI().toString());
-        gameOverWAV.play();
         gameLoop.stop();
-
-        List<Score> scores = application.getScores();
-        int finalScore = this.score.getScore();
-        for (int i = 0; i < scores.size(); i++) {
-            if (finalScore >= scores.get(i).getScore()) {
-                // Popup to get name of player
-                TextInputDialog dialog = new TextInputDialog("John");
-                dialog.setTitle("Text Input Dialog");
-                dialog.setHeaderText("Look, a Text Input Dialog");
-                dialog.setContentText("Please enter your name:");
-                Optional<String> result = dialog.showAndWait();
-                result.ifPresent(name -> score.setName(name));
-
-                // Remove lowest score and add current score
-                scores.remove(9);
-                scores.add(i, this.score);
-                break;
+        application.stopMusic();
+        MediaPlayer gameOverWAV = new MediaPlayer(new Media(new File("resources/audio/Game_Over.mp3").toURI().toString()));
+        gameOverWAV.play();
+        gameOverWAV.setOnEndOfMedia(() -> {
+            List<Score> scores = application.getScores();
+            int finalScore = this.score.getScore();
+            for (int i = 0; i < scores.size(); i++) {
+                if (finalScore >= scores.get(i).getScore()) {
+                    // Popup to get name of player
+                    TextInputDialog dialog = new TextInputDialog("John");
+                    dialog.setTitle("Text Input Dialog");
+                    dialog.setHeaderText("Look, a Text Input Dialog");
+                    dialog.setContentText("Please enter your name:");
+                    Optional<String> result = dialog.showAndWait();
+                    result.ifPresent(name -> score.setName(name));
+                    // Remove lowest score and add current score
+                    scores.remove(9);
+                    scores.add(i, this.score);
+                    break;
+                }
             }
-        }
-        returnHome(true); // Return to main screen
+            returnHome(true); // Return to main screen
+
+        });
     }
 }

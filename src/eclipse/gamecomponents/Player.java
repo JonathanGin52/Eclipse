@@ -7,9 +7,9 @@ import javafx.scene.image.ImageView;
 public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "plane.png");
+    public int bombInv = 3;
     private ImageView img;
     private Health health;
-    public int bombInv = 3;
 
     public Player() {
         super(100, 300, 50, 50, 8);
@@ -22,6 +22,10 @@ public class Player extends GameObject {
 
     public IntegerProperty getHealthProperty() {
         return health.healthProperty();
+    }
+
+    public int getHealth() {
+        return health.getHealth();
     }
 
     public void loseHealth(int health) {

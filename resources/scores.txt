@@ -4,7 +4,7 @@ John,1200
 ,900
 John,800
 John,200
-,0
-,0
-John,0
-,0
+,100
+John,100
+null,100
+null,100
