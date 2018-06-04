@@ -32,9 +32,9 @@ public class ScoreboardController extends ParentController {
         application.getScene().addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
             KeyCode code = ke.getCode();
             if (code == KeyCode.ESCAPE) {
-                returnHome();
+                returnHome(false);
             }
         });
-        home.setOnMouseClicked(event -> returnHome());
+        home.setOnMouseClicked(event -> returnHome(false));
     }
 }

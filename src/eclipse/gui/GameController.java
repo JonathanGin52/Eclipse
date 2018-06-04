@@ -230,6 +230,7 @@ public class GameController extends ParentController {
     }
 
     private void gameOver() {
+        application.stopMusic();
         AudioClip gameOverWAV = new AudioClip(new File("resources/audio/Game_Over.mp3").toURI().toString());
         gameOverWAV.play();
         gameLoop.stop();
@@ -246,13 +247,12 @@ public class GameController extends ParentController {
                 Optional<String> result = dialog.showAndWait();
                 result.ifPresent(name -> score.setName(name));
 
+                // Remove lowest score and add current score
                 scores.remove(9);
                 scores.add(i, this.score);
-
                 break;
             }
         }
-
-        returnHome(); // Return to main screen
+        returnHome(true); // Return to main screen
     }
 }

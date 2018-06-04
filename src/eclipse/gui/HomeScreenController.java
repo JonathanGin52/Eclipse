@@ -23,14 +23,14 @@ public class HomeScreenController extends ParentController {
         application.getScene().addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
             KeyCode code = ke.getCode();
             if (code == KeyCode.SPACE) {
-                startGame();
+                startGame(true);
             }
         });
         start.setOnMouseClicked(event -> {
             START_CLIP.play();
-            startGame();
+            startGame(true);
         });
-        settings.setOnMouseClicked(event -> settings());
-        scoreboard.setOnMouseClicked(event -> scoreboard());
+        settings.setOnMouseClicked(event -> settings(false));
+        scoreboard.setOnMouseClicked(event -> scoreboard(false));
     }
 }

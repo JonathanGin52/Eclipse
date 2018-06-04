@@ -19,9 +19,11 @@ import java.util.logging.Logger;
 
 public class Main extends Application {
 
-    public static final File SCORE_FILE = new File("resources/scores.txt");
-    public static final Media TITLE_THEME = new Media(new File("resources/audio/Title.mp3").toURI().toString());
+    private static final File SCORE_FILE = new File("resources/scores.txt");
+    private static final Media TITLE_THEME = new Media(new File("resources/audio/Title.mp3").toURI().toString());
+    private static final Media GERUDO_THEME = new Media(new File("resources/audio/Gerudo.mp3").toURI().toString());
     private static final Dimension2D dimensions = new Dimension2D(450, 600);
+    private static MediaPlayer mediaPlayer = new MediaPlayer(TITLE_THEME);
     private static List<Score> scores = null;
     private final double MINIMUM_WINDOW_WIDTH = 450;
     private final double MINIMUM_WINDOW_HEIGHT = 600;
@@ -43,13 +45,10 @@ public class Main extends Application {
             stage.setTitle("ICS Summative");
             stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
-            gotoScene("HomeScreen");
+            stage.setResizable(false);
+            gotoScene("HomeScreen", false);
+            mediaPlayer.play();
             primaryStage.show();
-
-            // Play the theme song at title screen
-            MediaPlayer mediaPlayer = new MediaPlayer(TITLE_THEME);
-            mediaPlayer.setAutoPlay(true);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loops audio
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,14 +71,35 @@ public class Main extends Application {
     }
 
     // Switches active scene
-    void gotoScene(String scene) {
+    void gotoScene(String scene, boolean switchMusic) {
         try {
+            if (switchMusic) {
+                mediaPlayer.stop();
+                playMusic(scene);
+            }
             ParentController sceneContent = (ParentController) replaceSceneContent(scene + ".fxml");
             sceneContent.setApp(this);
             sceneContent.init();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void playMusic(String scene) {
+        switch (scene) {
+            case "HomeScreen":
+                mediaPlayer = new MediaPlayer(TITLE_THEME);
+                break;
+            case "Game":
+                mediaPlayer = new MediaPlayer(GERUDO_THEME);
+                break;
+        }
+        mediaPlayer.play();
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loops music
+    }
+
+    public void stopMusic() {
+        mediaPlayer.stop();
     }
 
     public Scene getScene() {
@@ -108,7 +128,6 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(scores);
         return scores;
     }
 
