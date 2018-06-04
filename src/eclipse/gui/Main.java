@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class Main extends Application {
 
     public static final File SCORE_FILE = new File("resources/scores.txt");
-    public static final File MAIN_THEME = new File("resources/audio/Title.mp3");
+    public static final Media TITLE_THEME = new Media(new File("resources/audio/Title.mp3").toURI().toString());
     private static final Dimension2D dimensions = new Dimension2D(450, 600);
     private static List<Score> scores = null;
     private final double MINIMUM_WINDOW_WIDTH = 450;
@@ -47,9 +47,9 @@ public class Main extends Application {
             primaryStage.show();
 
             // Play the theme song at title screen
-            Media sound = new Media(MAIN_THEME.toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            MediaPlayer mediaPlayer = new MediaPlayer(TITLE_THEME);
             mediaPlayer.setAutoPlay(true);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loops audio
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

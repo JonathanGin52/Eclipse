@@ -4,9 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
+
+import java.io.File;
 
 public class HomeScreenController extends ParentController {
 
+    final AudioClip START_CLIP = new AudioClip(new File("resources/audio/Start.wav").toURI().toString());
     @FXML
     private Button start;
     @FXML
@@ -22,7 +26,10 @@ public class HomeScreenController extends ParentController {
                 startGame();
             }
         });
-        start.setOnMouseClicked(event -> startGame());
+        start.setOnMouseClicked(event -> {
+            START_CLIP.play();
+            startGame();
+        });
         settings.setOnMouseClicked(event -> settings());
         scoreboard.setOnMouseClicked(event -> scoreboard());
     }

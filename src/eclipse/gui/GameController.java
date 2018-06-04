@@ -13,7 +13,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,10 @@ import java.util.stream.Collectors;
 
 public class GameController extends ParentController {
 
+    final AudioClip PAUSE_OPEN_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Open.wav").toURI().toString());
+    final AudioClip PAUSE_CLOSE_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Close.wav").toURI().toString());
+    final AudioClip ARROW_CLIP = new AudioClip(new File("resources/audio/Arrow_Shoot.wav").toURI().toString());
+    boolean paused = false;
     private AnimationTimer gameLoop;
     private List<GameObject> gameObjects;
     private Score score;
@@ -118,6 +124,7 @@ public class GameController extends ParentController {
             }
             if (code == KeyCode.SPACE) {
                 System.out.println("Pew pew");
+                ARROW_CLIP.play();
                 toAdd = new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false);
             }
             if (code == KeyCode.B) {
@@ -130,6 +137,18 @@ public class GameController extends ParentController {
             }
             if (code == KeyCode.ESCAPE) { // Debugging - instalose
                 gameOver();
+            }
+            if (code == KeyCode.P) {
+                if (paused == true) {
+                    PAUSE_CLOSE_CLIP.play();
+                    System.out.println("Resumed");
+                    gameLoop.start();
+                } else {
+                    PAUSE_OPEN_CLIP.play();
+                    System.out.println("Paused");
+                    gameLoop.stop();
+                }
+                paused = !paused;
             }
             if (toAdd != null) {
                 gameArea.getChildren().add(toAdd);
@@ -211,6 +230,8 @@ public class GameController extends ParentController {
     }
 
     private void gameOver() {
+        AudioClip gameOverWAV = new AudioClip(new File("resources/audio/Game_Over.mp3").toURI().toString());
+        gameOverWAV.play();
         gameLoop.stop();
 
         List<Score> scores = application.getScores();
