@@ -1,25 +1,31 @@
 package eclipse.gamecomponents;
 
-import javafx.geometry.Dimension2D;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-/**
- * @author Jonathan Gin, Justin Reiter, Alex Yang
- */
 public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "plane.png");
     private ImageView img;
-    private int hitpoints;
+    private Health health;
+    public int bombInv = 3;
 
     public Player() {
         super(100, 300, 50, 50, 8);
-        hitpoints = 100;
+        health = new Health();
         img = new ImageView(SPRITE);
         img.setFitHeight(super.getHeight());
         img.setFitWidth(super.getWidth());
         this.getChildren().add(img);
+    }
+
+    public IntegerProperty getHealthProperty() {
+        return health.healthProperty();
+    }
+
+    public void loseHealth(int health) {
+        this.health.loseHealth(health);
     }
 
     @Override
@@ -67,5 +73,10 @@ public class Player extends GameObject {
         if (Math.abs(y - yPos) >= speed) {
             move(0, dx * slope);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "[" + this.xPos + ", " + this.yPos + "] Health: " + this.health;
     }
 }

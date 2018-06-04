@@ -17,6 +17,7 @@ import javafx.scene.media.AudioClip;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,7 +51,11 @@ public class GameController extends ParentController {
         gameObjects = new ArrayList<>();
 
         // Add change listener to score property. When change is detected, update scoreLabel
-        score.scoreProperty().addListener((o) -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
+        score.scoreProperty().addListener(e -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
+        player.getHealthProperty().addListener(e -> {
+            checkGameOver();
+            System.out.println(player.getHealthProperty());
+        });
 
         gameObjects.add(player);
         gameArea.getChildren().addAll(gameObjects);
@@ -62,6 +67,10 @@ public class GameController extends ParentController {
         setupGameLoop();
         // Start the game
         gameLoop.start();
+    }
+
+    private boolean checkGameOver() {
+        return false;
     }
 
     private void setupGameLoop() {
@@ -82,30 +91,14 @@ public class GameController extends ParentController {
             mouseY = me.getSceneY();
             mouseMove = true;
         });
+        // Would be nice if we could figure out how to fire and move at the same time (mouse only)
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (MouseEvent me) -> {
             MouseButton mb = me.getButton();
             GameObject toAdd = null;
             if (mb == MouseButton.PRIMARY) {
-                System.out.println("Pew pew");
-                toAdd = new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false);
+                toAdd = shootArrow();
             } else if (mb == MouseButton.SECONDARY) {
-                System.out.println("Boom boom");
-                toAdd = new Bomb(player.getMidpointX(), player.getMidpointY());
-            }
-            if (toAdd != null) {
-                gameArea.getChildren().add(toAdd);
-                gameObjects.add(toAdd);
-            }
-        });
-        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, (MouseEvent me) -> {
-            MouseButton mb = me.getButton();
-            GameObject toAdd = null;
-            if (mb == MouseButton.PRIMARY) {
-                System.out.println("Pew pew");
-                toAdd = new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false);
-            } else if (mb == MouseButton.SECONDARY) {
-                System.out.println("Boom boom");
-                toAdd = new Bomb(player.getMidpointX(), player.getMidpointY());
+                toAdd = launchBomb();
             }
             if (toAdd != null) {
                 gameArea.getChildren().add(toAdd);
@@ -123,13 +116,10 @@ public class GameController extends ParentController {
                 mouseMove = false;
             }
             if (code == KeyCode.SPACE) {
-                System.out.println("Pew pew");
-                ARROW_CLIP.play();
-                toAdd = new Laser(player.getMidpointX(), player.getMidpointY(), new Up(), false);
+                toAdd = shootArrow();
             }
             if (code == KeyCode.B) {
-                System.out.println("Boom boom");
-                toAdd = new Bomb(player.getMidpointX(), player.getMidpointY());
+                toAdd = launchBomb();
             }
             if (code == KeyCode.L) { // Debugging purposes
                 System.out.println(gameObjects);
@@ -163,62 +153,115 @@ public class GameController extends ParentController {
         });
     }
 
+    private GameObject shootArrow() {
+        ARROW_CLIP.play();
+        System.out.println("Pew pew");
+        return new Arrow(player.getMidpointX(), player.getMidpointY(), new Up(), false);
+    }
+
+    private GameObject launchBomb() {
+        if (player.bombInv <= 0) {
+            System.out.println("No more bombs");
+            return null;
+        }
+        player.bombInv--;
+        System.out.println("Boom boom");
+        return new Bomb(player.getMidpointX(), player.getMidpointY());
+    }
+
     private void updateScreen(long now) {
         List<GameObject> toAdd = new ArrayList<>(); // Adding to list to prevent concurrency issues (altering list during loop)
         List<GameObject> toRemove = new ArrayList<>(); // Adding toRemove list to prevent concurrency issues (altering list during loop)
 
         for (GameObject obj : gameObjects) {
             if (obj instanceof Player) {
-                if (mouseMove) {
-                    ((Player) obj).mouseMove(mouseX, mouseY);
-                } else {
-                    ((Player) obj).keyMove(directionInput);
-                }
+                toRemove.addAll(updatePlayer((Player) obj));
             } else if (obj instanceof Enemy) {
-                Enemy enemy = (Enemy) obj;
-                // Check intersection of projectiles
-                List<GameObject> proj = gameObjects.stream().filter(gameObject -> gameObject instanceof Projectile && !((Projectile) gameObject).isDestroyed() && gameObject.checkIntersection(obj) && !((Projectile) gameObject).isEnemyProj()).collect(Collectors.toList());
-                if (!proj.isEmpty()) {
-                    // allow bombs to boom and kill multiple, lasers to vanish and kill one
-                    // this implementation assumes bomb and laser do not strike at the same time
-                    if (!(proj.get(0) instanceof Bomb)) {
-                        ((Projectile) proj.get(0)).setDestroyed();
-                    }
-
-                    score.add(enemy.kill());
-                }
-
-                if (enemy.fire()) {
-                    toAdd.addAll(enemy.getNewProjectiles());
-                }
-
-                if (!enemy.isAlive()) {
-                    toRemove.add(enemy);
+                Optional.ofNullable(updateEnemy((Enemy) obj)).ifPresent(toAdd::addAll); // Add if not null
+                if (!((Enemy) obj).isAlive()) { // Remove enemy if dead
+                    toRemove.add(obj);
                 }
             } else if (obj instanceof Projectile) {
-                if (((Projectile) obj).isDestroyed()) {
-                    toRemove.add(obj);
-                } else {
-                    List<GameObject> collideEnemy = gameObjects.stream().filter(gameObject -> gameObject instanceof Enemy && gameObject.checkIntersection(obj)).collect(Collectors.toList());
-                    if (obj instanceof Bomb) { // Bomb
-                        Bomb bomb = (Bomb) obj;
-                        if (!collideEnemy.isEmpty()) {
-                            bomb.explode();
-                        }
-                    } else { // Laser
-                        Laser laser = (Laser) obj;
-                    }
+                Projectile proj = (Projectile) obj;
+                if (proj.isDestroyed()) {
+                    toRemove.add(proj);
+                } else if (proj instanceof Bomb) {
+                    updateProjectile((Bomb) proj);
                 }
+                // Arrow update is handled by Enemy and Player
             }
+            // Visual updates
             obj.update(now);
         }
-
+        // Add spawned enemies from levelReader
         toAdd.addAll(levelReader.getNewObjects(now));
 
         gameArea.getChildren().addAll(toAdd);
         gameObjects.addAll(toAdd);
         gameArea.getChildren().removeAll(toRemove);
         gameObjects.removeAll(toRemove);
+    }
+
+    // Returns list of things toRemove
+    private List<GameObject> updatePlayer(Player player) {
+        List<GameObject> toRemove = new LinkedList<>();
+        // Player movement
+        if (mouseMove) {
+            (player).mouseMove(mouseX, mouseY);
+        } else {
+            (player).keyMove(directionInput);
+        }
+
+        // Check if player was hit by anything (enemy, projectile, powerup)
+        List<GameObject> hits = gameObjects.stream().filter(this::playerIntersection).collect(Collectors.toList());
+        if (!hits.isEmpty()) {
+            for (GameObject obj : hits) {
+                System.out.println("hit");
+                if (obj instanceof PowerUp) {
+                    // TODO
+                } else {
+                    // Lose 2 health if hit by enemy bullet, lose 1 if collision with enemy
+                    player.loseHealth(obj instanceof Projectile ? 2 : 1);
+                    toRemove.add(obj);
+                }
+            }
+        }
+        return toRemove;
+    }
+
+    private boolean playerIntersection(GameObject gameObject) {
+        if (gameObject instanceof PowerUp || gameObject instanceof Enemy) {
+            return player.checkIntersection(gameObject);
+        } else if (gameObject instanceof Projectile) {
+            return player.checkIntersection(gameObject) && ((Projectile) gameObject).isEnemyProj();
+        }
+        return false;
+    }
+
+    private List<GameObject> updateEnemy(Enemy enemy) {
+        // Check intersection of projectiles
+        List<GameObject> proj = gameObjects.stream().filter(gameObject -> gameObject instanceof Projectile && !((Projectile) gameObject).isDestroyed() && gameObject.checkIntersection(enemy) && !((Projectile) gameObject).isEnemyProj()).collect(Collectors.toList());
+        if (!proj.isEmpty()) {
+            // allow bombs to boom and kill multiple, lasers to vanish and kill one
+            // this implementation assumes bomb and laser do not strike at the same time
+            if (!(proj.get(0) instanceof Bomb)) {
+                ((Projectile) proj.get(0)).setDestroyed();
+            }
+            score.add(enemy.kill());
+        }
+
+        if (enemy.fire()) {
+            // Very hacky, would prefer a cleaner more efficient soln
+            return enemy.getNewProjectiles().stream().map(e -> (GameObject) e).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    private void updateProjectile(Bomb bomb) {
+        List<GameObject> collideEnemy = gameObjects.stream().filter(gameObject -> gameObject instanceof Enemy && gameObject.checkIntersection(bomb)).collect(Collectors.toList());
+        if (!collideEnemy.isEmpty()) {
+            bomb.explode();
+        }
     }
 
     public void start() {

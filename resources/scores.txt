@@ -5,6 +5,6 @@ John,1200
 John,800
 John,200
 ,0
-John,0
 ,0
+John,0
 ,0

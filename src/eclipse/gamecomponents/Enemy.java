@@ -18,7 +18,6 @@ public abstract class Enemy extends GameObject {
 
     public Enemy(double xPos, double yPos, int width, int height, int speed) {
         super(xPos, yPos, width, height, speed);
-
         fire = true;
     }
 

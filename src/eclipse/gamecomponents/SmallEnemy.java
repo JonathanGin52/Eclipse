@@ -1,10 +1,10 @@
 package eclipse.gamecomponents;
 
-import eclipse.gamecomponents.fire.*;
-import eclipse.gamecomponents.path.*;
+import eclipse.gamecomponents.fire.FirePattern;
+import eclipse.gamecomponents.path.Vector;
+import eclipse.gamecomponents.path.VectorPath;
 import eclipse.gui.Main;
 import javafx.animation.PathTransition;
-import javafx.geometry.Dimension2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -60,7 +60,7 @@ public class SmallEnemy extends Enemy {
             List<VectorPath> newProjVectors = firePattern.getProjectilePaths(now);
             List<Projectile> newProj = new ArrayList(newProjVectors.size());
             for (VectorPath vectorPath : newProjVectors) {
-                newProj.add(new Laser(xPos, yPos, vectorPath, true));
+                newProj.add(new Arrow(xPos, yPos, vectorPath, true));
             }
 
             setNewProjectiles(newProj);
