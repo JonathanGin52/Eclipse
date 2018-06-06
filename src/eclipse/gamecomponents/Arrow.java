@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 
 public class Arrow extends Projectile {
 
-    private final static Image image = new Image(IMAGE_DIR + "laser.png");
+    private final static Image image = new Image(IMAGE_DIR + "arrow.png");
 
     public Arrow(double xPos, double yPos, VectorPath vectorPath, boolean enemyProj) {
         super(xPos, yPos, image, vectorPath, enemyProj);
