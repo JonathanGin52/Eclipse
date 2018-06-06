@@ -1,15 +1,6 @@
 SmallEnemy 100 0 DownLeft FireDown
 SmallEnemy 200 0 SineDown FireThreeSplit
 SmallEnemy 300 0 DownRight FireDown
-SmallEnemy 100 0 DownLeft FireDown
-SmallEnemy 200 0 SineDown FireThreeSplit
-SmallEnemy 300 0 DownRight FireDown
-SmallEnemy 100 0 DownLeft FireDown
-SmallEnemy 200 0 SineDown FireThreeSplit
-SmallEnemy 300 0 DownRight FireDown
-SmallEnemy 100 0 DownLeft FireDown
-SmallEnemy 200 0 SineDown FireThreeSplit
-SmallEnemy 300 0 DownRight FireDown
 wait 2000
 
 SmallEnemy 0 0 DownRight FireTwoSplit
@@ -18,7 +9,7 @@ wait 2000
 
 SmallEnemy 0 100 Right FireDown
 SmallEnemy 450 100 Left FireDown
-wait 4000
+wait 2000
 // repeat!
 
 SmallEnemy 100 0 DownLeft FireDown
@@ -32,7 +23,7 @@ wait 2000
 
 SmallEnemy 0 100 Right FireDown
 SmallEnemy 450 100 Left FireDown
-wait 4000
+wait 2000
 // repeat!
 
 SmallEnemy 100 0 DownLeft FireDown
@@ -46,7 +37,7 @@ wait 2000
 
 SmallEnemy 0 100 Right FireDown
 SmallEnemy 450 100 Left FireDown
-wait 4000
+wait 2000
 // repeat!
 
 SmallEnemy 100 0 DownLeft FireDown
@@ -60,7 +51,89 @@ wait 2000
 
 SmallEnemy 0 100 Right FireDown
 SmallEnemy 450 100 Left FireDown
-wait 4000
+wait 2000
 // repeat!
 
+SmallEnemy 100 0 DownLeft FireDown
+SmallEnemy 200 0 SineDown FireThreeSplit
+SmallEnemy 300 0 DownRight FireDown
+wait 2000
 
+SmallEnemy 0 0 DownRight FireTwoSplit
+SmallEnemy 450 0 DownLeft FireTwoSplit
+wait 2000
+
+SmallEnemy 0 100 Right FireDown
+SmallEnemy 450 100 Left FireDown
+wait 2000
+// repeat!
+
+SmallEnemy 100 0 DownLeft FireDown
+SmallEnemy 200 0 SineDown FireThreeSplit
+SmallEnemy 300 0 DownRight FireDown
+wait 2000
+
+SmallEnemy 0 0 DownRight FireTwoSplit
+SmallEnemy 450 0 DownLeft FireTwoSplit
+wait 2000
+
+SmallEnemy 0 100 Right FireDown
+SmallEnemy 450 100 Left FireDown
+wait 2000
+// repeat!
+
+SmallEnemy 100 0 DownLeft FireDown
+SmallEnemy 200 0 SineDown FireThreeSplit
+SmallEnemy 300 0 DownRight FireDown
+wait 2000
+
+SmallEnemy 0 0 DownRight FireTwoSplit
+SmallEnemy 450 0 DownLeft FireTwoSplit
+wait 2000
+
+SmallEnemy 0 100 Right FireDown
+SmallEnemy 450 100 Left FireDown
+wait 2000
+// repeat!
+
+SmallEnemy 100 0 DownLeft FireDown
+SmallEnemy 200 0 SineDown FireThreeSplit
+SmallEnemy 300 0 DownRight FireDown
+wait 2000
+
+SmallEnemy 0 0 DownRight FireTwoSplit
+SmallEnemy 450 0 DownLeft FireTwoSplit
+wait 2000
+
+SmallEnemy 0 100 Right FireDown
+SmallEnemy 450 100 Left FireDown
+wait 2000
+// repeat!
+
+SmallEnemy 100 0 DownLeft FireDown
+SmallEnemy 200 0 SineDown FireThreeSplit
+SmallEnemy 300 0 DownRight FireDown
+wait 2000
+
+SmallEnemy 0 0 DownRight FireTwoSplit
+SmallEnemy 450 0 DownLeft FireTwoSplit
+wait 2000
+
+SmallEnemy 0 100 Right FireDown
+SmallEnemy 450 100 Left FireDown
+wait 2000
+// repeat!
+
+SmallEnemy 100 0 DownLeft FireDown
+SmallEnemy 200 0 SineDown FireThreeSplit
+SmallEnemy 300 0 DownRight FireDown
+wait 2000
+
+SmallEnemy 0 0 DownRight FireTwoSplit
+SmallEnemy 450 0 DownLeft FireTwoSplit
+wait 2000
+
+SmallEnemy 0 100 Right FireDown
+SmallEnemy 450 100 Left FireDown
+wait 2000
+// repeat!

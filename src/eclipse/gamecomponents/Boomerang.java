@@ -12,24 +12,52 @@ import java.util.List;
 
 public class Boomerang extends Projectile {
 
-    private final static Image image = new Image(IMAGE_DIR + "boomerang.png");
-    Player player;
-    GameObject target;
-    List<Enemy> enemies;
-    List<Enemy> seen = new ArrayList();
-    int bounces;
-    boolean targeting = false;
-    boolean remove = false; // Should the boomerang be removed on contact with the player?
+    private static Image[] images = new Image[]{new Image(IMAGE_DIR + "/boomerang/boomerang0.png"), new Image(IMAGE_DIR + "/boomerang/boomerang1.png")};
+    private final static long FRAME_RATE = 100000000L;
 
-    public Boomerang(double xPos, double yPos, int speed, boolean enemyProj, Player player, List<Enemy> enemies, int bounces) {
-        super(xPos, yPos, 40, 40, speed, image, new Up(), enemyProj);
+    private Player player;
+    private GameObject target;
+    private List<GameObject> gameObjects;
+    private List<Enemy> enemies;
+    private Enemy lastSeen;
+    private int bounces;
+    private boolean targeting = false;
+    private boolean remove = false; // Should the boomerang be removed on contact with the player?
+    private long lastUpdate = startTime;
+    private int animationFrame = 0;
+
+    static {
+        images = new Image[4];
+        for (int i = 0; i < 4; i++) {
+            images[i] = new Image(IMAGE_DIR + "/boomerang/boomerang" + i + ".png");
+        }
+    }
+
+    public Boomerang(double xPos, double yPos, int speed, boolean enemyProj, Player player, List<GameObject> gameObjects, int bounces) {
+        super(xPos, yPos, 30, 30, speed, images[0], new Up(), enemyProj);
         this.player = player;
-        this.enemies = enemies;
+        this.gameObjects = gameObjects; // copy reference
+
+        enemies = new ArrayList();
+        for (GameObject o : gameObjects) {
+            if (o instanceof  Enemy) {
+                enemies.add((Enemy) o);
+            }
+        }
+
         this.bounces = bounces;
     }
 
     @Override
     public void update(long now) {
+        // Find enemies
+        enemies = new ArrayList();
+        for (GameObject o : gameObjects) {
+            if (o instanceof  Enemy) {
+                enemies.add((Enemy) o);
+            }
+        }
+
         if (!targeting) { // Act like a normal forward shooting projectile
             // If time's up, start going to the player
             if (now - startTime > 500000000L) {
@@ -38,15 +66,14 @@ public class Boomerang extends Projectile {
 
             super.update(now);
         } else {
-            if (target == null) {
-                setPlayerTarget();
-            }
-
             if (target instanceof Enemy) {
                 if (((Enemy) target).isAlive() == false) {
-                    System.out.println("BIGGIE");
                     target = findClosestEnemy();
                 }
+            }
+
+            if (target == null) {
+                setPlayerTarget();
             }
 
             setVector(new VectorPath() {
@@ -59,18 +86,21 @@ public class Boomerang extends Projectile {
             super.update(now);
         }
 
-        double age = (double) (now - startTime) / 1000000000;
-        SPRITE.setRotate(45);
-    }
+        if (now - lastUpdate > FRAME_RATE) {
+            lastUpdate = now;
+            animationFrame++;
+            if (animationFrame == 4) animationFrame = 0;
+        }
 
+        setSprite();
+        SPRITE.setRotate(0);
+    }
 
     // What happens when a Boomerang hits an enemy
     public void setHitEnemy(Enemy hit) {
-        for (Enemy previous : seen) {
-            if (previous == hit) return;
-        }
+        if (lastSeen == hit) return;
 
-        seen.add(hit);
+        lastSeen = hit;
 
         targeting = true;
         bounces--;
@@ -80,6 +110,10 @@ public class Boomerang extends Projectile {
         } else { // Find a new target
             target = findClosestEnemy();
         }
+    }
+
+    public boolean getRemove() {
+        return remove;
     }
 
     private void setPlayerTarget() {
@@ -94,7 +128,7 @@ public class Boomerang extends Projectile {
         double minDistance = 200 * 200; // Targeting radius
 
         for (Enemy e : enemies) {
-            if (seen.contains(e)) continue;
+            if (lastSeen == e) continue;
 
             double distance = Math.pow(xPos - e.xPos, 2) + Math.pow(yPos - e.yPos, 2);
 
@@ -105,15 +139,13 @@ public class Boomerang extends Projectile {
         }
 
         if (closest != null) {
-            System.out.println(target);
-            Thread.dumpStack();
             target = closest;
         }
 
         return closest;
     }
 
-    public boolean getRemove() {
-        return remove;
+    private void setSprite() {
+        SPRITE.setImage(images[animationFrame]);
     }
 }

@@ -6,23 +6,26 @@ import javafx.scene.image.ImageView;
 
 public class Bomb extends Projectile {
 
-    private static final Image image = new Image(IMAGE_DIR + "bomb/bomb.png");
+    private static Image[] images;
     private final double BOMB_RADIUS = 20;
     private final long FRAME_RATE = 125000000L; // Delay between frame in nanoseconds
     private int animationFrame = 0;
-    private long lastUpdate = -1;
+    private long lastUpdate = System.nanoTime();
     private boolean explode = false;
 
+    static {
+        images = new Image[15];
+        for (int i = 0; i < 15; i++) {
+            images[i] = new Image(IMAGE_DIR + "bomb/bomb" + i + ".png");
+        }
+    }
+
     public Bomb(double xPos, double yPos) {
-        super(xPos, yPos, 50, 50, 5, image, new Up(), false);
+        super(xPos, yPos, 50, 50, 5, images[0], new Up(), false);
     }
 
     @Override
     public void update(long now) {
-        if (lastUpdate == -1) {
-            lastUpdate = now;
-        }
-
         if (!explode) {
             if (yPos - speed <= 0) { // Destroy bomb if it goes off screen
                 setDestroyed();
@@ -42,7 +45,7 @@ public class Bomb extends Projectile {
     }
 
     private void setSprite() {
-        SPRITE.setImage(new Image(IMAGE_DIR + "bomb/bomb" + animationFrame + ".png"));
+        SPRITE.setImage(images[animationFrame]);
     }
 
     public void explode() {

@@ -125,6 +125,9 @@ public class GameController extends ParentController {
             if (code == KeyCode.SPACE) {
                 toAdd = shootArrow();
             }
+            if (code == KeyCode.V) {
+                toAdd = shootBoomerang();
+            }
             if (code == KeyCode.B) {
                 toAdd = launchBomb();
             }
@@ -164,15 +167,15 @@ public class GameController extends ParentController {
         ARROW_CLIP.play();
         System.out.println("Pew pew");
 
-        List<Enemy> enemies = new ArrayList();
-        for (GameObject o : gameObjects) {
-            if (o instanceof  Enemy) {
-                enemies.add((Enemy) o);
-            }
-        }
+        return new Arrow(player.getMidpointX(), player.getMidpointY(), 10, new Up(), false);
+    }
 
-        return new Boomerang(player.getMidpointX(), player.getMidpointY(), 7, false, player, enemies, 1);
-//        return new Arrow(player.getMidpointX(), player.getMidpointY(), 10, new Up(), false);
+    private GameObject shootBoomerang() {
+        // Play clip
+        // TODO
+
+        System.out.println("boomerang throw");
+        return new Boomerang(player.getMidpointX(), player.getMidpointY(), 7, false, player, gameObjects, 1);
     }
 
     private GameObject launchBomb() {
@@ -244,6 +247,10 @@ public class GameController extends ParentController {
                 } else {
                     // Lose 2 health if hit by enemy bullet, lose 1 if collision with enemy
                     player.loseHealth(obj instanceof Projectile ? 2 : 1);
+
+                    if (obj instanceof  Enemy) {
+                        ((Enemy) obj).remove();
+                    }
                     toRemove.add(obj);
                 }
             }

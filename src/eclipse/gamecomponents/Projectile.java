@@ -55,7 +55,7 @@ public class Projectile extends GameObject {
         Vector vector = getVector();
         unboundedMove(vector);
 
-//        SPRITE.setRotate(90 - Math.atan2(-vector.dy, vector.dx) * 180 / Math.PI);
+        SPRITE.setRotate(90 - Math.atan2(-vector.dy, vector.dx) * 180 / Math.PI);
 
         if (xPos < -500 || xPos > Main.getDimensions().getWidth() + 500 || yPos < -500 || yPos > Main.getDimensions().getHeight() + 500) setDestroyed();
 
