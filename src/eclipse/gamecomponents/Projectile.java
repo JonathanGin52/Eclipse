@@ -17,7 +17,7 @@ public class Projectile extends GameObject {
     private boolean enemyProj;
 
     Projectile(double xPos, double yPos, Image image, VectorPath vectorPath, boolean enemyProj) {
-        super(xPos, yPos, 50, 50, 10);
+        super(xPos, yPos, 15, 30, 10);
         this.img = image;
         SPRITE.setImage(img);
         SPRITE.setFitHeight(dimensions.getHeight());
