@@ -16,8 +16,8 @@ public class Projectile extends GameObject {
     private VectorPath vectorPath;
     private boolean enemyProj;
 
-    Projectile(double xPos, double yPos, Image image, VectorPath vectorPath, boolean enemyProj) {
-        super(xPos, yPos, 50, 50, 10);
+    Projectile(double xPos, double yPos, int width, int height, int speed, Image image, VectorPath vectorPath, boolean enemyProj) {
+        super(xPos, yPos, width, height, speed);
         this.img = image;
         SPRITE.setImage(img);
         SPRITE.setFitHeight(dimensions.getHeight());
@@ -40,6 +40,10 @@ public class Projectile extends GameObject {
         return vectorPath.getVector(xPos, yPos, age);
     }
 
+    public void setVector(VectorPath vectorPath) {
+        this.vectorPath = vectorPath;
+    }
+
     public boolean isEnemyProj() {
         return enemyProj;
     }
@@ -50,9 +54,10 @@ public class Projectile extends GameObject {
 
         Vector vector = getVector();
         unboundedMove(vector);
-        SPRITE.setRotate(90 - Math.atan2(-vector.dy, vector.dx) * 180 / Math.PI);
 
-        if (xPos < -50 || xPos > Main.getDimensions().getWidth() + 50 || yPos < -50 || yPos > Main.getDimensions().getHeight() + 50) setDestroyed();
+//        SPRITE.setRotate(90 - Math.atan2(-vector.dy, vector.dx) * 180 / Math.PI);
+
+        if (xPos < -500 || xPos > Main.getDimensions().getWidth() + 500 || yPos < -500 || yPos > Main.getDimensions().getHeight() + 500) setDestroyed();
 
         relocate(xPos, yPos);
     }

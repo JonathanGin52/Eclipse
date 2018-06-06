@@ -163,7 +163,16 @@ public class GameController extends ParentController {
     private GameObject shootArrow() {
         ARROW_CLIP.play();
         System.out.println("Pew pew");
-        return new Arrow(player.getMidpointX(), player.getMidpointY(), new Up(), false);
+
+        List<Enemy> enemies = new ArrayList();
+        for (GameObject o : gameObjects) {
+            if (o instanceof  Enemy) {
+                enemies.add((Enemy) o);
+            }
+        }
+
+        return new Boomerang(player.getMidpointX(), player.getMidpointY(), 7, false, player, enemies, 1);
+//        return new Arrow(player.getMidpointX(), player.getMidpointY(), 10, new Up(), false);
     }
 
     private GameObject launchBomb() {
@@ -226,6 +235,12 @@ public class GameController extends ParentController {
                 System.out.println("hit");
                 if (obj instanceof PowerUp) {
                     // TODO
+                } else if (obj instanceof Boomerang) {
+                    if (((Boomerang) obj).getRemove() == true) {
+                        toRemove.add(obj);
+                    } else {
+                        continue;
+                    }
                 } else {
                     // Lose 2 health if hit by enemy bullet, lose 1 if collision with enemy
                     player.loseHealth(obj instanceof Projectile ? 2 : 1);
@@ -240,7 +255,7 @@ public class GameController extends ParentController {
         if (gameObject instanceof PowerUp || gameObject instanceof Enemy) {
             return player.checkIntersection(gameObject);
         } else if (gameObject instanceof Projectile) {
-            return player.checkIntersection(gameObject) && ((Projectile) gameObject).isEnemyProj();
+            return player.checkIntersection(gameObject) && (gameObject instanceof  Boomerang || ((Projectile) gameObject).isEnemyProj());
         }
         return false;
     }
@@ -252,8 +267,13 @@ public class GameController extends ParentController {
             // allow bombs to boom and kill multiple, lasers to vanish and kill one
             // this implementation assumes bomb and laser do not strike at the same time
             if (!(proj.get(0) instanceof Bomb)) {
-                ((Projectile) proj.get(0)).setDestroyed();
+                if (proj.get(0) instanceof Boomerang) {
+                    ((Boomerang) proj.get(0)).setHitEnemy(enemy);
+                } else {
+                    ((Projectile) proj.get(0)).setDestroyed();
+                }
             }
+
             score.add(enemy.kill());
         }
 

@@ -14,7 +14,7 @@ public class Bomb extends Projectile {
     private boolean explode = false;
 
     public Bomb(double xPos, double yPos) {
-        super(xPos, yPos, image, new Up(), false);
+        super(xPos, yPos, 50, 50, 5, image, new Up(), false);
     }
 
     @Override
