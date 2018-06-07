@@ -6,7 +6,10 @@ import eclipse.gamecomponents.Player;
 import eclipse.gamecomponents.fire.*;
 import eclipse.gamecomponents.path.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

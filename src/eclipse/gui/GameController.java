@@ -29,6 +29,9 @@ public class GameController extends ParentController {
     private final AudioClip PAUSE_OPEN_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Open.wav").toURI().toString());
     private final AudioClip PAUSE_CLOSE_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Close.wav").toURI().toString());
     private final AudioClip ARROW_CLIP = new AudioClip(new File("resources/audio/Arrow_Shoot.wav").toURI().toString());
+    private final Media BOOMERANG_OUT = new Media(new File("resources/audio/Boomerang_Start.wav").toURI().toString());
+    private final AudioClip BOOMERANG_LOOP = new AudioClip(new File("resources/audio/Boomerang_Loop.wav").toURI().toString());
+
     boolean paused = false;
     private AnimationTimer gameLoop;
     private List<GameObject> gameObjects;
@@ -72,15 +75,16 @@ public class GameController extends ParentController {
         installKeyListener(application.getScene());
         installMouseListener(application.getScene());
         setupGameLoop();
+
+        // Setup loop
+        BOOMERANG_LOOP.setCycleCount(AudioClip.INDEFINITE);
+
         // Start the game
         gameLoop.start();
     }
 
     private boolean checkGameOver() {
-        if (player.getHealth() <= 0) {
-            return true;
-        }
-        return false;
+        return player.getHealth() <= 0;
     }
 
     private void setupGameLoop() {
@@ -193,18 +197,22 @@ public class GameController extends ParentController {
     }
 
     private GameObject shootBoomerang() {
-        if (player.boomerangOut == true) {
+        if (player.boomerangOut) {
             System.out.println("Can't throw multiple boomerangs at once");
             return null;
         }
 
         player.boomerangOut = true;
+        MediaPlayer mp = new MediaPlayer(BOOMERANG_OUT);
+        mp.play();
+        mp.setOnEndOfMedia(() -> {
+            BOOMERANG_LOOP.play();
+        }); // Play looping part after start clip
 
-        // Play clip
         // TODO
 
         System.out.println("boomerang throw");
-        return new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 1);
+        return new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 5);
     }
 
     private GameObject launchBomb() {
@@ -268,16 +276,14 @@ public class GameController extends ParentController {
                 if (obj instanceof PowerUp) {
                     // TODO
                 } else if (obj instanceof Boomerang) {
-                    if (((Boomerang) obj).getRemove() == true) {
+                    if (((Boomerang) obj).getRemove()) {
                         toRemove.add(obj);
                         player.boomerangOut = false;
-                    } else {
-                        continue;
+                        BOOMERANG_LOOP.stop();
                     }
                 } else {
                     // Lose 2 health if hit by enemy bullet, lose 1 if collision with enemy
                     player.loseHealth(obj instanceof Projectile ? 2 : 1);
-
                     if (obj instanceof Enemy) {
                         ((Enemy) obj).remove();
                     }
@@ -292,7 +298,7 @@ public class GameController extends ParentController {
         if (gameObject instanceof PowerUp || gameObject instanceof Enemy) {
             return player.checkIntersection(gameObject);
         } else if (gameObject instanceof Projectile) {
-            return player.checkIntersection(gameObject) && (gameObject instanceof  Boomerang || ((Projectile) gameObject).isEnemyProj());
+            return player.checkIntersection(gameObject) && (gameObject instanceof Boomerang || ((Projectile) gameObject).isEnemyProj());
         }
         return false;
     }
@@ -339,6 +345,7 @@ public class GameController extends ParentController {
     private void gameOver() {
         gameLoop.stop();
         application.stopMusic();
+        BOOMERANG_LOOP.stop();
         MediaPlayer gameOverWAV = new MediaPlayer(new Media(new File("resources/audio/Game_Over.mp3").toURI().toString()));
         gameOverWAV.play();
         gameOverWAV.setOnEndOfMedia(() -> {

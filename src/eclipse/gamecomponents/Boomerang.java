@@ -4,7 +4,6 @@ package eclipse.gamecomponents;
 
 import eclipse.gamecomponents.path.Up;
 import eclipse.gamecomponents.path.Vector;
-import eclipse.gamecomponents.path.VectorPath;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -12,8 +11,15 @@ import java.util.List;
 
 public class Boomerang extends Projectile {
 
-    private static Image[] images = new Image[]{new Image(IMAGE_DIR + "/boomerang/boomerang0.png"), new Image(IMAGE_DIR + "/boomerang/boomerang1.png")};
     private final static long FRAME_RATE = 100000000L;
+    private static Image[] images;
+
+    static {
+        images = new Image[4];
+        for (int i = 0; i < 4; i++) {
+            images[i] = new Image(IMAGE_DIR + "/boomerang/boomerang" + i + ".png");
+        }
+    }
 
     private Player player;
     private GameObject target;
@@ -25,13 +31,6 @@ public class Boomerang extends Projectile {
     private boolean remove = false; // Should the boomerang be removed on contact with the player?
     private long lastUpdate = startTime;
     private int animationFrame = 0;
-
-    static {
-        images = new Image[4];
-        for (int i = 0; i < 4; i++) {
-            images[i] = new Image(IMAGE_DIR + "/boomerang/boomerang" + i + ".png");
-        }
-    }
 
     public Boomerang(double xPos, double yPos, int speed, boolean enemyProj, Player player, List<GameObject> gameObjects, int bounces) {
         super(xPos - 15, yPos - 20, 30, 30, speed, images[0], new Up(), enemyProj);
@@ -51,7 +50,7 @@ public class Boomerang extends Projectile {
     @Override
     public void update(long now) {
         // Find enemies
-        enemies = new ArrayList();
+        enemies = new ArrayList<>();
         for (GameObject o : gameObjects) {
             if (o instanceof Enemy) {
                 enemies.add((Enemy) o);
@@ -67,7 +66,7 @@ public class Boomerang extends Projectile {
             super.update(now);
         } else {
             if (target instanceof Enemy) {
-                if (((Enemy) target).isAlive() == false) {
+                if (!((Enemy) target).isAlive()) {
                     target = findClosestEnemy();
                 }
             }
@@ -76,12 +75,7 @@ public class Boomerang extends Projectile {
                 setPlayerTarget();
             }
 
-            setVector(new VectorPath() {
-                @Override
-                public Vector getVector(double xPos, double yPos, long age) {
-                    return new Vector(target.xPos - xPos, target.yPos - yPos);
-                }
-            });
+            setVector((xPos, yPos, age) -> new Vector(target.xPos - xPos, target.yPos - yPos));
 
             super.update(now);
         }
