@@ -1,8 +1,8 @@
 package eclipse.gui;
 
+import eclipse.gamecomponents.Enemy;
 import eclipse.gamecomponents.GameObject;
 import eclipse.gamecomponents.Player;
-import eclipse.gamecomponents.SmallEnemy;
 import eclipse.gamecomponents.fire.*;
 import eclipse.gamecomponents.path.*;
 
@@ -144,9 +144,14 @@ public class LevelReader {
 
             long startDelay = Long.parseLong(tokens[5]) * 1000000L;
 
-            if (enemy.equals("SmallEnemy")) {
-                toAdd.add(new SmallEnemy(xPos, yPos, vectorPath, firePattern, startDelay));
-            }
+//            if (enemy.equals("Enemy1")) {
+//                toAdd.add(new Enemy(xPos, yPos, vectorPath, firePattern, startDelay));
+//            }
+//
+//            if (enemy.equals("Enemy2")) {
+////                toAdd.add(new Enemy2(xPos, yPos, vectorPath, firePattern, startDelay));
+//            }
+            toAdd.add(new Enemy(enemy.toLowerCase(), xPos, yPos, vectorPath, firePattern, startDelay));
         }
     }
 

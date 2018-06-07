@@ -10,14 +10,14 @@ public abstract class GameObject extends Parent {
     final static String IMAGE_DIR = "file:resources/images/";
     double xPos;
     double yPos;
-    int speed; // Base speed
+    double speed; // Base speed
     long startTime = System.nanoTime();
     long age;
     double containerHeight = Main.getDimensions().getHeight();
     double containerWidth = Main.getDimensions().getWidth();
     Dimension2D dimensions; // Dimensions of the gameObject
 
-    GameObject(double xPos, double yPos, double width, double height, int speed) {
+    GameObject(double xPos, double yPos, double width, double height, double speed) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dimensions = new Dimension2D(width, height);

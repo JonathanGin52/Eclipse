@@ -278,7 +278,7 @@ public class GameController extends ParentController {
                     // Lose 2 health if hit by enemy bullet, lose 1 if collision with enemy
                     player.loseHealth(obj instanceof Projectile ? 2 : 1);
 
-                    if (obj instanceof  Enemy) {
+                    if (obj instanceof Enemy) {
                         ((Enemy) obj).remove();
                     }
                     toRemove.add(obj);

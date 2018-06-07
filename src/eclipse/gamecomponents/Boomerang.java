@@ -40,7 +40,7 @@ public class Boomerang extends Projectile {
 
         enemies = new ArrayList();
         for (GameObject o : gameObjects) {
-            if (o instanceof  Enemy) {
+            if (o instanceof Enemy) {
                 enemies.add((Enemy) o);
             }
         }
@@ -53,7 +53,7 @@ public class Boomerang extends Projectile {
         // Find enemies
         enemies = new ArrayList();
         for (GameObject o : gameObjects) {
-            if (o instanceof  Enemy) {
+            if (o instanceof Enemy) {
                 enemies.add((Enemy) o);
             }
         }
