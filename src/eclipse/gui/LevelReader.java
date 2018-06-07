@@ -144,13 +144,6 @@ public class LevelReader {
 
             long startDelay = Long.parseLong(tokens[5]) * 1000000L;
 
-//            if (enemy.equals("Enemy1")) {
-//                toAdd.add(new Enemy(xPos, yPos, vectorPath, firePattern, startDelay));
-//            }
-//
-//            if (enemy.equals("Enemy2")) {
-////                toAdd.add(new Enemy2(xPos, yPos, vectorPath, firePattern, startDelay));
-//            }
             toAdd.add(new Enemy(enemy.toLowerCase(), xPos, yPos, vectorPath, firePattern, startDelay));
         }
     }

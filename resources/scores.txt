@@ -1,3 +1,4 @@
+Alec,4100
 Jon,2900
 John,1400
 John,1200
@@ -6,5 +7,4 @@ John,800
 John,200
 ,100
 John,100
-null,100
 null,100

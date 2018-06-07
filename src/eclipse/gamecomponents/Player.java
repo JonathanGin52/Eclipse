@@ -13,7 +13,7 @@ public class Player extends GameObject {
     private Health health;
 
     public Player() {
-        super(100, 300, 50, 50, 8);
+        super(100, 300, 40, 60, 8);
         health = new Health();
         img = new ImageView(SPRITE);
         img.setFitHeight(super.getHeight());
