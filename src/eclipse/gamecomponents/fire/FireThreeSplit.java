@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FireThreeSplit implements FirePattern {
-
+    @Override
     public List<VectorPath> getProjectilePaths(long now) {
         List<VectorPath> projVectors = new ArrayList(3);
         projVectors.add(new DownLeft());

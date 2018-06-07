@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 public class Bomb extends Projectile {
 
     private static Image[] images;
-    private final double BOMB_RADIUS = 20;
     private final long FRAME_RATE = 125000000L; // Delay between frame in nanoseconds
     private int animationFrame = 0;
     private long lastUpdate = System.nanoTime();

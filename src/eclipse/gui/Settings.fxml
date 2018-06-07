@@ -32,12 +32,14 @@
                 <Label style="-fx-font-size: 20;" text="Right" GridPane.rowIndex="3"/>
                 <Label style="-fx-font-size: 20;" text="Shoot" GridPane.rowIndex="4"/>
                 <Label style="-fx-font-size: 20;" text="Bomb" GridPane.rowIndex="5"/>
+                <Label style="-fx-font-size: 20;" text="Boomerang" GridPane.rowIndex="6"/>
                 <Label style="-fx-font-size: 20;" text="Up Arrow" GridPane.columnIndex="1"/>
                 <Label style="-fx-font-size: 20;" text="Down Arrow" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                 <Label style="-fx-font-size: 20;" text="Left Arrow" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                 <Label style="-fx-font-size: 20;" text="Right Arrow" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
                 <Label style="-fx-font-size: 20;" text="Space" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
                 <Label style="-fx-font-size: 20;" text="B" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                <Label style="-fx-font-size: 20;" text="V" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
             </children>
         </GridPane>
         <Slider blockIncrement="5.0" layoutX="169.0" layoutY="410.0" minorTickCount="4" prefHeight="24.0"

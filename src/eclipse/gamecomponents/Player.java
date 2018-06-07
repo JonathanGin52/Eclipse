@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "link.gif");
-    public int bombInv = 300;
+    public int bombInv = 3;
     private ImageView img;
     private Health health;
 

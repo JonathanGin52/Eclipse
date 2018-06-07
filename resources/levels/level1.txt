@@ -1,16 +1,77 @@
-// EnemyName xPos yPos TravelPath FireStrategy StartDelayBeforeFiring(milliseconds)
+// EnemyName xPos yPos TravelPath FirePattern StartDelayBeforeFiring(milliseconds)
+// If the FirePattern is "FireAtPlayer" then a random error margin should be specified such as "FireAtPlayer20" which means the 
+// projectile may be off by as much as 20 degrees (40 degrees of freedom).
 // wait ____ in milliseconds
 
-SmallEnemy 100 0 DownLeft FireDown 500
-SmallEnemy 200 0 SineDown FireThreeSplit 500
-SmallEnemy 300 0 DownRight FireDown 500
-wait 2000
+/*
+This code is not read
+*/
+
+SmallEnemy 100 0 DownLeft FireAtPlayer20 500
+SmallEnemy 200 0 SineDown FireAtPlayer20 500
+SmallEnemy 300 0 DownRight FireAtPlayer20 500
+
+wait 4000
+
+SmallEnemy 100 0 DownLeft FireDown 1000
+SmallEnemy 200 0 SineDown FireThreeSplit 1000
+SmallEnemy 300 0 DownRight FireDown 1000
+wait 500
+SmallEnemy 200 0 SineDown FireThreeSplit 1000
+
+wait 4000
 
 SmallEnemy 0 0 DownRight FireTwoSplit 500
 SmallEnemy 450 0 DownLeft FireTwoSplit 500
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
 wait 2000
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
+wait 2000
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
+wait 2000
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
+wait 2000
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
 
-SmallEnemy 0 100 Right FireDown 500
-SmallEnemy 450 100 Left FireDown 500
+wait 4000
+
+// REPEAT
+
+SmallEnemy 100 0 DownLeft FireAtPlayer20 500
+SmallEnemy 200 0 SineDown FireAtPlayer20 500
+SmallEnemy 300 0 DownRight FireAtPlayer20 500
+
+wait 4000
+
+SmallEnemy 100 0 DownLeft FireDown 1000
+SmallEnemy 200 0 SineDown FireThreeSplit 1000
+SmallEnemy 300 0 DownRight FireDown 1000
+wait 500
+SmallEnemy 200 0 SineDown FireThreeSplit 1000
+
+wait 4000
+
+SmallEnemy 0 0 DownRight FireTwoSplit 500
+SmallEnemy 450 0 DownLeft FireTwoSplit 500
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
 wait 2000
-// repeat!
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
+wait 2000
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
+wait 2000
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
+wait 2000
+SmallEnemy 0 100 Right FireAtPlayer20 500
+SmallEnemy 450 100 Left FireAtPlayer20 500
+
+
+// END

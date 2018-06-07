@@ -213,7 +213,7 @@ public class GameController extends ParentController {
             obj.update(now);
         }
         // Add spawned enemies from levelReader
-        toAdd.addAll(levelReader.getNewObjects(now));
+        toAdd.addAll(levelReader.getNewObjects(now, player));
 
         gameArea.getChildren().addAll(toAdd);
         gameObjects.addAll(toAdd);

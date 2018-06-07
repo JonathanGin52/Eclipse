@@ -1,6 +1,7 @@
 package eclipse.gui;
 
 import eclipse.gamecomponents.GameObject;
+import eclipse.gamecomponents.Player;
 import eclipse.gamecomponents.SmallEnemy;
 import eclipse.gamecomponents.fire.*;
 import eclipse.gamecomponents.path.*;
@@ -16,6 +17,7 @@ public class LevelReader {
 
     private static long wait = System.nanoTime();
     private static List<String> commands = new LinkedList<>();
+    private boolean levelOver = false;
 
     public LevelReader(String fileName) {
         String nextLine;
@@ -33,7 +35,7 @@ public class LevelReader {
         }
     }
 
-    public List<GameObject> getNewObjects(long now) {
+    public List<GameObject> getNewObjects(long now, Player player) {
         List<GameObject> toAdd = new ArrayList<>();
 
         if (now <= wait) {
@@ -45,10 +47,24 @@ public class LevelReader {
 
         // keep reading until the next wait end of stored commands
         while (true) {
-            if (commands.isEmpty()) return toAdd;
+            if (commands.isEmpty()) {
+                levelOver = true;
+                return toAdd;
+            }
 
             next = commands.get(0);
             commands.remove(0);
+
+            System.out.println(next);
+            if (next.equals("/*")) {
+                while (!(commands.isEmpty() || commands.get(0).equals("*/"))) {
+                    commands.remove(0);
+                }
+                if (!commands.isEmpty()) {
+                    commands.remove(0);
+                }
+                continue;
+            }
 
             tokens = next.split(" ");
             if (tokens[0].equals("") || tokens[0].substring(0, 2).equals("//")) { // reading a comment in the text file
@@ -116,6 +132,12 @@ public class LevelReader {
                     firePattern = new FireThreeSplit();
                     break;
                 default:
+                    // Check if it is the FireAtPlayer case
+                    if (tokens[4].substring(0, 12).equals("FireAtPlayer")) {
+                        firePattern = new FireAtPlayer(player, Double.parseDouble(tokens[4].substring(12, 14)));
+                        break;
+                    }
+
                     System.out.println("No fire path was found.");
                     Thread.dumpStack();
                     System.exit(0);
@@ -127,5 +149,9 @@ public class LevelReader {
                 toAdd.add(new SmallEnemy(xPos, yPos, vectorPath, firePattern, startDelay));
             }
         }
+    }
+
+    public boolean isLevelOver() {
+        return levelOver;
     }
 }

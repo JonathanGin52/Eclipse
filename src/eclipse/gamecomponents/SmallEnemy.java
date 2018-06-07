@@ -1,10 +1,10 @@
 package eclipse.gamecomponents;
 
 import eclipse.gamecomponents.fire.FirePattern;
+import eclipse.gamecomponents.fire.FireAtPlayer;
 import eclipse.gamecomponents.path.Vector;
 import eclipse.gamecomponents.path.VectorPath;
 import eclipse.gui.Main;
-import javafx.animation.PathTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -29,7 +29,12 @@ public class SmallEnemy extends Enemy {
         img.setFitWidth(super.getWidth());
         this.getChildren().add(img);
         this.vectorPath = vectorPath;
+
         this.firePattern = firePattern;
+
+        if (firePattern instanceof FireAtPlayer) {
+            this.firePattern = new FireAtPlayer(((FireAtPlayer) firePattern).getPlayer(), this, ((FireAtPlayer) firePattern).getMargin());
+        }
     }
 
     @Override
@@ -41,10 +46,10 @@ public class SmallEnemy extends Enemy {
         this.relocate(xPos, yPos);
 
         // check if the enemy is out of bounds by a sufficient margin
-        if (xPos < -50 || xPos > Main.getDimensions().getWidth() + 50) {
+        if (xPos < -getWidth() || xPos > Main.getDimensions().getWidth()) {
             remove();
         }
-        if (yPos < -50 || yPos > Main.getDimensions().getHeight() + 50) {
+        if (yPos < -getHeight() || yPos > Main.getDimensions().getHeight()) {
             remove();
         }
 
