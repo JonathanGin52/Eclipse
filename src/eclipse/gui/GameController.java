@@ -167,7 +167,7 @@ public class GameController extends ParentController {
         ARROW_CLIP.play();
         System.out.println("Pew pew");
 
-        return new Arrow(player.getMidpointX(), player.getMidpointY(), 10, new Up(), false);
+        return new Arrow(player.getMidpointX(), player.getY(), 10, new Up(), false);
     }
 
     private GameObject shootBoomerang() {
@@ -175,7 +175,7 @@ public class GameController extends ParentController {
         // TODO
 
         System.out.println("boomerang throw");
-        return new Boomerang(player.getMidpointX(), player.getMidpointY(), 7, false, player, gameObjects, 1);
+        return new Boomerang(player.getMidpointX(), player.getY(), 7, false, player, gameObjects, 1);
     }
 
     private GameObject launchBomb() {
@@ -185,7 +185,7 @@ public class GameController extends ParentController {
         }
         player.bombInv--;
         System.out.println("Boom boom");
-        return new Bomb(player.getMidpointX(), player.getMidpointY());
+        return new Bomb(player.getMidpointX(), player.getY());
     }
 
     private void updateScreen(long now) {

@@ -34,7 +34,7 @@ public class Boomerang extends Projectile {
     }
 
     public Boomerang(double xPos, double yPos, int speed, boolean enemyProj, Player player, List<GameObject> gameObjects, int bounces) {
-        super(xPos, yPos, 30, 30, speed, images[0], new Up(), enemyProj);
+        super(xPos - 15, yPos - 20, 30, 30, speed, images[0], new Up(), enemyProj);
         this.player = player;
         this.gameObjects = gameObjects; // copy reference
 

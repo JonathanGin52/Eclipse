@@ -49,7 +49,7 @@ public abstract class Enemy extends GameObject {
     }
 
     public List<Projectile> getNewProjectiles() {
-        if (fire) fire = false;
+        fire = false;
         return newProjectiles;
     }
 

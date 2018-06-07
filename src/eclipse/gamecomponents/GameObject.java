@@ -70,12 +70,20 @@ public abstract class GameObject extends Parent {
         return dimensions.getHeight();
     }
 
+    public double getX() {
+        return xPos;
+    }
+
+    public double getY() {
+        return yPos;
+    }
+
     public double getMidpointX() {
-        return xPos - this.getWidth() / 2d;
+        return xPos + this.getWidth() / 2d;
     }
 
     public double getMidpointY() {
-        return yPos - this.getHeight() / 2d;
+        return yPos + this.getHeight() / 2d;
     }
 
     @Override

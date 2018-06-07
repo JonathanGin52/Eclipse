@@ -59,7 +59,7 @@ public class SmallEnemy extends Enemy {
             List<VectorPath> newProjVectors = firePattern.getProjectilePaths(now);
             List<Projectile> newProj = new ArrayList(newProjVectors.size());
             for (VectorPath vectorPath : newProjVectors) {
-                newProj.add(new Arrow(xPos, yPos, 5, vectorPath, true));
+                newProj.add(new Arrow(xPos + getWidth() / 2, yPos + 1.5 * getHeight(), 5, vectorPath, true));
             }
 
             setNewProjectiles(newProj);
