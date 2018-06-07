@@ -35,6 +35,9 @@ public class GameController extends ParentController {
     private Score score;
     private Player player;
     private boolean[] directionInput = new boolean[4];
+    private boolean pressedArrow = false;
+    private boolean pressedBomb = false;
+    private boolean pressedBoomerang = false;
     private double mouseX, mouseY;
     private boolean mouseMove;
     private LevelReader levelReader;
@@ -122,13 +125,16 @@ public class GameController extends ParentController {
                 directionInput[code.ordinal() - 16] = true;
                 mouseMove = false;
             }
-            if (code == KeyCode.SPACE) {
+            if (code == KeyCode.SPACE && !pressedArrow) {
+                pressedArrow = true;
                 toAdd = shootArrow();
             }
-            if (code == KeyCode.V) {
+            if (code == KeyCode.V && !pressedBoomerang) {
+                pressedBoomerang = true;
                 toAdd = shootBoomerang();
             }
-            if (code == KeyCode.B) {
+            if (code == KeyCode.B && !pressedBomb) {
+                pressedBomb = true;
                 toAdd = launchBomb();
             }
             if (code == KeyCode.L) { // Debugging purposes
@@ -159,6 +165,15 @@ public class GameController extends ParentController {
             KeyCode code = ke.getCode();
             if (code.isArrowKey()) {
                 directionInput[code.ordinal() - 16] = false;
+            }
+            if (code == KeyCode.SPACE) {
+                pressedArrow = false;
+            }
+            if (code == KeyCode.V) {
+                pressedBoomerang = false;
+            }
+            if (code == KeyCode.B) {
+                pressedBomb = false;
             }
         });
     }
