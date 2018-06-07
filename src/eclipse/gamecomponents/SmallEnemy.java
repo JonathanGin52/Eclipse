@@ -33,11 +33,6 @@ public class SmallEnemy extends Enemy {
     }
 
     @Override
-    public PathTransition getVectorPath() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void update(long now) {
         Vector vector = vectorPath.getVector(xPos, yPos, now - startTime);
         unboundedMove(vector);

@@ -26,8 +26,6 @@ public abstract class Enemy extends GameObject {
     @Override
     public abstract void update(long now);
 
-    public abstract PathTransition getVectorPath();
-
     // Return score associated with killing this enemy
     public int kill() {
         isAlive = false;
