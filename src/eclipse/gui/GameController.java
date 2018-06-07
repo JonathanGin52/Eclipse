@@ -171,11 +171,18 @@ public class GameController extends ParentController {
     }
 
     private GameObject shootBoomerang() {
+        if (player.boomerangOut == true) {
+            System.out.println("Can't throw multiple boomerangs at once");
+            return null;
+        }
+
+        player.boomerangOut = true;
+
         // Play clip
         // TODO
 
         System.out.println("boomerang throw");
-        return new Boomerang(player.getMidpointX(), player.getY(), 7, false, player, gameObjects, 1);
+        return new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 1);
     }
 
     private GameObject launchBomb() {
@@ -241,6 +248,7 @@ public class GameController extends ParentController {
                 } else if (obj instanceof Boomerang) {
                     if (((Boomerang) obj).getRemove() == true) {
                         toRemove.add(obj);
+                        player.boomerangOut = false;
                     } else {
                         continue;
                     }
@@ -329,8 +337,8 @@ public class GameController extends ParentController {
                     break;
                 }
             }
-            returnHome(true); // Return to main screen
 
+            returnHome(true); // Return to main screen
         });
     }
 }

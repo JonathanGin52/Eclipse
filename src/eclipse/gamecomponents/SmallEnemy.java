@@ -27,6 +27,7 @@ public class SmallEnemy extends Enemy {
         img = new ImageView(SPRITE);
         img.setFitHeight(super.getHeight());
         img.setFitWidth(super.getWidth());
+        img.setVisible(false);
         this.getChildren().add(img);
         this.vectorPath = vectorPath;
 
@@ -66,5 +67,7 @@ public class SmallEnemy extends Enemy {
 
             lastFire = now;
         }
+
+        img.setVisible(true);
     }
 }

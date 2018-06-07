@@ -1,13 +1,15 @@
 package eclipse.gamecomponents;
 
 import eclipse.gamecomponents.path.*;
+import javafx.geometry.Dimension2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Bomb extends Projectile {
 
     private static Image[] images;
-    private final long FRAME_RATE = 125000000L; // Delay between frame in nanoseconds
+    private static final long FRAME_RATE = 40000000L; // Delay between frame in nanoseconds
+    private static final int EXPLODE_DIAMETER = 300;
     private int animationFrame = 0;
     private long lastUpdate = System.nanoTime();
     private boolean explode = false;
@@ -25,6 +27,8 @@ public class Bomb extends Projectile {
 
     @Override
     public void update(long now) {
+        if (animationFrame > 13) return;
+
         if (!explode) {
             if (yPos - speed <= 0) { // Destroy bomb if it goes off screen
                 setDestroyed();
@@ -48,6 +52,16 @@ public class Bomb extends Projectile {
     }
 
     public void explode() {
+        if (explode == true) return;
+
         explode = true;
+        xPos += (getWidth() - EXPLODE_DIAMETER) / 2;
+        yPos += -EXPLODE_DIAMETER / 2;
+        dimensions = new Dimension2D(EXPLODE_DIAMETER, EXPLODE_DIAMETER);
+        SPRITE.setFitHeight(dimensions.getHeight());
+        SPRITE.setFitWidth(dimensions.getWidth());
+        animationFrame++;
+        setSprite();
+        animationFrame--;
     }
 }

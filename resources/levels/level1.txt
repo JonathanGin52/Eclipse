@@ -31,12 +31,14 @@ SmallEnemy 450 100 Left FireAtPlayer20 500
 wait 2000
 SmallEnemy 0 100 Right FireAtPlayer20 500
 SmallEnemy 450 100 Left FireAtPlayer20 500
+SmallEnemy 200 0 SineDown FireThreeSplit 1000
 wait 2000
 SmallEnemy 0 100 Right FireAtPlayer20 500
 SmallEnemy 450 100 Left FireAtPlayer20 500
 wait 2000
 SmallEnemy 0 100 Right FireAtPlayer20 500
 SmallEnemy 450 100 Left FireAtPlayer20 500
+SmallEnemy 200 0 SineDown FireThreeSplit 1000
 
 wait 4000
 
@@ -66,12 +68,13 @@ SmallEnemy 450 100 Left FireAtPlayer20 500
 wait 2000
 SmallEnemy 0 100 Right FireAtPlayer20 500
 SmallEnemy 450 100 Left FireAtPlayer20 500
+SmallEnemy 200 0 SineDown FireThreeSplit 1000
 wait 2000
 SmallEnemy 0 100 Right FireAtPlayer20 500
 SmallEnemy 450 100 Left FireAtPlayer20 500
 wait 2000
 SmallEnemy 0 100 Right FireAtPlayer20 500
 SmallEnemy 450 100 Left FireAtPlayer20 500
-
+SmallEnemy 200 0 SineDown FireThreeSplit 1000
 
 // END

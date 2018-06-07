@@ -8,6 +8,7 @@ public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "link.gif");
     public int bombInv = 3;
+    public boolean boomerangOut = false;
     private ImageView img;
     private Health health;
 

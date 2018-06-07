@@ -55,8 +55,7 @@ public class LevelReader {
             next = commands.get(0);
             commands.remove(0);
 
-            System.out.println(next);
-            if (next.equals("/*")) {
+            if (next.equals("/*")) { // Multiline comment
                 while (!(commands.isEmpty() || commands.get(0).equals("*/"))) {
                     commands.remove(0);
                 }
