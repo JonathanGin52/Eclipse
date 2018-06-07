@@ -11,13 +11,15 @@ import java.util.List;
 public abstract class Enemy extends GameObject {
 
     long fireRate;
-    long lastFire = Long.MIN_VALUE;
+    long lastFire;
     private boolean isAlive = true;
     private boolean fire = false;
     private List<Projectile> newProjectiles = new ArrayList<>();
 
-    public Enemy(double xPos, double yPos, int width, int height, int speed) {
+    public Enemy(double xPos, double yPos, int width, int height, int speed, long fireRate, long startDelay) {
         super(xPos, yPos, width, height, speed);
+        this.fireRate = fireRate;
+        lastFire = System.nanoTime() - fireRate + startDelay;
         fire = true;
     }
 

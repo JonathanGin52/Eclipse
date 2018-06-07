@@ -21,8 +21,8 @@ public class SmallEnemy extends Enemy {
     private VectorPath vectorPath;
     private FirePattern firePattern;
 
-    public SmallEnemy(int xPos, int yPos, VectorPath vectorPath, FirePattern firePattern) {
-        super(xPos, yPos, 40, 40, 2);
+    public SmallEnemy(int xPos, int yPos, VectorPath vectorPath, FirePattern firePattern, long startDelay) {
+        super(xPos, yPos, 40, 40, 2, 2000000000L, startDelay);
         this.relocate(xPos, yPos);
         img = new ImageView(SPRITE);
         img.setFitHeight(super.getHeight());
@@ -30,7 +30,6 @@ public class SmallEnemy extends Enemy {
         this.getChildren().add(img);
         this.vectorPath = vectorPath;
         this.firePattern = firePattern;
-        fireRate = 2000000000L;
     }
 
     @Override

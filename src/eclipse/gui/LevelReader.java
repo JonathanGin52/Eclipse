@@ -54,7 +54,7 @@ public class LevelReader {
             if (tokens[0].equals("") || tokens[0].substring(0, 2).equals("//")) { // reading a comment in the text file
                 continue;
             } else if (tokens[0].equals("wait")) {
-                wait = now + Long.parseLong(tokens[1]) * 1000000;
+                wait = now + Long.parseLong(tokens[1]) * 1000000L;
                 return toAdd;
             }
             String enemy = tokens[0];
@@ -121,8 +121,10 @@ public class LevelReader {
                     System.exit(0);
             }
 
+            long startDelay = Long.parseLong(tokens[5]) * 1000000L;
+
             if (enemy.equals("SmallEnemy")) {
-                toAdd.add(new SmallEnemy(xPos, yPos, vectorPath, firePattern));
+                toAdd.add(new SmallEnemy(xPos, yPos, vectorPath, firePattern, startDelay));
             }
         }
     }
