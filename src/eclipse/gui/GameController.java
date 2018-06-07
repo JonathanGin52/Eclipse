@@ -101,7 +101,14 @@ public class GameController extends ParentController {
             mouseY = me.getSceneY();
             mouseMove = true;
         });
-        // Would be nice if we could figure out how to fire and move at the same time (mouse only)
+
+        // Registers mouse pressed + move
+        scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, (MouseEvent me) -> {
+            mouseX = me.getSceneX();
+            mouseY = me.getSceneY();
+            mouseMove = true;
+        });
+
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (MouseEvent me) -> {
             MouseButton mb = me.getButton();
             GameObject toAdd = null;
