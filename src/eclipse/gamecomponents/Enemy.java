@@ -61,10 +61,7 @@ public abstract class Enemy extends GameObject {
         this.relocate(xPos, yPos);
 
         // check if the enemy is out of bounds by a sufficient margin
-        if (xPos < -getWidth() || xPos > Main.getDimensions().getWidth()) {
-            remove();
-        }
-        if (yPos < -getHeight() || yPos > Main.getDimensions().getHeight()) {
+        if (xPos < -getWidth() || xPos > Main.getDimensions().getWidth() || yPos < -getHeight() || yPos > Main.getDimensions().getHeight()) {
             remove();
         }
 
@@ -74,7 +71,7 @@ public abstract class Enemy extends GameObject {
             List<VectorPath> newProjVectors = firePattern.getProjectilePaths(now);
             List<Projectile> newProj = new ArrayList(newProjVectors.size());
             for (VectorPath vectorPath : newProjVectors) {
-                newProj.add(new Arrow(xPos + getWidth() / 2, yPos + 1.5 * getHeight(), 5, vectorPath, true));
+                newProj.add(getProjectile(xPos + getWidth() / 2, yPos + 1.5 * getHeight(), 5, vectorPath));
             }
 
             setNewProjectiles(newProj);
@@ -84,6 +81,8 @@ public abstract class Enemy extends GameObject {
 
         img.setVisible(true);
     }
+
+    public abstract Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath);
 
     // Return score associated with killing this enemy
     public void hit(int damage) {

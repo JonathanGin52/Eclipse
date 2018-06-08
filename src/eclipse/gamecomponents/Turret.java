@@ -13,4 +13,9 @@ public class Turret extends Enemy {
         super(IMAGE, 50, 5000, xPos, yPos, 60, 60, vectorPath, firePattern, 0.1, 2.5, startDelay);
         setFirePattern(new FireAtPlayer(((FireAtPlayer) firePattern).getPlayer(), this, 10));
     }
+
+    @Override
+    public Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath) {
+        return new Spear(xPos, yPos, speed, vectorPath, true);
+    }
 }

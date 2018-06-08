@@ -59,7 +59,9 @@ public abstract class Projectile extends GameObject {
 
         SPRITE.setRotate(90 - Math.atan2(-vector.dy, vector.dx) * 180 / Math.PI);
 
-        if (xPos < -500 || xPos > Main.getDimensions().getWidth() + 500 || yPos < -500 || yPos > Main.getDimensions().getHeight() + 500) setDestroyed();
+        if (xPos < -getWidth() || xPos > Main.getDimensions().getWidth() || yPos < -getHeight() - 500 || yPos > Main.getDimensions().getHeight()) {
+            setDestroyed();
+        }
 
         relocate(xPos, yPos);
     }
