@@ -3,8 +3,12 @@
 // projectile may be off by as much as 20 degrees (40 degrees of freedom).
 // wait ____ in milliseconds
 
+// Thrower and Turret only accepts FireAtPlayer
+// Spammer does not accept FireAtPlayer
+
 /*
 This code is not read
+Make multiline comments this way
 */
 
 Thrower 100 0 DownLeft FireAtPlayer 500

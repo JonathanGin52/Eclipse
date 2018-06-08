@@ -59,7 +59,7 @@ public class Boomerang extends Projectile {
 
         if (!targeting) { // Act like a normal forward shooting projectile
             // If time's up, start going to the player
-            if (now - startTime > 1000000000L) {
+            if (now - startTime > 5000000000L / speed) {
                 setPlayerTarget();
             }
 

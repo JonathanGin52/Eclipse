@@ -1,7 +1,7 @@
 package eclipse.gui;
 
 import eclipse.gamecomponents.*;
-import eclipse.gamecomponents.path.Up;
+import eclipse.gamecomponents.path.*;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -119,26 +119,27 @@ public class GameController extends ParentController {
 
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (MouseEvent me) -> {
             MouseButton mb = me.getButton();
-            GameObject toAdd = null;
+
+            List<GameObject> toAdd = new ArrayList<>();
 
             if (!player.insideEnemy) {
                 if (mb == MouseButton.PRIMARY) {
-                    toAdd = shootArrow();
+                    toAdd.addAll(shootArrow());
                 } else if (mb == MouseButton.SECONDARY) {
-                    toAdd = launchBomb();
+                    toAdd.addAll(launchBomb());
                 }
             }
 
-            if (toAdd != null) {
-                gameArea.getChildren().add(toAdd);
-                gameObjects.add(toAdd);
+            if (!toAdd.isEmpty()) {
+                gameArea.getChildren().addAll(toAdd);
+                gameObjects.addAll(toAdd);
             }
         });
     }
 
     private void installKeyListener(Scene scene) {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
-            GameObject toAdd = null;
+            List<GameObject> toAdd = new ArrayList<>();
             KeyCode code = ke.getCode();
             if (code.isArrowKey()) {
                 directionInput[code.ordinal() - 16] = true;
@@ -148,11 +149,11 @@ public class GameController extends ParentController {
             if (!player.insideEnemy) {
                 if (code == KeyCode.SPACE && !pressedArrow) {
                     pressedArrow = true;
-                    toAdd = shootArrow();
+                    toAdd.addAll(shootArrow());
                 }
                 if (code == KeyCode.V && !pressedBoomerang) {
                     pressedBoomerang = true;
-                    toAdd = shootBoomerang();
+                    toAdd.addAll(shootBoomerang());
                 }
                 if (code == KeyCode.B && !pressedBomb) {
                     pressedBomb = true;
@@ -167,6 +168,13 @@ public class GameController extends ParentController {
             if (code == KeyCode.ESCAPE) { // Debugging - instalose
                 gameOver();
             }
+            if (code == KeyCode.Q) { // Testing purposes
+                player.arrowLevel++;
+            }
+            if (code == KeyCode.W) {
+                player.boomerangLevel++;
+            }
+
             if (code == KeyCode.P) {
                 if (paused) {
                     PAUSE_CLOSE_CLIP.play();
@@ -180,8 +188,8 @@ public class GameController extends ParentController {
                 paused = !paused;
             }
             if (toAdd != null) {
-                gameArea.getChildren().add(toAdd);
-                gameObjects.add(toAdd);
+                gameArea.getChildren().addAll(toAdd);
+                gameObjects.addAll(toAdd);
             }
         });
         scene.addEventFilter(KeyEvent.KEY_RELEASED, (KeyEvent ke) -> {
@@ -201,17 +209,41 @@ public class GameController extends ParentController {
         });
     }
 
-    private GameObject shootArrow() {
+    private List<GameObject> shootArrow() {
         ARROW_CLIP.play();
         System.out.println("Pew pew");
 
-        return new Arrow(player.getMidpointX(), player.getY(), 10, new Up(), false);
+        List<GameObject> toAdd = new ArrayList();
+        switch (player.arrowLevel) {
+            case 1:
+                toAdd.add(new Arrow(player.getMidpointX(), player.getY(), 5, new Up(), false));
+                break;
+            case 2:
+                toAdd.add(new Arrow(player.getMidpointX(), player.getY(), 10, new Up(), false));
+                break;
+            case 3:
+                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 10, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 10, new Up(), false));
+                break;
+            case 4:
+                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 30, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 30, new Up(), false));
+                break;
+            default:
+                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 30, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 30, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 30, new UpLeft(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 30, new UpRight(), false));
+                break;
+        }
+        return toAdd;
     }
 
-    private GameObject shootBoomerang() {
+    private List<GameObject> shootBoomerang() {
+        List<GameObject> toAdd = new ArrayList<>();
         if (player.boomerangOut) {
             System.out.println("Can't throw multiple boomerangs at once");
-            return null;
+            return toAdd;
         }
 
         player.boomerangOut = true;
@@ -223,17 +255,41 @@ public class GameController extends ParentController {
         // TODO
 
         System.out.println("boomerang throw");
-        return new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 5);
+
+        switch (player.boomerangLevel) {
+            case 1:
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 1));
+                break;
+            case 2:
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 2));
+                break;
+            case 3:
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 10));
+                break;
+            case 4:
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 10, false, player, gameObjects, 10));
+                break;
+            default:
+                toAdd.add(new Boomerang(player.getMidpointX() - 20, player.getY(), 10, false, player, gameObjects, 10));
+                toAdd.add(new Boomerang(player.getMidpointX() + 20, player.getY(), 10, false, player, gameObjects, 10));
+                break;
+        }
+
+        return toAdd;
     }
 
-    private GameObject launchBomb() {
+    private List<GameObject> launchBomb() {
+        List<GameObject> toAdd = new ArrayList(1);
+
         if (player.bombInv <= 0) {
             System.out.println("No more bombs");
-            return null;
+            return toAdd;
         }
         player.bombInv--;
         System.out.println("Boom boom");
-        return new Bomb(player.getMidpointX(), player.getY());
+
+        toAdd.add(new Bomb(player.getMidpointX(), player.getY()));
+        return toAdd;
     }
 
     private void updateScreen(long now) {
@@ -251,6 +307,12 @@ public class GameController extends ParentController {
             } else if (obj instanceof Projectile) {
                 Projectile proj = (Projectile) obj;
                 if (proj.isDestroyed()) {
+                    if (proj instanceof Boomerang) {
+                        System.out.println("remove-----------------------");
+                        player.boomerangOut = false;
+                        BOOMERANG_LOOP.stop();
+                    }
+
                     toRemove.add(proj);
                 } else if (proj instanceof Bomb) {
                     updateProjectile((Bomb) proj);

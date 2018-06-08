@@ -7,8 +7,8 @@ import javafx.scene.image.ImageView;
 public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "link.gif");
-    private int arrowLevel = 1;
-    private int boomerangLevel = 1;
+    public int arrowLevel = 1;
+    public int boomerangLevel = 1;
     public int bombInv = 3;
     public boolean boomerangOut = false;
     public boolean insideEnemy = false;

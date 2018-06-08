@@ -61,10 +61,7 @@ public abstract class Enemy extends GameObject {
         this.relocate(xPos, yPos);
 
         // check if the enemy is out of bounds by a sufficient margin
-        if (xPos < -getWidth() || xPos > Main.getDimensions().getWidth()) {
-            remove();
-        }
-        if (yPos < -getHeight() || yPos > Main.getDimensions().getHeight()) {
+        if (xPos < -getWidth() || xPos > Main.getDimensions().getWidth() || yPos < -getHeight() || yPos > Main.getDimensions().getHeight()) {
             remove();
         }
 
