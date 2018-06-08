@@ -35,7 +35,7 @@ public class FireAtPlayer implements FirePattern {
         double x = Math.cos(newTheta);
         double y = Math.sin(newTheta);
 
-        List<VectorPath> projVectors = new ArrayList(1);
+        List<VectorPath> projVectors = new ArrayList<>(1);
         projVectors.add(new GenericLine(0, 0, x, y));
         return projVectors;
     }

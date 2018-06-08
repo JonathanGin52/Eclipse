@@ -169,22 +169,26 @@ public class LevelReader {
 
             long startDelay = Long.parseLong(tokens[5]) * 1000000L;
 
-            if (enemy.equals("THROWER")) {
-                toAdd.add(new Thrower(xPos, yPos, vectorPath, firePattern, startDelay));
-            } else if (enemy.equals("SPAMMER")) {
-                toAdd.add(new Spammer(xPos, yPos, vectorPath, firePattern, startDelay));
-            } else if (enemy.equals("TURRET")) {
-                toAdd.add(new Turret(xPos, yPos, vectorPath, firePattern, startDelay));
-            } else {
-                System.out.println("No enemy was found of this type. Did you misspell something?");
-                Thread.dumpStack();
-                System.exit(0);
+            switch (enemy) {
+                case "THROWER":
+                    toAdd.add(new Thrower(xPos, yPos, vectorPath, firePattern, startDelay));
+                    break;
+                case "SPAMMER":
+                    toAdd.add(new Spammer(xPos, yPos, vectorPath, firePattern, startDelay));
+                    break;
+                case "TURRET":
+                    toAdd.add(new Turret(xPos, yPos, vectorPath, firePattern, startDelay));
+                    break;
+                default:
+                    System.out.println("No enemy was found of this type. Did you misspell something?");
+                    Thread.dumpStack();
+                    System.exit(0);
             }
         }
     }
 
     // From the text file, take a random block of enemies to start spawning
     private List<String> getRandomBlock() {
-        return new ArrayList(commandBlocks.get(random.nextInt(commandBlocks.size())));
+        return new ArrayList<>(commandBlocks.get(random.nextInt(commandBlocks.size())));
     }
 }

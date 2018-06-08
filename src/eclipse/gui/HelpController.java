@@ -23,8 +23,6 @@ public class HelpController extends ParentController {
         });
         home.setOnMouseClicked(event -> returnHome(false));
         volumeSlider.adjustValue(application.getVolume());
-        volumeSlider.valueProperty().addListener(c -> {
-            application.setVolume(volumeSlider.getValue());
-        });
+        volumeSlider.valueProperty().addListener(c -> application.setVolume(volumeSlider.getValue()));
     }
 }

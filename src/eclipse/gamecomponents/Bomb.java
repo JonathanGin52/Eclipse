@@ -1,20 +1,14 @@
 package eclipse.gamecomponents;
 
-import eclipse.gamecomponents.path.*;
+import eclipse.gamecomponents.path.Up;
 import javafx.geometry.Dimension2D;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Bomb extends Projectile {
 
-    private static Image[] images;
     private static final long FRAME_RATE = 40000000L; // Delay between frame in nanoseconds
     private static final int EXPLODE_DIAMETER = 300;
-    private int animationFrame = 0;
-    private long lastUpdate = System.nanoTime();
-    private boolean explode = false;
-    private boolean explodeFrame = false;
-    private int counter = 0;
+    private static Image[] images;
 
     static {
         images = new Image[15];
@@ -22,6 +16,12 @@ public class Bomb extends Projectile {
             images[i] = new Image(IMAGE_DIR + "bomb/bomb" + i + ".png");
         }
     }
+
+    private int animationFrame = 0;
+    private long lastUpdate = System.nanoTime();
+    private boolean explode = false;
+    private boolean explodeFrame = false;
+    private int counter = 0;
 
     public Bomb(double xPos, double yPos) {
         super(xPos - 35, yPos - 35, 50, 50, 10, images[0], new Up(), false);
