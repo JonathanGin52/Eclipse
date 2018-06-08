@@ -35,19 +35,19 @@ wait 4000
 {
 Thrower 100 0 DownLeft FireAtPlayer 500
 Thrower 300 0 DownRight FireAtPlayer 500
-wait 2000
+wait 3000
 }
 
 {
 Thrower 0 100 Right FireAtPlayer 500
 Thrower 450 100 Left FireAtPlayer 500
-wait 2000
+wait 3000
 }
 
 {
 Thrower 0 100 DownRight FireAtPlayer 500
 Thrower 450 100 DownLeft FireAtPlayer 500
-wait 2000
+wait 3000
 }
 
 {
@@ -58,19 +58,19 @@ wait 1000
 {
 Thrower 100 0 DownLeft FireAtPlayer 500
 Thrower 300 0 DownRight FireAtPlayer 500
-wait 2000
+wait 3000
 }
 
 {
 Thrower 0 100 Right FireAtPlayer 500
 Thrower 450 100 Left FireAtPlayer 500
-wait 2000
+wait 3000
 }
 
 {
 Thrower 0 100 DownRight FireAtPlayer 500
 Thrower 450 100 DownLeft FireAtPlayer 500
-wait 2000
+wait 3000
 }
 
 {
