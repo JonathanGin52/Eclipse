@@ -6,75 +6,44 @@
 /*
 This code is not read
 */
-
-yellow 100 0 DownLeft FireAtPlayer20 500
-yellow 200 0 SineDown FireAtPlayer20 500
-yellow 300 0 DownRight FireAtPlayer20 500
+/*
+Thrower 100 0 DownLeft FireAtPlayer 500
+Thrower 200 0 SineDown FireAtPlayer 500
+Thrower 300 0 DownRight FireAtPlayer 500
 
 wait 4000
 
-grey 100 0 DownLeft FireDown 1000
-grey 200 0 SineDown FireThreeSplit 1000
-grey 300 0 DownRight FireDown 1000
+Spammer 100 0 DownLeft FireDown 1000
+Spammer 200 0 SineDown FireThreeSplit 1000
+Spammer 300 0 DownRight FireDown 1000
 wait 500
-grey 200 0 SineDown FireThreeSplit 1000
+Spammer 200 0 SineDown FireThreeSplit 1000
 
 wait 4000
 
-grey 0 0 DownRight FireTwoSplit 500
-grey 450 0 DownLeft FireTwoSplit 500
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
+Spammer 0 0 DownRight FireTwoSplit 500
+Spammer 450 0 DownLeft FireTwoSplit 500
+Thrower 0 100 Right FireAtPlayer 500
+Thrower 450 100 Left FireAtPlayer 500
 wait 2000
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
+Thrower 0 100 Right FireAtPlayer 500
+Thrower 450 100 Left FireAtPlayer 500
 wait 2000
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
-yellow 200 0 SineDown FireThreeSplit 1000
+Thrower 0 100 Right FireAtPlayer 500
+Thrower 450 100 Left FireAtPlayer 500
+Thrower 200 0 SineDown FireThreeSplit 1000
 wait 2000
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
+Thrower 0 100 Right FireAtPlayer 500
+Thrower 450 100 Left FireAtPlayer 500
 wait 2000
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
-grey 200 0 SineDown FireThreeSplit 1000
+Thrower 0 100 Right FireAtPlayer 500
+Thrower 450 100 Left FireAtPlayer 500
+Spammer 200 0 SineDown FireThreeSplit 1000
 
 wait 4000
+*/
 
-// REPEAT
-
-yellow 100 0 DownLeft FireAtPlayer20 500
-yellow 200 0 SineDown FireAtPlayer20 500
-yellow 300 0 DownRight FireAtPlayer20 500
-
-wait 4000
-
-grey 100 0 DownLeft FireDown 1000
-grey 200 0 SineDown FireThreeSplit 1000
-grey 300 0 DownRight FireDown 1000
-wait 500
-grey 200 0 SineDown FireThreeSplit 1000
-
-wait 4000
-
-grey 0 0 DownRight FireTwoSplit 500
-grey 450 0 DownLeft FireTwoSplit 500
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
-wait 2000
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
-wait 2000
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
-yellow 200 0 SineDown FireThreeSplit 1000
-wait 2000
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
-wait 2000
-yellow 0 100 Right FireAtPlayer20 500
-yellow 450 100 Left FireAtPlayer20 500
-grey 200 0 SineDown FireThreeSplit 1000
+Turret 100 0 Down FireAtPlayer 500
+Turret 300 0 Down FireAtPlayer 700
 
 // END

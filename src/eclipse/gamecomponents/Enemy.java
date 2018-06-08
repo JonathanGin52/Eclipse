@@ -14,33 +14,32 @@ import java.util.List;
 /**
  * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
-public class Enemy extends GameObject {
 
-    private final static Image YELLOW = new Image(IMAGE_DIR + "enemy1.gif");
-    private final static Image GREY = new Image(IMAGE_DIR + "enemy2.gif");
+public abstract class Enemy extends GameObject {
 
-    long fireRate;
-    long lastFire;
+    private long fireRate;
+    private int hitPoints;
+    private int killScore;
+    private long lastFire;
     private ImageView img;
     private VectorPath vectorPath;
-    private FirePattern firePattern;
+    FirePattern firePattern;
     private boolean isAlive = true;
     private boolean fire = false;
     private List<Projectile> newProjectiles = new ArrayList<>();
 
-    public Enemy(String name, int xPos, int yPos, VectorPath vectorPath, FirePattern firePattern, long startDelay) {
-        super((double) xPos, (double) yPos, 50, 50, 1.5);
-        this.fireRate = 2000000000L;
-        this.lastFire = System.nanoTime() - 2000000000L + startDelay;
+    public Enemy(Image image, int hitpoints, int killScore, double xPos, double yPos, int width, int height, VectorPath vectorPath, FirePattern firePattern, double speed, double fireRate, long startDelay) {
+        super(xPos, yPos, width, height, speed);
+
+        this.hitPoints = hitpoints;
+        this.killScore = killScore;
+
+        this.fireRate = (long) (1000000000d / fireRate); // fireRate is a per second amount
+        this.lastFire = System.nanoTime() - this.fireRate + startDelay;
         this.fire = true;
         this.relocate(xPos, yPos);
 
-        if (name.equals("yellow")) {
-            img = new ImageView(YELLOW);
-        } else if (name.equals("grey")) {
-            img = new ImageView(GREY);
-        }
-
+        img = new ImageView(image);
         img.setFitHeight(super.getHeight());
         img.setFitWidth(super.getWidth());
         img.setVisible(false);
@@ -87,9 +86,16 @@ public class Enemy extends GameObject {
     }
 
     // Return score associated with killing this enemy
-    public int kill() {
-        isAlive = false;
-        return 100;
+    public void hit(int damage) {
+        hitPoints -= damage;
+
+        if (hitPoints <= 0) {
+            isAlive = false;
+        }
+    }
+
+    public int getKillScore() {
+        return killScore;
     }
 
     // Enemy is dead because it hasn't been killed while on screen
@@ -104,6 +110,10 @@ public class Enemy extends GameObject {
 
     public void setFire() {
         fire = true;
+    }
+
+    public void setFirePattern(FirePattern firePattern) {
+        this.firePattern = firePattern;
     }
 
     public List<Projectile> getNewProjectiles() {

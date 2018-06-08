@@ -317,7 +317,11 @@ public class GameController extends ParentController {
                 }
             }
 
-            score.add(enemy.kill());
+            enemy.hit(((Projectile) proj.get(0)).getDamage());
+
+            if (!enemy.isAlive()) {
+                score.add(enemy.getKillScore());
+            }
         }
 
         if (enemy.fire()) {

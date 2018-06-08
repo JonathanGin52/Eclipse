@@ -47,6 +47,11 @@ public class Bomb extends Projectile {
         }
     }
 
+    @Override
+    public int getDamage() {
+        return 5;
+    }
+
     private void setSprite() {
         SPRITE.setImage(images[animationFrame]);
     }

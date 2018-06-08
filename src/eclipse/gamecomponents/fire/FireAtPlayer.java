@@ -17,9 +17,8 @@ public class FireAtPlayer implements FirePattern {
     private double margin;
 
     // Enemy isn't known yet
-    public FireAtPlayer(Player player, double margin) {
+    public FireAtPlayer(Player player) {
         this.player = player;
-        this.margin = margin;
     }
 
     public FireAtPlayer(Player player, Enemy enemy, double margin) {
