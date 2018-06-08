@@ -50,6 +50,7 @@ public abstract class Projectile extends GameObject {
         return enemyProj;
     }
 
+    // Move the projectile
     @Override
     public void update(long now) {
         age = now - startTime;

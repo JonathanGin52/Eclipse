@@ -27,6 +27,13 @@ wait 11000
 }
 
 {
+Spammer 100 0 Down FireDown 500
+Spammer 200 0 Down FireDown 500
+Spammer 300 0 Down FireDown 500
+wait 11000
+}
+
+{
 continue 0.5
 Spammer 200 0 SineDown FireThreeSplit 1000
 wait 5000
@@ -79,13 +86,13 @@ wait 1000
 }
 
 {
-continue 0.15
+continue 0.30
 Turret 200 0 Down FireAtPlayer 500
 wait 10000
 }
 
 {
-continue 0.10
+continue 0.20
 Turret 100 0 Down FireAtPlayer 500
 Turret 300 0 Down FireAtPlayer 700
 wait 30000

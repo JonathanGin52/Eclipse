@@ -525,10 +525,11 @@ public class GameController extends ParentController {
                                 toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 2:
+                                if (player.bombInv >= 3) break Decide;
                                 toAdd.add(new BombAdd(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 3:
-                                if (random.nextDouble() < 0.5) break Decide;
+                                if (player.getHeight() == 20) break Decide;
                                 toAdd.add(new HeartAdd(enemy.getX(), enemy.getY()));
                                 break Decide;
                         }
@@ -549,14 +550,6 @@ public class GameController extends ParentController {
         if (!collideEnemy.isEmpty()) {
             bomb.explode();
         }
-    }
-
-    public void start() {
-        gameLoop.start();
-    }
-
-    public void stop() {
-        gameLoop.stop();
     }
 
     private void gameOver() {

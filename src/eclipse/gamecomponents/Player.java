@@ -1,5 +1,6 @@
 package eclipse.gamecomponents;
 
+import eclipse.gamecomponents.path.Vector;
 import eclipse.gui.GameController;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.image.Image;
@@ -31,6 +32,9 @@ public class Player extends GameObject {
         return health.healthProperty();
     }
 
+    // Called when the player is inside an enemy
+    // When inside an enemy, damage is taken periodically
+    // Returns true if damage is taken, false if damage is not taken
     public boolean isInsideEnemy() {
         insideEnemy = true;
 
@@ -89,6 +93,7 @@ public class Player extends GameObject {
 
     public void mouseMove(double x, double y) {
         // Player moves directly towards cursor
+        // Extra work is done in this method to avoid jittery motion
         x = x - getWidth() / 2;
         y = y - getHeight() / 2;
 

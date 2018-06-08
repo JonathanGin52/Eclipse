@@ -21,6 +21,6 @@ public class Spammer extends Enemy {
     }
 
     public boolean dropItem() {
-        return random.nextDouble() < 0.4;
+        return random.nextDouble() < 0.5;
     }
 }
