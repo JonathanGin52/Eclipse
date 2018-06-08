@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -36,6 +37,8 @@ public class GameController extends ParentController {
     private final AudioClip ARROW_CLIP = new AudioClip(new File("resources/audio/Arrow_Shoot.wav").toURI().toString());
     private final AudioClip BOOMERANG_OUT = new AudioClip(new File("resources/audio/Boomerang_Start.wav").toURI().toString());
 
+    private final BoxBlur BLUR = new BoxBlur(450, 600, 1);
+
     private boolean paused = false;
     private double volume;
     private AnimationTimer gameLoop;
@@ -56,7 +59,11 @@ public class GameController extends ParentController {
     @FXML
     private Pane gameArea;
     @FXML
-    private HBox hearts;
+    private HBox bombsBox;
+    @FXML
+    private HBox powerupBox;
+    @FXML
+    private HBox heartBox;
     @FXML
     private Label highscoreLabel;
     @FXML
@@ -74,10 +81,9 @@ public class GameController extends ParentController {
         // Add change listeners to score and health properties. When change is detected, update their respective labels
         score.scoreProperty().addListener(e -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
         player.getHealthProperty().addListener(e -> {
+            updateHearts();
             if (checkGameOver()) {
                 gameOver();
-            } else {
-                updateHearts();
             }
         });
 
@@ -105,7 +111,7 @@ public class GameController extends ParentController {
     }
 
     private void updateHearts() {
-        hearts.getChildren().clear();
+        heartBox.getChildren().clear();
         int health = player.getHealth();
         // Update heart label
         while (health > 0) {
@@ -119,7 +125,7 @@ public class GameController extends ParentController {
             health--;
             img.setFitWidth(15);
             img.setFitHeight(15);
-            hearts.getChildren().add(img);
+            heartBox.getChildren().add(img);
         }
     }
 
@@ -214,10 +220,12 @@ public class GameController extends ParentController {
                     PAUSE_CLOSE_CLIP.play();
                     System.out.println("Resumed");
                     gameLoop.start();
+                    gameArea.setEffect(null);
                 } else {
                     PAUSE_OPEN_CLIP.play();
                     System.out.println("Paused");
                     gameLoop.stop();
+                    gameArea.setEffect(BLUR);
                 }
                 paused = !paused;
             }

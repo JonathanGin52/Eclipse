@@ -16,7 +16,9 @@
                 <Label fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="352.0" layoutY="46.0" text="Score: 000000" />
             <Label fx:id="highscoreLabel" layoutX="322.0" layoutY="23.0" text="High Score: 000000" />
             <Label fx:id="levelLabel" layoutX="199.0" layoutY="23.0" text="Level: 00" />
-            <HBox fx:id="hearts" layoutX="14.0" layoutY="23.0" prefHeight="25.0" prefWidth="62.0" spacing="3.0" />
+            <HBox fx:id="hearts" layoutX="14.0" layoutY="23.0" prefHeight="0.0" prefWidth="0.0" spacing="3.0" />
+            <HBox fx:id="bombsBox" layoutX="24.0" layoutY="489.0" prefHeight="50.0" prefWidth="50.0" spacing="3.0" />
+            <HBox fx:id="powerupBox" layoutX="369.0" layoutY="528.0" prefHeight="50.0" prefWidth="50.0" spacing="3.0" />
             </children>
         </Pane>
     </children>
