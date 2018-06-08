@@ -41,6 +41,7 @@ public class GameController extends ParentController {
     private static final AudioClip BOOMERANG_OUT = new AudioClip(new File("resources/audio/Boomerang_Start.wav").toURI().toString());
     private static final AudioClip HURT_CLIP = new AudioClip(new File("resources/audio/Hurt.wav").toURI().toString());
     private static final AudioClip LOW_HEALTH_CLIP = new AudioClip(new File("resources/audio/LowHealth.wav").toURI().toString());
+    private static final AudioClip ITEM_CLIP = new AudioClip(new File("resources/audio/GainHp.wav").toURI().toString());
 
     private final BoxBlur BLUR = new BoxBlur(450, 600, 1);
 
@@ -79,6 +80,7 @@ public class GameController extends ParentController {
     @Override
     public void init() {
         player = new Player();
+        PowerUp.setPlayer(player);
         score = new Score(0);
         gameObjects = new ArrayList<>();
         levelReader = new LevelReader("enemy_groups.txt");
@@ -114,6 +116,7 @@ public class GameController extends ParentController {
         PAUSE_CLOSE_CLIP.setVolume(volume);
         ARROW_CLIP.setVolume(volume);
         HURT_CLIP.setVolume(volume);
+        ITEM_CLIP.setVolume(volume);
 
         // Start the game
         gameLoop.start();
@@ -425,6 +428,8 @@ public class GameController extends ParentController {
             for (GameObject obj : hits) {
                 System.out.println("hit");
                 if (obj instanceof PowerUp) {
+                    ITEM_CLIP.play();
+
                     if (obj instanceof ArrowPowerUp) {
                         player.arrowLevel++;
                         updateArrowBox();
