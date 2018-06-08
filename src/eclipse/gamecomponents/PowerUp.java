@@ -22,13 +22,13 @@ public abstract class PowerUp extends GameObject {
         this.getChildren().add(img);
     }
 
+    public static void setPlayer(Player player) {
+        PowerUp.player = player;
+    }
+
     @Override
     public void update(long now) {
         unboundedMove(new Vector(player.xPos - xPos, player.yPos - yPos));
         this.relocate(xPos, yPos);
-    }
-
-    public static void setPlayer(Player player) {
-        PowerUp.player = player;
     }
 }

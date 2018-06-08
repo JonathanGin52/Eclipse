@@ -3,6 +3,8 @@ package eclipse.gui;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.Objects;
+
 public class Score {
 
     private String name = "";
@@ -47,6 +49,6 @@ public class Score {
 
     @Override
     public String toString() {
-        return (name == "" ? "Score" : name) + ": " + getScore();
+        return (Objects.equals(name, "") ? "Score" : name) + ": " + getScore();
     }
 }

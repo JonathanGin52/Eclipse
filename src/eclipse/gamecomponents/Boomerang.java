@@ -37,7 +37,7 @@ public class Boomerang extends Projectile {
         this.player = player;
         this.gameObjects = gameObjects; // copy reference
 
-        enemies = new ArrayList();
+        enemies = new ArrayList<>();
         for (GameObject o : gameObjects) {
             if (o instanceof Enemy) {
                 enemies.add((Enemy) o);

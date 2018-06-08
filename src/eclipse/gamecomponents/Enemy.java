@@ -1,7 +1,7 @@
 package eclipse.gamecomponents;
 
-import eclipse.gamecomponents.fire.FirePattern;
 import eclipse.gamecomponents.fire.FireAtPlayer;
+import eclipse.gamecomponents.fire.FirePattern;
 import eclipse.gamecomponents.path.Vector;
 import eclipse.gamecomponents.path.VectorPath;
 import eclipse.gui.Main;
@@ -11,21 +11,17 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Jonathan Gin, Justin Reiter, Alex Yang
- */
-
 public abstract class Enemy extends GameObject {
 
+    FirePattern firePattern;
     private long fireRate;
     private int hitPoints;
     private int killScore;
     private long lastFire;
     private ImageView img;
     private VectorPath vectorPath;
-    FirePattern firePattern;
     private boolean isAlive = true;
-    private boolean fire = false;
+    private boolean fire;
     private List<Projectile> newProjectiles = new ArrayList<>();
 
     public Enemy(Image image, int hitpoints, int killScore, double xPos, double yPos, int width, int height, VectorPath vectorPath, FirePattern firePattern, double speed, double fireRate, long startDelay) {
@@ -69,7 +65,7 @@ public abstract class Enemy extends GameObject {
         if (lastFire + fireRate < now) {
             setFire();
             List<VectorPath> newProjVectors = firePattern.getProjectilePaths(now);
-            List<Projectile> newProj = new ArrayList(newProjVectors.size());
+            List<Projectile> newProj = new ArrayList<>(newProjVectors.size());
             for (VectorPath vectorPath : newProjVectors) {
                 newProj.add(getProjectile(xPos + getWidth() / 2, yPos + 1.5 * getHeight(), 5, vectorPath));
             }
@@ -125,7 +121,7 @@ public abstract class Enemy extends GameObject {
     }
 
     public void setNewProjectiles(List<Projectile> list) {
-        newProjectiles = new ArrayList(list);
+        newProjectiles = new ArrayList<>(list);
     }
 
     public boolean isAlive() {

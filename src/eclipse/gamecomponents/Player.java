@@ -1,7 +1,5 @@
 package eclipse.gamecomponents;
 
-import eclipse.gamecomponents.path.Vector;
-import eclipse.gui.GameController;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,6 +7,7 @@ import javafx.scene.image.ImageView;
 public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "link.gif");
+    private final long INSIDE_TICK_RATE = 1000000000;
     public int arrowLevel = 1;
     public int boomerangLevel = 1;
     public int bombInv = 3;
@@ -17,7 +16,6 @@ public class Player extends GameObject {
     private ImageView img;
     private Health health;
     private long lastTick = Long.MIN_VALUE;
-    private final long INSIDE_TICK_RATE = 1000000000;
 
     public Player() {
         super(100, 300, 40, 60, 8);

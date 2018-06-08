@@ -1,13 +1,11 @@
 package eclipse.gamecomponents;
 
-import eclipse.gamecomponents.path.*;
+import eclipse.gamecomponents.path.Vector;
+import eclipse.gamecomponents.path.VectorPath;
 import eclipse.gui.Main;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-/**
- * @author Jonathan Gin, Justin Reiter, Alex Yang
- */
 public abstract class Projectile extends GameObject {
 
     private Image img;

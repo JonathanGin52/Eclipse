@@ -9,7 +9,7 @@ import java.util.List;
 public class FireDownLeft implements FirePattern {
     @Override
     public List<VectorPath> getProjectilePaths(long now) {
-        List<VectorPath> projVectors = new ArrayList(1);
+        List<VectorPath> projVectors = new ArrayList<>(1);
         projVectors.add(new DownLeft());
         return projVectors;
     }
