@@ -39,6 +39,8 @@ public class GameController extends ParentController {
     private static final AudioClip PAUSE_CLOSE_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Close.wav").toURI().toString());
     private static final AudioClip ARROW_CLIP = new AudioClip(new File("resources/audio/Arrow_Shoot.wav").toURI().toString());
     private static final AudioClip BOOMERANG_OUT = new AudioClip(new File("resources/audio/Boomerang_Start.wav").toURI().toString());
+    private static final AudioClip HURT_CLIP = new AudioClip(new File("resources/audio/Hurt.wav").toURI().toString());
+    private static final AudioClip LOW_HEALTH_CLIP = new AudioClip(new File("resources/audio/LowHealth.wav").toURI().toString());
 
     private final BoxBlur BLUR = new BoxBlur(450, 600, 1);
 
@@ -111,6 +113,7 @@ public class GameController extends ParentController {
         PAUSE_OPEN_CLIP.setVolume(volume);
         PAUSE_CLOSE_CLIP.setVolume(volume);
         ARROW_CLIP.setVolume(volume);
+        HURT_CLIP.setVolume(volume);
 
         // Start the game
         gameLoop.start();
@@ -443,13 +446,24 @@ public class GameController extends ParentController {
                 } else {
                     // Periodically lose health when inside enemy
                     if (obj instanceof Enemy) {
-                        player.isInsideEnemy();
+                        if (player.isInsideEnemy()) {
+                            HURT_CLIP.play();
+                        }
+
+                        if (player.getHealth() <= 2 && player.getHealth() > 0) {
+                            LOW_HEALTH_CLIP.play();
+                        }
                     }
 
                     // Lose 2 health if hit by enemy projectile
                     if (obj instanceof Projectile) {
                         player.loseHealth(2);
+                        HURT_CLIP.play();
                         toRemove.add(obj);
+
+                        if (player.getHealth() <= 2 && player.getHealth() > 0) {
+                            LOW_HEALTH_CLIP.play();
+                        }
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package eclipse.gamecomponents;
 
+import eclipse.gui.GameController;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +16,7 @@ public class Player extends GameObject {
     private ImageView img;
     private Health health;
     private long lastTick = Long.MIN_VALUE;
-    private final long INSIDE_TICK_RATE = 500000000;
+    private final long INSIDE_TICK_RATE = 1000000000;
 
     public Player() {
         super(100, 300, 40, 60, 8);
@@ -30,14 +31,17 @@ public class Player extends GameObject {
         return health.healthProperty();
     }
 
-    public void isInsideEnemy() {
+    public boolean isInsideEnemy() {
         insideEnemy = true;
 
         long time = System.nanoTime();
         if (time > lastTick + INSIDE_TICK_RATE) {
             loseHealth(1);
             lastTick = time;
+            return true;
         }
+
+        return false;
     }
 
     public int getHealth() {
