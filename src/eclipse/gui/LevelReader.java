@@ -82,6 +82,17 @@ public class LevelReader {
                 continue;
             }
 
+            if (next.contains("continue")) {
+                double probability = Double.parseDouble(next.substring(9));
+                if (random.nextDouble() > probability) {
+                    System.out.println("DONT CONTINUE BB");
+                    commands = null;
+                    return toAdd;
+                } else {
+                    continue;
+                }
+            }
+
             tokens = next.split(" ");
             if (tokens[0].equals("") || tokens[0].substring(0, 2).equals("//")) { // reading a comment in the text file
                 continue;

@@ -6,6 +6,8 @@
 // Thrower and Turret only accepts FireAtPlayer
 // Spammer does not accept FireAtPlayer
 
+// continue __ is a probability of carrying on with that block at that point in time
+
 /*
 This code is not read
 Make multiline comments this way
@@ -35,21 +37,21 @@ Thrower 450 100 Left FireAtPlayer 500
 wait 2000
 Thrower 0 100 Right FireAtPlayer 500
 Thrower 450 100 Left FireAtPlayer 500
-wait 2000
-Thrower 0 100 Right FireAtPlayer 500
-Thrower 450 100 Left FireAtPlayer 500
-Spammer 200 0 SineDown FireThreeSplit 1000
-wait 2000
-Thrower 0 100 Right FireAtPlayer 500
-Thrower 450 100 Left FireAtPlayer 500
-wait 2000
-Thrower 0 100 Right FireAtPlayer 500
-Thrower 450 100 Left FireAtPlayer 500
-Spammer 200 0 SineDown FireThreeSplit 1000
 wait 4000
 }
 
 {
+Thrower 0 100 Right FireAtPlayer 500
+Thrower 450 100 Left FireAtPlayer 500
+Spammer 200 0 SineDown FireThreeSplit 1000
+wait 2000
+Thrower 0 100 Right FireAtPlayer 500
+Thrower 450 100 Left FireAtPlayer 500
+wait 4000
+}
+
+{
+continue 0.25
 Turret 100 0 Down FireAtPlayer 500
 Turret 300 0 Down FireAtPlayer 700
 wait 10000
