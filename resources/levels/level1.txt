@@ -31,7 +31,7 @@ Thrower 450 100 Left FireAtPlayer 500
 wait 2000
 Thrower 0 100 Right FireAtPlayer 500
 Thrower 450 100 Left FireAtPlayer 500
-Thrower 200 0 SineDown FireThreeSplit 1000
+Spammer 200 0 SineDown FireThreeSplit 1000
 wait 2000
 Thrower 0 100 Right FireAtPlayer 500
 Thrower 450 100 Left FireAtPlayer 500
