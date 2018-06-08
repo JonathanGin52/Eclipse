@@ -348,11 +348,11 @@ public class GameController extends ParentController {
                 toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 10));
                 break;
             case 4:
-                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 10, false, player, gameObjects, 10));
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 15, false, player, gameObjects, 10));
                 break;
             default:
-                toAdd.add(new Boomerang(player.getMidpointX() - 20, player.getY(), 10, false, player, gameObjects, 10));
-                toAdd.add(new Boomerang(player.getMidpointX() + 20, player.getY(), 10, false, player, gameObjects, 10));
+                toAdd.add(new Boomerang(player.getMidpointX() - 20, player.getY(), 15, false, player, gameObjects, 10));
+                toAdd.add(new Boomerang(player.getMidpointX() + 20, player.getY(), 15, false, player, gameObjects, 10));
                 break;
         }
 
@@ -501,11 +501,11 @@ public class GameController extends ParentController {
                     while (true) {
                         switch (random.nextInt(4)) {
                             case 0: // Drop arrow upgrade
-                                if (player.arrowLevel == 5) continue;
+                                if (player.arrowLevel == 5 || random.nextDouble() < 0.5) continue;
                                 toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 1:
-                                if (player.boomerangLevel == 5) continue;
+                                if (player.boomerangLevel == 5 || random.nextDouble() < 0.5) continue;
                                 toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 2:
