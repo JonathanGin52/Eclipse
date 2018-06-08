@@ -10,8 +10,8 @@ public class PowerUp extends GameObject {
 
     private ImageView img;
 
-    public PowerUp(Image image, double xPos, double yPos) {
-        super(xPos, yPos, 50, 50, 0);
+    public PowerUp(Image image, double xPos, double yPos, int width, int height) {
+        super(xPos, yPos, width, height, 0);
 
         this.relocate(xPos, yPos);
         img = new ImageView(image);
