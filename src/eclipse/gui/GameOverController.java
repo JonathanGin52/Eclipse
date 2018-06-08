@@ -22,10 +22,8 @@ public class GameOverController extends ParentController {
         ft.setToValue(1);
         ft.play();
         // Add button actions
-        ft.setOnFinished(e -> {
-            start.setOnMouseClicked(event -> startGame(true));
-            home.setOnMouseClicked(event -> returnHome(true));
-        });
+        start.setOnMouseClicked(event -> startGame(true));
+        home.setOnMouseClicked(event -> returnHome(true));
 
     }
 }

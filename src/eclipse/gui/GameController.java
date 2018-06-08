@@ -165,6 +165,12 @@ public class GameController extends ParentController {
 
     private void updateHearts() {
         int health = player.getHealth();
+        if (health <= 2 && health > 0) {
+            LOW_HEALTH_CLIP.setCycleCount(AudioClip.INDEFINITE);
+            LOW_HEALTH_CLIP.play();
+        } else if (LOW_HEALTH_CLIP.isPlaying() && health > 2) {
+            LOW_HEALTH_CLIP.stop();
+        }
         // Update heart label
         while (health > 0) {
             ImageView img;
@@ -251,20 +257,6 @@ public class GameController extends ParentController {
                     pressedBomb = true;
                     toAdd = launchBomb();
                 }
-            }
-
-            if (code == KeyCode.L) { // Debugging purposes
-                System.out.println(gameObjects);
-                System.out.println(gameArea.getChildren());
-            }
-            if (code == KeyCode.ESCAPE) { // Debugging - instalose
-                gameOver();
-            }
-            if (code == KeyCode.Q) { // Testing purposes
-                player.arrowLevel++;
-            }
-            if (code == KeyCode.W) {
-                player.boomerangLevel++;
             }
 
             if (code == KeyCode.P) {
@@ -454,10 +446,6 @@ public class GameController extends ParentController {
                         if (player.isInsideEnemy()) {
                             HURT_CLIP.play();
                         }
-
-                        if (player.getHealth() <= 2 && player.getHealth() > 0) {
-                            LOW_HEALTH_CLIP.play();
-                        }
                     }
 
                     // Lose 2 health if hit by enemy projectile
@@ -465,10 +453,6 @@ public class GameController extends ParentController {
                         player.loseHealth(2);
                         HURT_CLIP.play();
                         toRemove.add(obj);
-
-                        if (player.getHealth() <= 2 && player.getHealth() > 0) {
-                            LOW_HEALTH_CLIP.play();
-                        }
                     }
                 }
             }
