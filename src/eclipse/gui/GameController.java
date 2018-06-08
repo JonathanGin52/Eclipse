@@ -337,8 +337,6 @@ public class GameController extends ParentController {
         player.boomerangOut = true;
         BOOMERANG_OUT.play();
 
-        System.out.println("boomerang throw");
-
         switch (player.boomerangLevel) {
             case 1:
                 toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 1));
@@ -369,7 +367,6 @@ public class GameController extends ParentController {
             return toAdd;
         }
         player.bombInv--;
-        System.out.println("Boom boom");
         updateBombs();
 
         toAdd.add(new Bomb(player.getMidpointX(), player.getY()));
@@ -549,6 +546,7 @@ public class GameController extends ParentController {
         System.out.println("Game over");
         gameLoop.stop();
         application.stopMusic();
+        application.gotoScene("GameOver", false);
         MediaPlayer gameOverWAV = new MediaPlayer(new Media(new File("resources/audio/Game_Over.mp3").toURI().toString()));
         gameOverWAV.setVolume(volume);
         gameOverWAV.play();
@@ -558,9 +556,9 @@ public class GameController extends ParentController {
             for (int i = 0; i < scores.size(); i++) {
                 if (finalScore >= scores.get(i).getScore()) {
                     // Popup to get name of player
-                    TextInputDialog dialog = new TextInputDialog("John");
-                    dialog.setTitle("Text Input Dialog");
-                    dialog.setHeaderText("Look, a Text Input Dialog");
+                    TextInputDialog dialog = new TextInputDialog("Mr. Qayum");
+                    dialog.setTitle("Only for the elites");
+                    dialog.setHeaderText("Congratulations, you got a high-score of " + score.getScore() + "!");
                     dialog.setContentText("Please enter your name:");
                     Optional<String> result = dialog.showAndWait();
                     result.ifPresent(name -> score.setName(name));
@@ -570,8 +568,6 @@ public class GameController extends ParentController {
                     break;
                 }
             }
-
-            returnHome(true); // Return to main screen
         });
     }
 }

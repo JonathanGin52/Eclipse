@@ -10,15 +10,26 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="450.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eclipse.gui.HelpController">
     <children>
-        <VBox alignment="TOP_CENTER" prefHeight="535.0" prefWidth="450.0" spacing="15.0" AnchorPane.topAnchor="20.0">
+        <VBox alignment="TOP_CENTER" prefHeight="535.0" prefWidth="450.0" spacing="15.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label style="-fx-font-size: 45;" text="Help" />
+            <StackPane>
+               <children>
+                      <Label style="-fx-font-size: 45;" text="Help">
+                     <StackPane.margin>
+                        <Insets top="5.0" />
+                     </StackPane.margin>
+                  </Label>
+               </children>
+            </StackPane>
                 <GridPane alignment="CENTER" prefWidth="350.0" vgap="2.0">
                     <columnConstraints>
                         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="177.0" minWidth="10.0" prefWidth="133.99999237060547" />
@@ -26,13 +37,14 @@
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="315.66668701171875" minWidth="10.0" prefWidth="270.33333333333337" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints />
+                        <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="34.666684468587235" minHeight="26.666676839192704" percentHeight="20.0" prefHeight="30.666684468587235" />
+                  <RowConstraints maxHeight="24.666656494140625" minHeight="10.0" percentHeight="20.0" prefHeight="20.666648864746094" />
                     </rowConstraints>
                     <children>
-                        <Label style="-fx-font-size: 20;" text="Movement">
+                        <Label style="-fx-font-size: 16;" text="Movement">
                             <font>
                                 <Font name="System Bold" size="18.0" />
                             </font>
@@ -40,7 +52,7 @@
                                 <Insets />
                             </GridPane.margin>
                         </Label>
-                        <Label style="-fx-font-size: 20;" text="Shoot" GridPane.rowIndex="1">
+                        <Label style="-fx-font-size: 16;" text="Shoot" GridPane.rowIndex="1">
                             <GridPane.margin>
                                 <Insets />
                             </GridPane.margin>
@@ -48,7 +60,7 @@
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Label>
-                        <Label style="-fx-font-size: 20;" text="Bomb" GridPane.rowIndex="2">
+                        <Label style="-fx-font-size: 16;" text="Bomb" GridPane.rowIndex="2">
                             <GridPane.margin>
                                 <Insets />
                             </GridPane.margin>
@@ -56,7 +68,7 @@
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Label>
-                        <Label style="-fx-font-size: 20;" text="Boomerang" GridPane.rowIndex="3">
+                        <Label style="-fx-font-size: 16;" text="Boomerang" GridPane.rowIndex="3">
                             <GridPane.margin>
                                 <Insets />
                             </GridPane.margin>
@@ -64,7 +76,7 @@
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Label>
-                        <Label style="-fx-font-size: 20;" text="Arrow Keys / Mouse" GridPane.columnIndex="2">
+                        <Label style="-fx-font-size: 16;" text="Arrow Keys / Mouse" GridPane.columnIndex="2">
                             <GridPane.margin>
                                 <Insets />
                             </GridPane.margin>
@@ -72,7 +84,7 @@
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <Label style="-fx-font-size: 20;" text="Space / Left Click" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Label style="-fx-font-size: 16;" text="Space / Left Click" GridPane.columnIndex="2" GridPane.rowIndex="1">
                             <GridPane.margin>
                                 <Insets />
                             </GridPane.margin>
@@ -80,7 +92,7 @@
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <Label style="-fx-font-size: 20;" text="B / Right CLick" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <Label style="-fx-font-size: 16;" text="B / Right CLick" GridPane.columnIndex="2" GridPane.rowIndex="2">
                             <GridPane.margin>
                                 <Insets />
                             </GridPane.margin>
@@ -88,7 +100,7 @@
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <Label style="-fx-font-size: 20;" text="V" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                        <Label style="-fx-font-size: 16;" text="V" GridPane.columnIndex="2" GridPane.rowIndex="3">
                             <GridPane.margin>
                                 <Insets />
                             </GridPane.margin>
@@ -96,26 +108,29 @@
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <Label text=":" GridPane.columnIndex="1">
+                        <Label style="-fx-font-size: 16;" text=":" GridPane.columnIndex="1">
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <Label text=":" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label style="-fx-font-size: 16;" text=":" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <Label text=":" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label style="-fx-font-size: 16;" text=":" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <Label text=":" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label style="-fx-font-size: 16;" text=":" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </Label>
+                  <Label style="-fx-font-size: 16;" text="Pause" GridPane.rowIndex="4" />
+                  <Label style="-fx-font-size: 16;" text=":" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label style="-fx-font-size: 16;" text="P" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                     </children>
                 </GridPane>
                 <Accordion prefHeight="293.0" prefWidth="450.0">
@@ -151,7 +166,7 @@
                                 </AnchorPane>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" text="Enemies">
+                        <TitledPane animated="false" prefHeight="236.0" prefWidth="450.0" text="Enemies">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="450.0">
                            <children>
@@ -186,34 +201,53 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="448.0">
                            <children>
                               <Label layoutX="12.0" prefHeight="46.0" prefWidth="423.0" text="Enemies have a random chance to drop a power-up. Stronger enemies are more likely to drop one." textAlignment="CENTER" wrapText="true" />
-                              <GridPane layoutX="2.0" layoutY="46.0" prefHeight="173.0" prefWidth="450.0">
+                              <GridPane layoutX="2.0" layoutY="46.0" prefHeight="142.0" prefWidth="450.0">
                                 <columnConstraints>
-                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="252.33334350585938" minWidth="10.0" prefWidth="66.99996439615884" />
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="252.33334350585938" minWidth="10.0" prefWidth="232.33336893717447" />
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="236.99998982747394" minWidth="10.0" prefWidth="225.99995930989584" />
                                 </columnConstraints>
                                 <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Arrow Power-up" />
-                                    <Label text="Default" GridPane.rowIndex="1" />
-                                    <Label text="Faster arrow speed" GridPane.rowIndex="2" />
-                                    <Label text="Shoot two arrows at once" GridPane.rowIndex="3" />
-                                    <Label text="faster arrow speed" GridPane.rowIndex="4" />
-                                    <Label text="shoot four arrows at once" GridPane.rowIndex="5" />
-                                    <Label text="Boomerang Power-up" GridPane.columnIndex="1" />
-                                    <Label text="1 bounce" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="2 bounces" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="10 bounces" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Label text="faster boomerangs" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <Label text="shoot two boomerangs at once" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="Arrow Power-up" GridPane.columnIndex="1" />
+                                    <Label text="Default" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Faster arrow speed" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Shoot two arrows at once" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="faster arrow speed" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="shoot four arrows at once" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Label text="Boomerang Power-up" GridPane.columnIndex="2" />
+                                    <Label text="1 bounce" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <Label text="2 bounces" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <Label text="10 bounces" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <Label text="faster boomerangs" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                    <Label text="shoot two boomerangs at once" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                    <Line endX="180.0" startX="-240.0" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+                                    <Label text="Level" GridPane.halignment="RIGHT" />
+                                    <Label text="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                    <Label text="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                                    <Label text="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                                    <Label text="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                                    <Label text="5" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                                  </children>
                               </GridPane>
+                              <HBox layoutX="-1.0" layoutY="195.0" prefHeight="26.0" prefWidth="450.0">
+                                 <children>
+                                    <Label text="Health Drop: Gain 1 full heart" HBox.hgrow="ALWAYS" />
+                                    <Region minWidth="0.0" HBox.hgrow="ALWAYS" />
+                                    <Label text="Bomb Drop: Gain a bomb" HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="25.0" right="25.0" />
+                                 </padding>
+                              </HBox>
                            </children></AnchorPane>
                             </content>
                         </TitledPane>
@@ -221,7 +255,7 @@
                 </Accordion>
             </children>
         </VBox>
-        <HBox alignment="CENTER" layoutY="584.0" prefHeight="77.0" prefWidth="450.0" spacing="10.0" AnchorPane.bottomAnchor="0.0">
+        <HBox alignment="CENTER" layoutY="584.0" prefHeight="69.0" prefWidth="450.0" spacing="10.0" AnchorPane.bottomAnchor="0.0">
             <children>
                 <Label alignment="CENTER" style="-fx-font-size: 18;" text="Volume:">
                     <font>

@@ -45,7 +45,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             stage = primaryStage;
-            stage.setTitle("ICS Summative");
+            stage.setTitle("Legend of Link");
             stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             stage.setResizable(false);
@@ -67,13 +67,11 @@ public class Main extends Application {
         stage.setOnCloseRequest(e -> {
             if (scores != null) {
                 try (PrintWriter reiter = new PrintWriter(new BufferedWriter(new FileWriter(SCORE_FILE, false)))) {
-                    for (int i = 0; i < scores.size(); i++) {
-                        reiter.println(scores.get(i).getName() + "," + scores.get(i).getScore());
+                    for (Score score : scores) {
+                        reiter.println(score.getName() + "," + score.getScore());
                     }
                 } catch (IOException exception) {
                     System.out.println("IO Exception");
-                    exception.printStackTrace();
-                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
@@ -105,8 +103,8 @@ public class Main extends Application {
                 break;
         }
         mediaPlayer.setVolume(getVolume());
-        mediaPlayer.play();
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loops music
+        mediaPlayer.play();
     }
 
     public void stopMusic() {
@@ -134,8 +132,6 @@ public class Main extends Application {
                     scores.add(new Score(currentLine.substring(0, delim), Integer.parseInt(currentLine.substring(delim + 1))));
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
