@@ -25,10 +25,15 @@
     -fx-cursor: hand;
 }
 
-#pane {
-    -fx-background-image: url("file:resources/images/background.jpg");
+#home-pane {
+    -fx-background-image: url("file:resources/images/main-background.jpg");
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
 }
 /* ------------------- Game Screen ------------------- */
+#game-pane {
+    -fx-background-image: url("file:resources/images/hills.jpg");
+    -fx-background-repeat: repeat-y;
+}
+
 /* -------------------    Other    ------------------- */

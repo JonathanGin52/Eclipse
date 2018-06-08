@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import java.net.URL?>
-<AnchorPane prefHeight="600.0" prefWidth="450.0" stylesheets="@Style.css"
-            xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="eclipse.gui.GameController">
+
+<AnchorPane prefHeight="600.0" prefWidth="450.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eclipse.gui.GameController">
     <stylesheets>
-        <URL value="@Style.css"/>
+        <URL value="@Style.css" />
     </stylesheets>
     <children>
-        <Pane fx:id="gameArea" layoutX="1.0" layoutY="2.0" prefHeight="400.0" prefWidth="600.0">
+        <Pane id="game-pane" fx:id="gameArea" layoutX="1.0" layoutY="2.0" prefHeight="600.0" prefWidth="450.0" stylesheets="@Style.css">
             <children>
-                <Label fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="149.0" prefHeight="37.0"
-                       prefWidth="302.0" text="Score: 000000" textAlignment="CENTER"/>
+                <Label fx:id="scoreLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="74.0" layoutY="14.0" prefHeight="37.0" prefWidth="302.0" text="Score: 000000" textAlignment="CENTER" />
             </children>
         </Pane>
     </children>
