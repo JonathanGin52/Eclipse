@@ -165,7 +165,7 @@ public class GameController extends ParentController {
 
     private void updateHearts() {
         int health = player.getHealth();
-        if (health <= 2 && health > 0) {
+        if (!LOW_HEALTH_CLIP.isPlaying() && health <= 2 && health > 0) {
             LOW_HEALTH_CLIP.setCycleCount(AudioClip.INDEFINITE);
             LOW_HEALTH_CLIP.play();
         } else if (LOW_HEALTH_CLIP.isPlaying() && health > 2) {
