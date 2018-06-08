@@ -50,7 +50,7 @@ public class LevelReader {
     public List<GameObject> getNewObjects(long now, Player player) {
         if (commands == null || commands.isEmpty()) {
             commands = getRandomBlock();
-            waitFactor *= 1.05;
+            waitFactor += 0.05;
         }
 
         List<GameObject> toAdd = new ArrayList<>();
