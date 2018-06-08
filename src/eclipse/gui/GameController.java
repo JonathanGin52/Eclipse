@@ -31,7 +31,9 @@ public class GameController extends ParentController {
 
     private static final Image FULL_HEART = new Image("file:resources/images/" + "heart.png");
     private static final Image HALF_HEART = new Image("file:resources/images/" + "halfheart.png");
-    private static final Image BOMB = new Image("file:resources/images/bomb/" + "bomb0.png");
+    private static final Image ARROW = new Image("file:resources/images/" + "arrow.png");
+    private static final Image BOOMERANG = new Image("file:resources/images/" + "boomerang.png");
+    private static final Image BOMB = new Image("file:resources/images/" + "bomb.png");
 
     private static final AudioClip PAUSE_OPEN_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Open.wav").toURI().toString());
     private static final AudioClip PAUSE_CLOSE_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Close.wav").toURI().toString());
@@ -95,6 +97,8 @@ public class GameController extends ParentController {
         highscoreLabel.setText("High Score: " + String.format("%06d", application.getScores().get(0).getScore()));
         levelLabel.setText("Level: " + String.format("%02d", levelReader.getLevel()));
         updateHearts();
+        updateArrowBox();
+        updateBoomerangBox();
         updateBombs();
 
         gameObjects.add(player);
@@ -115,9 +119,35 @@ public class GameController extends ParentController {
         gameLoop.start();
     }
 
+    private void updateArrowBox() {
+        arrowBox.getChildren().clear();
+        int arrows = player.arrowLevel;
+
+        while (arrows > 0) {
+            ImageView img = new ImageView(ARROW);
+            img.setFitWidth(5);
+            img.setFitHeight(24);
+            arrows--;
+            arrowBox.getChildren().add(img);
+        }
+    }
+
+    private void updateBoomerangBox() {
+        boomerangBox.getChildren().clear();
+        int boomerangs = player.boomerangLevel;
+
+        while (boomerangs > 0) {
+            ImageView img = new ImageView(BOOMERANG);
+            img.setFitWidth(18);
+            img.setFitHeight(18);
+            boomerangs--;
+            boomerangBox.getChildren().add(img);
+        }
+    }
+
     private void updateBombs() {
         bombsBox.getChildren().clear();
-        int bombs = player.getBombs();
+        int bombs = player.bombInv;
 
         while (bombs > 0) {
             ImageView img = new ImageView(BOMB);
@@ -400,8 +430,10 @@ public class GameController extends ParentController {
                 if (obj instanceof PowerUp) {
                     if (obj instanceof ArrowPowerUp) {
                         player.arrowLevel++;
+                        updateArrowBox();
                     } else if (obj instanceof BoomerangPowerUp) {
                         player.boomerangLevel++;
+                        updateBoomerangBox();
                     } else if (obj instanceof BombAdd) {
                         player.bombInv++;
                         updateBombs();
@@ -468,27 +500,25 @@ public class GameController extends ParentController {
                 // Maybe add a projectile
                 if (enemy.dropItem()) {
                     // Decide a projectile
-                    toAdd.add(new BombAdd(enemy.getX(), enemy.getY()));
-
-//                    Decide:
-//                    while (true) {
-//                        switch (random.nextInt(4)) {
-//                            case 0: // Drop arrow upgrade
-//                                if (player.arrowLevel == 5) continue;
-//                                toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
-//                                break Decide;
-//                            case 1:
-//                                if (player.boomerangLevel == 5) continue;
-//                                toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
-//                                break Decide;
-//                            case 2:
-//                                toAdd.add(new BombAdd(enemy.getX(), enemy.getY()));
-//                                break Decide;
-//                            case 3:
-//                                toAdd.add(new HeartAdd(enemy.getX(), enemy.getY()));
-//                                break Decide;
-//                        }
-//                    }
+                    Decide:
+                    while (true) {
+                        switch (random.nextInt(4)) {
+                            case 0: // Drop arrow upgrade
+                                if (player.arrowLevel == 5) continue;
+                                toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
+                                break Decide;
+                            case 1:
+                                if (player.boomerangLevel == 5) continue;
+                                toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
+                                break Decide;
+                            case 2:
+                                toAdd.add(new BombAdd(enemy.getX(), enemy.getY()));
+                                break Decide;
+                            case 3:
+                                toAdd.add(new HeartAdd(enemy.getX(), enemy.getY()));
+                                break Decide;
+                        }
+                    }
                 }
             }
         }

@@ -40,10 +40,6 @@ public class Player extends GameObject {
         }
     }
 
-    public int getBombs() {
-        return bombInv;
-    }
-
     public int getHealth() {
         return health.getHealth();
     }
