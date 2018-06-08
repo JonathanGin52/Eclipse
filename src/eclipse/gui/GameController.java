@@ -252,7 +252,6 @@ public class GameController extends ParentController {
                 } else if (proj instanceof Bomb) {
                     updateProjectile((Bomb) proj);
                 }
-                // Arrow update is handled by Enemy and Player
             }
             // Visual updates
             obj.update(now);
@@ -322,15 +321,19 @@ public class GameController extends ParentController {
         if (!proj.isEmpty()) {
             // allow bombs to boom and kill multiple, lasers to vanish and kill one
             // this implementation assumes bomb and laser do not strike at the same time
-            if (!(proj.get(0) instanceof Bomb)) {
-                if (proj.get(0) instanceof Boomerang) {
-                    ((Boomerang) proj.get(0)).setHitEnemy(enemy);
-                } else {
-                    ((Projectile) proj.get(0)).setDestroyed();
-                }
-            }
+            for (GameObject object : proj) {
+                Projectile projectile = (Projectile) object;
 
-            enemy.hit(((Projectile) proj.get(0)).getDamage());
+                if (!(projectile instanceof Bomb)) {
+                    if (projectile instanceof Boomerang) {
+                        ((Boomerang) projectile).setHitEnemy(enemy);
+                    } else {
+                        projectile.setDestroyed();
+                    }
+                }
+
+                enemy.hit(projectile.getDamage());
+            }
 
             if (!enemy.isAlive()) {
                 score.add(enemy.getKillScore());

@@ -6,7 +6,7 @@
 /*
 This code is not read
 */
-/*
+
 Thrower 100 0 DownLeft FireAtPlayer 500
 Thrower 200 0 SineDown FireAtPlayer 500
 Thrower 300 0 DownRight FireAtPlayer 500
@@ -41,7 +41,6 @@ Thrower 450 100 Left FireAtPlayer 500
 Spammer 200 0 SineDown FireThreeSplit 1000
 
 wait 4000
-*/
 
 Turret 100 0 Down FireAtPlayer 500
 Turret 300 0 Down FireAtPlayer 700
