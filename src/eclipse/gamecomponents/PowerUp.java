@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 /**
  * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
-public class PowerUp extends GameObject {
+public abstract class PowerUp extends GameObject {
 
     private static Player player;
     private ImageView img;
@@ -24,8 +24,7 @@ public class PowerUp extends GameObject {
 
     @Override
     public void update(long now) {
-        Vector vector = new Vector(player.xPos - xPos, player.yPos - yPos);
-        unboundedMove(vector);
+        unboundedMove(new Vector(player.xPos - xPos, player.yPos - yPos));
         this.relocate(xPos, yPos);
     }
 

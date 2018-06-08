@@ -1,3 +1,5 @@
+// A Health object is only used by a Player object
+
 package eclipse.gamecomponents;
 
 import javafx.beans.property.IntegerProperty;

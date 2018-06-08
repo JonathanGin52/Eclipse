@@ -82,8 +82,10 @@ public abstract class Enemy extends GameObject {
         img.setVisible(true);
     }
 
+    // Get a specific projectile associated with each type of Enemy
     public abstract Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath);
 
+    // Whether an Enemy drops an item. Enemies have different drop rates based on their strength.
     public abstract boolean dropItem();
 
     // Return score associated with killing this enemy

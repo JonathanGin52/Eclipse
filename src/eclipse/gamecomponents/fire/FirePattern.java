@@ -5,7 +5,6 @@ import eclipse.gamecomponents.path.VectorPath;
 import java.util.List;
 
 public interface FirePattern {
-    // Return a vector path with path of projectile if a projectile is to be fired at time now
-    // Returns a list because there may be multiple projectiles
+    // For each projectile to be fired at this moment, return a VectorPath associated with each one
     List<VectorPath> getProjectilePaths(long now);
 }

@@ -47,10 +47,11 @@ public class LevelReader {
         }
     }
 
+    // Get objects that should spawn at this time
     public List<GameObject> getNewObjects(long now, Player player) {
         if (commands == null || commands.isEmpty()) {
             commands = getRandomBlock();
-            waitFactor += 0.04;
+            waitFactor = Math.max(waitFactor + 0.05, Math.min(waitFactor * 1.015, waitFactor + 0.15));
         }
 
         List<GameObject> toAdd = new ArrayList<>();
@@ -182,6 +183,7 @@ public class LevelReader {
         }
     }
 
+    // From the text file, take a random block of enemies to start spawning
     private List<String> getRandomBlock() {
         return new ArrayList(commandBlocks.get(random.nextInt(commandBlocks.size())));
     }

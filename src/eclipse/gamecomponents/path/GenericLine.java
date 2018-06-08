@@ -1,7 +1,5 @@
 package eclipse.gamecomponents.path;
 
-import eclipse.gamecomponents.GameObject;
-
 public class GenericLine implements VectorPath {
     double dx;
     double dy;
