@@ -116,11 +116,15 @@ public class GameController extends ParentController {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, (MouseEvent me) -> {
             MouseButton mb = me.getButton();
             GameObject toAdd = null;
-            if (mb == MouseButton.PRIMARY) {
-                toAdd = shootArrow();
-            } else if (mb == MouseButton.SECONDARY) {
-                toAdd = launchBomb();
+
+            if (!player.insideEnemy) {
+                if (mb == MouseButton.PRIMARY) {
+                    toAdd = shootArrow();
+                } else if (mb == MouseButton.SECONDARY) {
+                    toAdd = launchBomb();
+                }
             }
+
             if (toAdd != null) {
                 gameArea.getChildren().add(toAdd);
                 gameObjects.add(toAdd);
@@ -136,18 +140,22 @@ public class GameController extends ParentController {
                 directionInput[code.ordinal() - 16] = true;
                 mouseMove = false;
             }
-            if (code == KeyCode.SPACE && !pressedArrow) {
-                pressedArrow = true;
-                toAdd = shootArrow();
+
+            if (!player.insideEnemy) {
+                if (code == KeyCode.SPACE && !pressedArrow) {
+                    pressedArrow = true;
+                    toAdd = shootArrow();
+                }
+                if (code == KeyCode.V && !pressedBoomerang) {
+                    pressedBoomerang = true;
+                    toAdd = shootBoomerang();
+                }
+                if (code == KeyCode.B && !pressedBomb) {
+                    pressedBomb = true;
+                    toAdd = launchBomb();
+                }
             }
-            if (code == KeyCode.V && !pressedBoomerang) {
-                pressedBoomerang = true;
-                toAdd = shootBoomerang();
-            }
-            if (code == KeyCode.B && !pressedBomb) {
-                pressedBomb = true;
-                toAdd = launchBomb();
-            }
+
             if (code == KeyCode.L) { // Debugging purposes
                 System.out.println(gameObjects);
                 System.out.println(gameArea.getChildren());
@@ -269,6 +277,7 @@ public class GameController extends ParentController {
         }
 
         // Check if player was hit by anything (enemy, projectile, powerup)
+        player.insideEnemy = false;
         List<GameObject> hits = gameObjects.stream().filter(this::playerIntersection).collect(Collectors.toList());
         if (!hits.isEmpty()) {
             for (GameObject obj : hits) {
@@ -282,12 +291,16 @@ public class GameController extends ParentController {
                         BOOMERANG_LOOP.stop();
                     }
                 } else {
-                    // Lose 2 health if hit by enemy bullet, lose 1 if collision with enemy
-                    player.loseHealth(obj instanceof Projectile ? 2 : 1);
+                    // Periodically lose health when inside enemy
                     if (obj instanceof Enemy) {
-                        ((Enemy) obj).remove();
+                        player.isInsideEnemy();
                     }
-                    toRemove.add(obj);
+
+                    // Lose 2 health if hit by enemy projectile
+                    if (obj instanceof  Projectile) {
+                        player.loseHealth(2);
+                        toRemove.add(obj);
+                    }
                 }
             }
         }
