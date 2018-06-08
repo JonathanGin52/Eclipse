@@ -253,29 +253,13 @@ public class GameController extends ParentController {
                 }
             }
 
-            if (code == KeyCode.L) { // Debugging purposes
-                System.out.println(gameObjects);
-                System.out.println(gameArea.getChildren());
-            }
-            if (code == KeyCode.ESCAPE) { // Debugging - instalose
-                gameOver();
-            }
-            if (code == KeyCode.Q) { // Testing purposes
-                player.arrowLevel++;
-            }
-            if (code == KeyCode.W) {
-                player.boomerangLevel++;
-            }
-
             if (code == KeyCode.P) {
                 if (paused) {
                     PAUSE_CLOSE_CLIP.play();
-                    System.out.println("Resumed");
                     gameLoop.start();
                     gameArea.setEffect(null);
                 } else {
                     PAUSE_OPEN_CLIP.play();
-                    System.out.println("Paused");
                     gameLoop.stop();
                     gameArea.setEffect(BLUR);
                 }
@@ -319,8 +303,8 @@ public class GameController extends ParentController {
                 toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 10, new Up(), false));
                 break;
             case 4:
-                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 20, new Up(), false));
-                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 20, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 25, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 25, new Up(), false));
                 break;
             default:
                 toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 25, new Up(), false));
