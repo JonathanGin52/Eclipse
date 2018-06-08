@@ -81,6 +81,7 @@ public class GameController extends ParentController {
         // Add change listeners to score and health properties. When change is detected, update their respective labels
         score.scoreProperty().addListener(e -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
         player.getHealthProperty().addListener(e -> {
+            heartBox.getChildren().clear();
             updateHearts();
             if (checkGameOver()) {
                 gameOver();
@@ -111,7 +112,6 @@ public class GameController extends ParentController {
     }
 
     private void updateHearts() {
-        heartBox.getChildren().clear();
         int health = player.getHealth();
         // Update heart label
         while (health > 0) {
