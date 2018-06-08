@@ -15,6 +15,10 @@ public class Health {
         return health.get();
     }
 
+    public void gainHealth(int health) {
+        this.health.set(this.getHealth() + health);
+    }
+
     public void loseHealth(int health) {
         this.health.set(this.getHealth() - health);
     }

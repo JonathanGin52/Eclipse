@@ -384,8 +384,10 @@ public class GameController extends ParentController {
                         player.arrowLevel++;
                     } else if (obj instanceof BoomerangPowerUp) {
                         player.boomerangLevel++;
-                    } else {
+                    } else if (obj instanceof BombAdd) {
                         player.bombInv++;
+                    } else {
+                        player.gainHealth(2);
                     }
                     toRemove.add(obj);
                 } else if (obj instanceof Boomerang) {
@@ -449,7 +451,7 @@ public class GameController extends ParentController {
                     // Decide a projectile
                     Decide:
                     while (true) {
-                        switch (random.nextInt(3)) {
+                        switch (random.nextInt(4)) {
                             case 0: // Drop arrow upgrade
                                 if (player.arrowLevel == 5) continue;
                                 toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
@@ -460,6 +462,9 @@ public class GameController extends ParentController {
                                 break Decide;
                             case 2:
                                 toAdd.add(new BombAdd(enemy.getX(), enemy.getY()));
+                                break Decide;
+                            case 3:
+                                toAdd.add(new HeartAdd(enemy.getX(), enemy.getY()));
                                 break Decide;
                         }
                     }

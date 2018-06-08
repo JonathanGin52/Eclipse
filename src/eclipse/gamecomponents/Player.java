@@ -44,6 +44,10 @@ public class Player extends GameObject {
         return health.getHealth();
     }
 
+    public void gainHealth(int health) {
+        this.health.gainHealth(health);
+    }
+
     public void loseHealth(int health) {
         this.health.loseHealth(health);
     }
