@@ -73,8 +73,6 @@ public class GameController extends ParentController {
     private Label highscoreLabel;
     @FXML
     private Label scoreLabel;
-    @FXML
-    private Label levelLabel;
 
     @Override
     public void init() {
@@ -95,7 +93,6 @@ public class GameController extends ParentController {
 
         // Initialize HUD elements
         highscoreLabel.setText("High Score: " + String.format("%06d", application.getScores().get(0).getScore()));
-        levelLabel.setText("Level: " + String.format("%02d", levelReader.getLevel()));
         updateHearts();
         updateArrowBox();
         updateBoomerangBox();
