@@ -61,7 +61,9 @@ public class GameController extends ParentController {
     @FXML
     private HBox bombsBox;
     @FXML
-    private HBox powerupBox;
+    private HBox arrowBox;
+    @FXML
+    private HBox boomerangBox;
     @FXML
     private HBox heartBox;
     @FXML
