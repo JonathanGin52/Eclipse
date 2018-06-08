@@ -49,7 +49,6 @@ public class LevelReader {
 
     public List<GameObject> getNewObjects(long now, Player player) {
         if (commands == null || commands.isEmpty()) {
-            System.out.println("new block");
             commands = getRandomBlock();
             waitFactor += 0.05;
         }
@@ -85,7 +84,6 @@ public class LevelReader {
             if (next.contains("continue")) {
                 double probability = Double.parseDouble(next.substring(9));
                 if (random.nextDouble() > probability) {
-                    System.out.println("DONT CONTINUE BB");
                     commands = null;
                     return toAdd;
                 } else {
