@@ -181,9 +181,40 @@
                            </children></AnchorPane>
                             </content>
                         </TitledPane>
-                        <TitledPane animated="false" prefHeight="260.0" prefWidth="450.0" text="Credits">
+                        <TitledPane animated="false" prefHeight="260.0" prefWidth="450.0" text="Power-Ups">
                             <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="448.0" />
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="448.0">
+                           <children>
+                              <Label layoutX="12.0" prefHeight="46.0" prefWidth="423.0" text="Enemies have a random chance to drop a power-up. Stronger enemies are more likely to drop one." textAlignment="CENTER" wrapText="true" />
+                              <GridPane layoutX="2.0" layoutY="46.0" prefHeight="173.0" prefWidth="450.0">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Arrow Power-up" />
+                                    <Label text="Default" GridPane.rowIndex="1" />
+                                    <Label text="Faster arrow speed" GridPane.rowIndex="2" />
+                                    <Label text="Shoot two arrows at once" GridPane.rowIndex="3" />
+                                    <Label text="faster arrow speed" GridPane.rowIndex="4" />
+                                    <Label text="shoot four arrows at once" GridPane.rowIndex="5" />
+                                    <Label text="Boomerang Power-up" GridPane.columnIndex="1" />
+                                    <Label text="1 bounce" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="2 bounces" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="10 bounces" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="faster boomerangs" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="shoot two boomerangs at once" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                 </children>
+                              </GridPane>
+                           </children></AnchorPane>
                             </content>
                         </TitledPane>
                     </panes>
