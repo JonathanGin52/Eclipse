@@ -29,7 +29,7 @@ wait 10000
 {
 continue 0.5
 Spammer 200 0 SineDown FireThreeSplit 1000
-wait 6000
+wait 4000
 }
 
 {
@@ -75,6 +75,7 @@ wait 2000
 
 {
 Thrower 200 0 Down FireAtPlayer 500
+wait 1000
 }
 
 {
