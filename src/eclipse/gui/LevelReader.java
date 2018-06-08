@@ -16,8 +16,8 @@ public class LevelReader {
 
     final static String LEVEL_DIR = "resources/levels/";
 
-    private static long wait = System.nanoTime();
-    private static List<String> commands = new LinkedList<>();
+    private long wait = System.nanoTime();
+    private List<String> commands = new LinkedList<>();
     private boolean levelOver = false;
     private int level;
 
