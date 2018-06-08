@@ -160,4 +160,9 @@ public class LevelReader {
     public boolean isLevelOver() {
         return levelOver;
     }
+
+    public int getLevel() {
+        // TODO
+        return 0;
+    }
 }

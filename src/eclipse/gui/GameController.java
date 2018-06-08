@@ -1,17 +1,22 @@
 package eclipse.gui;
 
 import eclipse.gamecomponents.*;
-import eclipse.gamecomponents.path.*;
+import eclipse.gamecomponents.path.Up;
+import eclipse.gamecomponents.path.UpLeft;
+import eclipse.gamecomponents.path.UpRight;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
@@ -26,11 +31,13 @@ import java.util.stream.Collectors;
 
 public class GameController extends ParentController {
 
+    private final Image FULL_HEART = new Image("file:resources/images/" + "heart.png");
+    private final Image HALF_HEART = new Image("file:resources/images/" + "halfheart.png");
+
     private final AudioClip PAUSE_OPEN_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Open.wav").toURI().toString());
     private final AudioClip PAUSE_CLOSE_CLIP = new AudioClip(new File("resources/audio/PauseMenu_Close.wav").toURI().toString());
     private final AudioClip ARROW_CLIP = new AudioClip(new File("resources/audio/Arrow_Shoot.wav").toURI().toString());
-    private final Media BOOMERANG_OUT = new Media(new File("resources/audio/Boomerang_Start.wav").toURI().toString());
-    private final AudioClip BOOMERANG_LOOP = new AudioClip(new File("resources/audio/Boomerang_Loop.wav").toURI().toString());
+    private final AudioClip BOOMERANG_OUT = new AudioClip(new File("resources/audio/Boomerang_Start.wav").toURI().toString());
 
     private boolean paused = false;
     private double volume;
@@ -51,36 +58,60 @@ public class GameController extends ParentController {
     @FXML
     private Pane gameArea;
     @FXML
+    private HBox hearts;
+    @FXML
+    private Label highscoreLabel;
+    @FXML
     private Label scoreLabel;
+    @FXML
+    private Label levelLabel;
 
     @Override
     public void init() {
         player = new Player(); // I'm not sure if proper practice tells us to initialize objects here, or if we can just do it at declaration ^^^
         score = new Score(0);
         gameObjects = new ArrayList<>();
+        levelReader = new LevelReader("level1.txt");
 
         // Add change listener to score property. When change is detected, update scoreLabel
         score.scoreProperty().addListener(e -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
         player.getHealthProperty().addListener(e -> {
             if (checkGameOver()) {
                 gameOver();
+            } else {
+                hearts.getChildren().clear();
+                int health = player.getHealth();
+                // Update heart label
+                while (health > 0) {
+                    ImageView img;
+                    if (health >= 2) {
+                        img = new ImageView(FULL_HEART);
+                        health--;
+                    } else {
+                        img = new ImageView(HALF_HEART);
+                    }
+                    health--;
+                    img.setFitWidth(15);
+                    img.setFitHeight(15);
+                    hearts.getChildren().add(img);
+                }
             }
             System.out.println(player.getHealthProperty());
         });
+        // Init high score
+        highscoreLabel.setText("High Score: " + String.format("%06d", application.getScores().get(0).getScore()));
+        levelLabel.setText("Level: " + String.format("%02d", levelReader.getLevel()));
 
         gameObjects.add(player);
         gameArea.getChildren().addAll(gameObjects);
-
-        levelReader = new LevelReader("level1.txt");
 
         installKeyListener(application.getScene());
         installMouseListener(application.getScene());
         setupGameLoop();
 
         // Setup audio
-        BOOMERANG_LOOP.setCycleCount(AudioClip.INDEFINITE);
         volume = application.getVolume();
-        BOOMERANG_LOOP.setVolume(volume);
+        BOOMERANG_OUT.setVolume(volume);
         PAUSE_OPEN_CLIP.setVolume(volume);
         PAUSE_CLOSE_CLIP.setVolume(volume);
         ARROW_CLIP.setVolume(volume);
@@ -213,7 +244,7 @@ public class GameController extends ParentController {
         ARROW_CLIP.play();
         System.out.println("Pew pew");
 
-        List<GameObject> toAdd = new ArrayList();
+        List<GameObject> toAdd = new ArrayList<>();
         switch (player.arrowLevel) {
             case 1:
                 toAdd.add(new Arrow(player.getMidpointX(), player.getY(), 5, new Up(), false));
@@ -226,14 +257,14 @@ public class GameController extends ParentController {
                 toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 10, new Up(), false));
                 break;
             case 4:
-                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 30, new Up(), false));
-                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 30, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 20, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 20, new Up(), false));
                 break;
             default:
-                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 30, new Up(), false));
-                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 30, new Up(), false));
-                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 30, new UpLeft(), false));
-                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 30, new UpRight(), false));
+                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 25, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 25, new Up(), false));
+                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 25, new UpLeft(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 25, new UpRight(), false));
                 break;
         }
         return toAdd;
@@ -247,12 +278,7 @@ public class GameController extends ParentController {
         }
 
         player.boomerangOut = true;
-        MediaPlayer mp = new MediaPlayer(BOOMERANG_OUT);
-        mp.setVolume(volume);
-        mp.play();
-//        mp.setOnEndOfMedia(BOOMERANG_LOOP::play); // Play looping part after start clip
-
-        // TODO
+        BOOMERANG_OUT.play();
 
         System.out.println("boomerang throw");
 
@@ -279,7 +305,7 @@ public class GameController extends ParentController {
     }
 
     private List<GameObject> launchBomb() {
-        List<GameObject> toAdd = new ArrayList(1);
+        List<GameObject> toAdd = new ArrayList<>(1);
 
         if (player.bombInv <= 0) {
             System.out.println("No more bombs");
@@ -310,7 +336,6 @@ public class GameController extends ParentController {
                     if (proj instanceof Boomerang) {
                         System.out.println("remove-----------------------");
                         player.boomerangOut = false;
-                        BOOMERANG_LOOP.stop();
                     }
 
                     toRemove.add(proj);
@@ -352,7 +377,6 @@ public class GameController extends ParentController {
                     if (((Boomerang) obj).getRemove()) {
                         toRemove.add(obj);
                         player.boomerangOut = false;
-                        BOOMERANG_LOOP.stop();
                     }
                 } else {
                     // Periodically lose health when inside enemy
@@ -431,9 +455,6 @@ public class GameController extends ParentController {
         System.out.println("Game over");
         gameLoop.stop();
         application.stopMusic();
-        if (BOOMERANG_LOOP.isPlaying()) {
-            BOOMERANG_LOOP.stop();
-        }
         MediaPlayer gameOverWAV = new MediaPlayer(new Media(new File("resources/audio/Game_Over.mp3").toURI().toString()));
         gameOverWAV.setVolume(volume);
         gameOverWAV.play();

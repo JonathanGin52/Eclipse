@@ -54,6 +54,9 @@ public class Main extends Application {
             // Add listener to volume property to auto set volume onchange
             volume.addListener(c -> mediaPlayer.setVolume(volume.getValue()));
 
+            // Load scores
+            loadScores();
+
             mediaPlayer.play();
             primaryStage.show();
         } catch (Exception ex) {
@@ -115,7 +118,7 @@ public class Main extends Application {
     }
 
     public List<Score> getScores() {
-        return scores == null ? loadScores() : scores;
+        return scores;
     }
 
     public List<Score> loadScores() {

@@ -1,8 +1,5 @@
 package eclipse.gamecomponents;
 
-/**
- * @author Jonathan Gin, Justin Reiter, Alex Yang
- */
 public class PowerUp extends GameObject {
 
     protected PowerUp(double xPos, double yPos, double width, double height) {
