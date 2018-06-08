@@ -19,8 +19,11 @@ public class LevelReader {
     private static long wait = System.nanoTime();
     private static List<String> commands = new LinkedList<>();
     private boolean levelOver = false;
+    private int level;
 
     public LevelReader(String fileName) {
+        level = Integer.parseInt(fileName.substring(5, fileName.indexOf('.')));
+
         String nextLine;
         try (BufferedReader reader = new BufferedReader(new FileReader(LEVEL_DIR + fileName))) {
             while ((nextLine = reader.readLine()) != null) {
@@ -162,7 +165,6 @@ public class LevelReader {
     }
 
     public int getLevel() {
-        // TODO
-        return 0;
+        return level;
     }
 }
