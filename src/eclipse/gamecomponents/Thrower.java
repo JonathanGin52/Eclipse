@@ -7,9 +7,12 @@ import eclipse.gamecomponents.fire.FirePattern;
 import eclipse.gamecomponents.path.VectorPath;
 import javafx.scene.image.Image;
 
+import java.util.Random;
+
 public class Thrower extends Enemy {
 
     private final static Image IMAGE = new Image(IMAGE_DIR + "enemy1.gif");
+    private final static Random random = new Random();
 
     public Thrower(int xPos, int yPos, VectorPath vectorPath, FirePattern firePattern, long startDelay) {
         super(IMAGE, 1, 100, xPos, yPos, 50, 50, vectorPath, firePattern, 1.5, 0.5, startDelay);
@@ -19,5 +22,9 @@ public class Thrower extends Enemy {
     @Override
     public Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath) {
         return new Spear(xPos, yPos, speed, vectorPath, true);
+    }
+
+    public boolean dropItem() {
+        return random.nextDouble() < 0.05;
     }
 }
