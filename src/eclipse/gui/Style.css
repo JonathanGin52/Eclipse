@@ -32,7 +32,7 @@
 }
 /* ------------------- Game Screen ------------------- */
 #game-pane {
-    -fx-background-image: url("file:resources/images/hills.jpg");
+    -fx-background-image: url("file:resources/images/gamebg.jpg");
     -fx-background-repeat: repeat-y;
 }
 
