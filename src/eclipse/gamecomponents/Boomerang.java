@@ -90,6 +90,11 @@ public class Boomerang extends Projectile {
         SPRITE.setRotate(0);
     }
 
+    @Override
+    public int getDamage() {
+        return 1;
+    }
+
     // What happens when a Boomerang hits an enemy
     public void setHitEnemy(Enemy hit) {
         if (lastSeen == hit) return;
@@ -119,7 +124,7 @@ public class Boomerang extends Projectile {
     // Find the enemy closest to the boomerang
     private Enemy findClosestEnemy() {
         Enemy closest = null;
-        double minDistance = 200 * 200; // Targeting radius
+        double minDistance = 250 * 250; // Targeting radius
 
         for (Enemy e : enemies) {
             if (lastSeen == e) continue;
@@ -130,10 +135,6 @@ public class Boomerang extends Projectile {
                 minDistance = distance;
                 closest = e;
             }
-        }
-
-        if (closest != null) {
-            target = closest;
         }
 
         return closest;

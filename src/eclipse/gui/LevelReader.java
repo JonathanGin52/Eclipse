@@ -1,8 +1,6 @@
 package eclipse.gui;
 
-import eclipse.gamecomponents.Enemy;
-import eclipse.gamecomponents.GameObject;
-import eclipse.gamecomponents.Player;
+import eclipse.gamecomponents.*;
 import eclipse.gamecomponents.fire.*;
 import eclipse.gamecomponents.path.*;
 
@@ -75,7 +73,8 @@ public class LevelReader {
                 wait = now + Long.parseLong(tokens[1]) * 1000000L;
                 return toAdd;
             }
-            String enemy = tokens[0];
+
+            String enemy = tokens[0].toUpperCase();
             int xPos = Integer.parseInt(tokens[1]);
             int yPos = Integer.parseInt(tokens[2]);
 
@@ -133,13 +132,10 @@ public class LevelReader {
                 case "FireThreeSplit":
                     firePattern = new FireThreeSplit();
                     break;
+                case "FireAtPlayer":
+                    firePattern = new FireAtPlayer(player);
+                    break;
                 default:
-                    // Check if it is the FireAtPlayer case
-                    if (tokens[4].substring(0, 12).equals("FireAtPlayer")) {
-                        firePattern = new FireAtPlayer(player, Double.parseDouble(tokens[4].substring(12, 14)));
-                        break;
-                    }
-
                     System.out.println("No fire path was found.");
                     Thread.dumpStack();
                     System.exit(0);
@@ -147,7 +143,17 @@ public class LevelReader {
 
             long startDelay = Long.parseLong(tokens[5]) * 1000000L;
 
-            toAdd.add(new Enemy(enemy.toLowerCase(), xPos, yPos, vectorPath, firePattern, startDelay));
+            if (enemy.equals("THROWER")) {
+                toAdd.add(new Thrower(xPos, yPos, vectorPath, firePattern, startDelay));
+            } else if (enemy.equals("SPAMMER")) {
+                toAdd.add(new Spammer(xPos, yPos, vectorPath, firePattern, startDelay));
+            } else if (enemy.equals("TURRET")) {
+                toAdd.add(new Turret(xPos, yPos, vectorPath, firePattern, startDelay));
+            } else {
+                System.out.println("No enemy was found of this type. Did you misspell something?");
+                Thread.dumpStack();
+                System.exit(0);
+            }
         }
     }
 

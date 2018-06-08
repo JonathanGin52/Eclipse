@@ -7,10 +7,15 @@ import javafx.scene.image.ImageView;
 public class Player extends GameObject {
 
     private final Image SPRITE = new Image(IMAGE_DIR + "link.gif");
+    private int arrowLevel = 1;
+    private int boomerangLevel = 1;
     public int bombInv = 3;
     public boolean boomerangOut = false;
+    public boolean insideEnemy = false;
     private ImageView img;
     private Health health;
+    private long lastTick = Long.MIN_VALUE;
+    private final long INSIDE_TICK_RATE = 500000000;
 
     public Player() {
         super(100, 300, 40, 60, 8);
@@ -23,6 +28,16 @@ public class Player extends GameObject {
 
     public IntegerProperty getHealthProperty() {
         return health.healthProperty();
+    }
+
+    public void isInsideEnemy() {
+        insideEnemy = true;
+
+        long time = System.nanoTime();
+        if (time > lastTick + INSIDE_TICK_RATE) {
+            loseHealth(1);
+            lastTick = time;
+        }
     }
 
     public int getHealth() {

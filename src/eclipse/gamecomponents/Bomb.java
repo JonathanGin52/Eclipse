@@ -13,6 +13,8 @@ public class Bomb extends Projectile {
     private int animationFrame = 0;
     private long lastUpdate = System.nanoTime();
     private boolean explode = false;
+    private boolean explodeFrame = false;
+    private int counter = 0;
 
     static {
         images = new Image[15];
@@ -36,6 +38,14 @@ public class Bomb extends Projectile {
             unboundedMove(getVector());
         }
 
+        if (explodeFrame) {
+            counter++;
+
+            if (counter == 2) {
+                explodeFrame = false;
+            }
+        }
+
         if (explode && now - lastUpdate >= FRAME_RATE) {
             animationFrame++;
             setSprite();
@@ -47,12 +57,17 @@ public class Bomb extends Projectile {
         }
     }
 
+    @Override
+    public int getDamage() {
+        return explodeFrame ? 5 : 0;
+    }
+
     private void setSprite() {
         SPRITE.setImage(images[animationFrame]);
     }
 
     public void explode() {
-        if (explode == true) return;
+        if (explode) return;
 
         explode = true;
         xPos += (getWidth() - EXPLODE_DIAMETER) / 2;
@@ -63,5 +78,7 @@ public class Bomb extends Projectile {
         animationFrame++;
         setSprite();
         animationFrame--;
+
+        explodeFrame = true;
     }
 }

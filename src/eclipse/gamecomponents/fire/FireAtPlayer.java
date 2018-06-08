@@ -17,9 +17,8 @@ public class FireAtPlayer implements FirePattern {
     private double margin;
 
     // Enemy isn't known yet
-    public FireAtPlayer(Player player, double margin) {
+    public FireAtPlayer(Player player) {
         this.player = player;
-        this.margin = margin;
     }
 
     public FireAtPlayer(Player player, Enemy enemy, double margin) {
@@ -30,7 +29,7 @@ public class FireAtPlayer implements FirePattern {
 
     @Override
     public List<VectorPath> getProjectilePaths(long now) {
-        double theta = Math.atan2(enemy.getY() - player.getY(), enemy.getX() - player.getX());
+        double theta = Math.atan2(enemy.getY() + enemy.getHeight() - player.getMidpointY(), enemy.getMidpointX() - player.getMidpointX());
         double newTheta = theta + 2 * margin * (random.nextDouble() - 0.5) * Math.PI / 180;
 
         double x = Math.cos(newTheta);

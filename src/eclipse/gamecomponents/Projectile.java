@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 /**
  * @author Jonathan Gin, Justin Reiter, Alex Yang
  */
-public class Projectile extends GameObject {
+public abstract class Projectile extends GameObject {
 
     private Image img;
     final ImageView SPRITE = new ImageView(img);
@@ -35,6 +35,8 @@ public class Projectile extends GameObject {
     public void setDestroyed() {
         destroy = true;
     }
+
+    public abstract int getDamage();
 
     public Vector getVector() {
         return vectorPath.getVector(xPos, yPos, age);
