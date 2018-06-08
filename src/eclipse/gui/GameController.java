@@ -376,8 +376,10 @@ public class GameController extends ParentController {
                         player.arrowLevel++;
                     } else if (obj instanceof BoomerangPowerUp) {
                         player.boomerangLevel++;
-                    } else {
+                    } else if (obj instanceof BombAdd) {
                         player.bombInv++;
+                    } else {
+                        player.gainHealth(2);
                     }
                     toRemove.add(obj);
                 } else if (obj instanceof Boomerang) {
