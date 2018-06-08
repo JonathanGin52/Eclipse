@@ -27,10 +27,6 @@ public class Score {
         return score.get();
     }
 
-    public void setScore(int score) {
-        this.score.set(score);
-    }
-
     public String getName() {
         return name;
     }

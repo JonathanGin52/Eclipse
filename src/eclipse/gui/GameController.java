@@ -499,11 +499,13 @@ public class GameController extends ParentController {
                     while (true) {
                         switch (random.nextInt(4)) {
                             case 0: // Drop arrow upgrade
-                                if (player.arrowLevel == 5) break Decide;
+                                if (player.arrowLevel >= 5) continue Decide;
+                                if (random.nextDouble() < 0.15 * player.arrowLevel) continue Decide;
                                 toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 1:
-                                if (player.boomerangLevel == 5) break Decide;
+                                if (player.boomerangLevel >= 5) continue Decide;
+                                if (random.nextDouble() < 0.15 * player.boomerangLevel) continue Decide;
                                 toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 2:
@@ -538,6 +540,7 @@ public class GameController extends ParentController {
         gameLoop.stop();
         application.stopMusic();
         application.gotoScene("GameOver", false);
+        LOW_HEALTH_CLIP.stop();
         MediaPlayer gameOverWAV = new MediaPlayer(new Media(new File("resources/audio/Game_Over.mp3").toURI().toString()));
         gameOverWAV.setVolume(volume);
         gameOverWAV.play();

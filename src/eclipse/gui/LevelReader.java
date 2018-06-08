@@ -17,7 +17,7 @@ public class LevelReader {
 
     final static String LEVEL_DIR = "resources/levels/";
 
-    private long wait = System.nanoTime();
+    private long wait = System.nanoTime() + 2500000000L;
     private List<List<String>> commandBlocks = new LinkedList<>();
     private List<String> commands;
     private Random random = new Random();
@@ -51,7 +51,7 @@ public class LevelReader {
     public List<GameObject> getNewObjects(long now, Player player) {
         if (commands == null || commands.isEmpty()) {
             commands = getRandomBlock();
-            waitFactor = Math.max(waitFactor + 0.05, Math.min(waitFactor * 1.015, waitFactor + 0.15));
+            waitFactor += 0.15 / waitFactor;
         }
 
         List<GameObject> toAdd = new ArrayList<>();

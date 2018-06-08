@@ -119,7 +119,7 @@ public class Main extends Application {
         return scores;
     }
 
-    public List<Score> loadScores() {
+    public void loadScores() {
         // Read scores and place into LinkedList (preserves insertion order)
         scores = new ArrayList<>(10);
         try (BufferedReader br = new BufferedReader(new FileReader(SCORE_FILE))) {
@@ -135,7 +135,6 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return scores;
     }
 
     private Initializable replaceSceneContent(String fxml) throws Exception {

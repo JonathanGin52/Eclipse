@@ -38,14 +38,6 @@ public abstract class GameObject extends Parent {
         }
     }
 
-    public void move(Vector vector) {
-        // find direction vector
-        double mag = Math.sqrt(vector.dx * vector.dx + vector.dy * vector.dy);
-        Vector direction = new Vector(vector.dx / mag, vector.dy / mag);
-        move(direction.dx, direction.dy);
-    }
-
-
     public void unboundedMove(double dx, double dy) {
         xPos += speed * dx;
         yPos += speed * dy;
