@@ -45,8 +45,8 @@ wait 4000
 }
 
 {
-Thrower 0 100 DownRight FireAtPlayer 500
-Thrower 450 100 DownLeft FireAtPlayer 500
+Thrower 0 50 DownRight FireAtPlayer 500
+Thrower 450 50 DownLeft FireAtPlayer 500
 wait 5000
 }
 
@@ -68,8 +68,8 @@ wait 4000
 }
 
 {
-Thrower 0 100 DownRight FireAtPlayer 500
-Thrower 450 100 DownLeft FireAtPlayer 500
+Thrower 0 50 DownRight FireAtPlayer 500
+Thrower 450 50 DownLeft FireAtPlayer 500
 wait 5000
 }
 
