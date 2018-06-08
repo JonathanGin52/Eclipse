@@ -81,7 +81,7 @@ public class GameController extends ParentController {
         player = new Player();
         score = new Score(0);
         gameObjects = new ArrayList<>();
-        levelReader = new LevelReader("level1.txt");
+        levelReader = new LevelReader("enemy_groups.txt");
 
         // Add change listeners to score and health properties. When change is detected, update their respective labels
         score.scoreProperty().addListener(e -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));

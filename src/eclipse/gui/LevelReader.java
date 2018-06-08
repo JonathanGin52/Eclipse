@@ -11,23 +11,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class LevelReader {
 
     final static String LEVEL_DIR = "resources/levels/";
 
     private long wait = System.nanoTime();
-    private List<String> commands = new LinkedList<>();
-    private boolean levelOver = false;
-    private int level;
+    private List<List<String>> commandBlocks = new LinkedList<>();
+    private List<String> commands;
+    private Random random = new Random();
+    private double waitFactor = 1;
 
     public LevelReader(String fileName) {
-        level = Integer.parseInt(fileName.substring(5, fileName.indexOf('.')));
-
         String nextLine;
         try (BufferedReader reader = new BufferedReader(new FileReader(LEVEL_DIR + fileName))) {
             while ((nextLine = reader.readLine()) != null) {
-                commands.add(nextLine);
+                if (nextLine.equals("{")) {
+                    List<String> commands = new LinkedList<>();
+                    while (!(nextLine = reader.readLine()).equals("}")) {
+                        commands.add(nextLine);
+                    }
+                    if (!commands.isEmpty()) {
+                        commandBlocks.add(commands);
+                    }
+                }
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found. Please make sure the file " + fileName + " exists.");
@@ -40,6 +48,12 @@ public class LevelReader {
     }
 
     public List<GameObject> getNewObjects(long now, Player player) {
+        if (commands == null || commands.isEmpty()) {
+            System.out.println("new block");
+            commands = getRandomBlock();
+            waitFactor += 0.05;
+        }
+
         List<GameObject> toAdd = new ArrayList<>();
 
         if (now <= wait) {
@@ -52,7 +66,6 @@ public class LevelReader {
         // keep reading until the next wait end of stored commands
         while (true) {
             if (commands.isEmpty()) {
-                levelOver = true;
                 return toAdd;
             }
 
@@ -73,7 +86,7 @@ public class LevelReader {
             if (tokens[0].equals("") || tokens[0].substring(0, 2).equals("//")) { // reading a comment in the text file
                 continue;
             } else if (tokens[0].equals("wait")) {
-                wait = now + Long.parseLong(tokens[1]) * 1000000L;
+                wait = now + (long) (Long.parseLong(tokens[1]) * 1000000L / waitFactor);
                 return toAdd;
             }
 
@@ -160,11 +173,11 @@ public class LevelReader {
         }
     }
 
-    public boolean isLevelOver() {
-        return levelOver;
+    public int getLevel() {
+        return 0;
     }
 
-    public int getLevel() {
-        return level;
+    private List<String> getRandomBlock() {
+        return new ArrayList(commandBlocks.get(random.nextInt(commandBlocks.size())));
     }
 }
