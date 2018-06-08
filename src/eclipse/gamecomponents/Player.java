@@ -89,6 +89,9 @@ public class Player extends GameObject {
 
     public void mouseMove(double x, double y) {
         // Player moves directly towards cursor
+        x = x - getWidth() / 2;
+        y = y - getHeight() / 2;
+
         double slope = (yPos - y) / (xPos - x);
         double dx = Math.sqrt(1 / (1 + slope * slope));
         if (xPos > x) {
