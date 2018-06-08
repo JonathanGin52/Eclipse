@@ -338,7 +338,6 @@ public class GameController extends ParentController {
                     if (proj instanceof Boomerang) {
                         player.boomerangOut = false;
                     }
-
                     toRemove.add(proj);
                 } else if (proj instanceof Bomb) {
                     updateProjectile((Bomb) proj);
@@ -375,7 +374,7 @@ public class GameController extends ParentController {
                 if (obj instanceof PowerUp) {
                     if (obj instanceof ArrowPowerUp) {
                         player.arrowLevel++;
-                    } else if (obj instanceof  BoomerangPowerUp) {
+                    } else if (obj instanceof BoomerangPowerUp) {
                         player.boomerangLevel++;
                     } else {
                         player.bombInv++;
