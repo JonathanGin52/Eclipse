@@ -336,13 +336,13 @@ public class GameController extends ParentController {
 
         switch (player.boomerangLevel) {
             case 1:
-                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 1));
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 7, false, player, gameObjects, 1));
                 break;
             case 2:
-                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 2));
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 7, false, player, gameObjects, 2));
                 break;
             case 3:
-                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 5, false, player, gameObjects, 10));
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 7, false, player, gameObjects, 10));
                 break;
             case 4:
                 toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 15, false, player, gameObjects, 10));
