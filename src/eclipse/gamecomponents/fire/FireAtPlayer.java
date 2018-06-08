@@ -29,7 +29,7 @@ public class FireAtPlayer implements FirePattern {
 
     @Override
     public List<VectorPath> getProjectilePaths(long now) {
-        double theta = Math.atan2(enemy.getY() - player.getY(), enemy.getX() - player.getX());
+        double theta = Math.atan2(enemy.getY() + enemy.getHeight() - player.getMidpointY(), enemy.getMidpointX() - player.getMidpointX());
         double newTheta = theta + 2 * margin * (random.nextDouble() - 0.5) * Math.PI / 180;
 
         double x = Math.cos(newTheta);

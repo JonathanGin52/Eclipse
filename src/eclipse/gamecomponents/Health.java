@@ -8,7 +8,7 @@ public class Health {
     private IntegerProperty health;
 
     public Health() {
-        health = new SimpleIntegerProperty(10000000);
+        health = new SimpleIntegerProperty(10);
     }
 
     public int getHealth() {
