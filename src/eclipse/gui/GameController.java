@@ -474,7 +474,6 @@ public class GameController extends ParentController {
         List<GameObject> proj = gameObjects.stream().filter(gameObject -> gameObject instanceof Projectile && !((Projectile) gameObject).isDestroyed() && gameObject.checkIntersection(enemy) && !((Projectile) gameObject).isEnemyProj()).collect(Collectors.toList());
         if (!proj.isEmpty()) {
             // allow bombs to boom and kill multiple, lasers to vanish and kill one
-            // this implementation assumes bomb and laser do not strike at the same time
             for (GameObject object : proj) {
                 Projectile projectile = (Projectile) object;
 
