@@ -18,4 +18,8 @@ public class Turret extends Enemy {
     public Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath) {
         return new Spear(xPos, yPos, speed, vectorPath, true);
     }
+
+    public boolean dropItem() {
+        return true;
+    }
 }

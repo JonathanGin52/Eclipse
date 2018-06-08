@@ -84,6 +84,8 @@ public abstract class Enemy extends GameObject {
 
     public abstract Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath);
 
+    public abstract boolean dropItem();
+
     // Return score associated with killing this enemy
     public void hit(int damage) {
         hitPoints -= damage;

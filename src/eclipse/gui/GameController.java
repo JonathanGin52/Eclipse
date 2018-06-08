@@ -18,10 +18,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameController extends ParentController {
@@ -45,6 +42,7 @@ public class GameController extends ParentController {
     private double mouseX, mouseY;
     private boolean mouseMove;
     private LevelReader levelReader;
+    private Random random = new Random();
 
     @FXML
     private AnchorPane root;
@@ -300,7 +298,7 @@ public class GameController extends ParentController {
             if (obj instanceof Player) {
                 toRemove.addAll(updatePlayer((Player) obj));
             } else if (obj instanceof Enemy) {
-                Optional.ofNullable(updateEnemy((Enemy) obj)).ifPresent(toAdd::addAll); // Add if not null
+                toAdd.addAll(updateEnemy((Enemy) obj));
                 if (!((Enemy) obj).isAlive()) { // Remove enemy if dead
                     toRemove.add(obj);
                 }
@@ -347,7 +345,14 @@ public class GameController extends ParentController {
             for (GameObject obj : hits) {
                 System.out.println("hit");
                 if (obj instanceof PowerUp) {
-                    // TODO
+                    if (obj instanceof ArrowPowerUp) {
+                        player.arrowLevel++;
+                    } else if (obj instanceof  BoomerangPowerUp) {
+                        player.boomerangLevel++;
+                    } else {
+                        player.bombInv++;
+                    }
+                    toRemove.add(obj);
                 } else if (obj instanceof Boomerang) {
                     if (((Boomerang) obj).getRemove()) {
                         toRemove.add(obj);
@@ -381,6 +386,8 @@ public class GameController extends ParentController {
     }
 
     private List<GameObject> updateEnemy(Enemy enemy) {
+        List<GameObject> toAdd = new ArrayList<>();
+
         // Check intersection of projectiles
         List<GameObject> proj = gameObjects.stream().filter(gameObject -> gameObject instanceof Projectile && !((Projectile) gameObject).isDestroyed() && gameObject.checkIntersection(enemy) && !((Projectile) gameObject).isEnemyProj()).collect(Collectors.toList());
         if (!proj.isEmpty()) {
@@ -402,6 +409,27 @@ public class GameController extends ParentController {
 
             if (!enemy.isAlive()) {
                 score.add(enemy.getKillScore());
+
+                // Maybe add a projectile
+                if (enemy.dropItem()) {
+                    // Decide a projectile
+                    Decide:
+                    while (true) {
+                        switch (random.nextInt(3)) {
+                            case 0: // Drop arrow upgrade
+                                if (player.arrowLevel == 5) continue;
+                                toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
+                                break Decide;
+                            case 1:
+                                if (player.boomerangLevel == 5) continue;
+                                toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
+                                break Decide;
+                            case 2:
+                                toAdd.add(new BombAdd(enemy.getX(), enemy.getY()));
+                                break Decide;
+                        }
+                    }
+                }
             }
         }
 
@@ -409,7 +437,8 @@ public class GameController extends ParentController {
             // Very hacky, would prefer a cleaner more efficient soln
             return enemy.getNewProjectiles().stream().map(e -> (GameObject) e).collect(Collectors.toList());
         }
-        return null;
+
+        return toAdd;
     }
 
     private void updateProjectile(Bomb bomb) {
