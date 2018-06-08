@@ -24,8 +24,8 @@ public abstract class ParentController implements Initializable {
     }
 
     // Switch active scene to settings screen
-    void settings(boolean switchMusic) {
-        application.gotoScene("Settings", switchMusic);
+    void help(boolean switchMusic) {
+        application.gotoScene("Help", switchMusic);
     }
 
     // Switch active scene to scoreboard

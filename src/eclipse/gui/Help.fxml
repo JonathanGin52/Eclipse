@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="450.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eclipse.gui.HelpController">
+    <children>
+        <VBox alignment="TOP_CENTER" prefHeight="535.0" prefWidth="450.0" spacing="15.0" AnchorPane.topAnchor="20.0">
+            <children>
+                <Label style="-fx-font-size: 45;" text="Help" />
+                <GridPane alignment="CENTER" prefWidth="350.0" vgap="2.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="177.0" minWidth="10.0" prefWidth="133.99999237060547" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="177.6666463216146" minWidth="1.0" prefWidth="46.33333333333334" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="315.66668701171875" minWidth="10.0" prefWidth="270.33333333333337" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints />
+                    </rowConstraints>
+                    <children>
+                        <Label style="-fx-font-size: 20;" text="Movement">
+                            <font>
+                                <Font name="System Bold" size="18.0" />
+                            </font>
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                        </Label>
+                        <Label style="-fx-font-size: 20;" text="Shoot" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <font>
+                                <Font name="System Bold" size="18.0" />
+                            </font>
+                        </Label>
+                        <Label style="-fx-font-size: 20;" text="Bomb" GridPane.rowIndex="2">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <font>
+                                <Font name="System Bold" size="18.0" />
+                            </font>
+                        </Label>
+                        <Label style="-fx-font-size: 20;" text="Boomerang" GridPane.rowIndex="3">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <font>
+                                <Font name="System Bold" size="18.0" />
+                            </font>
+                        </Label>
+                        <Label style="-fx-font-size: 20;" text="Arrow Keys / Mouse" GridPane.columnIndex="2">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label style="-fx-font-size: 20;" text="Space / Left Click" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label style="-fx-font-size: 20;" text="B / Right CLick" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label style="-fx-font-size: 20;" text="V" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label text=":" GridPane.columnIndex="1">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label text=":" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label text=":" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label text=":" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </GridPane>
+                <Accordion prefHeight="293.0" prefWidth="450.0">
+                    <panes>
+                        <TitledPane animated="false" text="Attacks">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="450.0">
+                                    <children>
+                                        <GridPane layoutX="-1.0" prefHeight="220.0" prefWidth="450.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.99995930989581" minWidth="10.0" prefWidth="114.66670735677081" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.3333435058594" minWidth="10.0" prefWidth="275.9999593098958" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints />
+                                                <RowConstraints maxHeight="52.33331298828125" minHeight="10.0" percentHeight="33.3" prefHeight="47.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="67.99999999999999" minHeight="10.0" percentHeight="33.3" prefHeight="37.33335367838542" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="45.33331298828125" minHeight="0.0" percentHeight="33.3" prefHeight="45.33331298828125" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                            <children>
+                                                <Label style="-fx-font-size: 16;" text="Arrows" GridPane.rowIndex="1" />
+                                                <Label style="-fx-font-size: 16;" text="Bombs" GridPane.rowIndex="2" />
+                                                <Label style="-fx-font-size: 16;" text="Boomerang" GridPane.rowIndex="3" />
+                                    <Label text="Your bread and butter - the bow and arrow is your most basic attack. Capable of dealing 2 damage per shot." textAlignment="CENTER" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="The bomb deals devastating area of affect damage to all enemies. However, use them sparingly as they are limited in supply. " textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Although weak, the boomerang can wreak havoc on enemies with its magical bounce. Collect power-ups to increase the number of bounces." textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                                            </padding>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </TitledPane>
+                        <TitledPane animated="false" text="Enemies">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="450.0" />
+                            </content>
+                        </TitledPane>
+                        <TitledPane animated="false" prefHeight="260.0" prefWidth="450.0" text="Credits">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="448.0" />
+                            </content>
+                        </TitledPane>
+                    </panes>
+                </Accordion>
+            </children>
+        </VBox>
+        <HBox alignment="CENTER" layoutY="584.0" prefHeight="77.0" prefWidth="450.0" spacing="10.0" AnchorPane.bottomAnchor="0.0">
+            <children>
+                <Label alignment="CENTER" style="-fx-font-size: 18;" text="Volume:">
+                    <font>
+                        <Font size="55.0" />
+                    </font>
+                </Label>
+                <Slider fx:id="volumeSlider" blockIncrement="0.05" majorTickUnit="0.25" max="1.0" minorTickCount="4" prefHeight="24.0" prefWidth="197.0" snapToTicks="true" value="100.0" />
+                <Button fx:id="home" minWidth="-Infinity" mnemonicParsing="false" prefWidth="30.0" text="Back">
+                    <HBox.margin>
+                        <Insets left="20.0" right="10.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

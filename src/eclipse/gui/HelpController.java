@@ -6,7 +6,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class SettingsController extends ParentController {
+public class HelpController extends ParentController {
 
     @FXML
     private Slider volumeSlider;

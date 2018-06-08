@@ -218,7 +218,7 @@ public class GameController extends ParentController {
         MediaPlayer mp = new MediaPlayer(BOOMERANG_OUT);
         mp.setVolume(volume);
         mp.play();
-        mp.setOnEndOfMedia(BOOMERANG_LOOP::play); // Play looping part after start clip
+//        mp.setOnEndOfMedia(BOOMERANG_LOOP::play); // Play looping part after start clip
 
         // TODO
 
@@ -299,7 +299,7 @@ public class GameController extends ParentController {
                     }
 
                     // Lose 2 health if hit by enemy projectile
-                    if (obj instanceof  Projectile) {
+                    if (obj instanceof Projectile) {
                         player.loseHealth(2);
                         toRemove.add(obj);
                     }
@@ -366,10 +366,14 @@ public class GameController extends ParentController {
     }
 
     private void gameOver() {
+        System.out.println("Game over");
         gameLoop.stop();
         application.stopMusic();
-        BOOMERANG_LOOP.stop();
+        if (BOOMERANG_LOOP.isPlaying()) {
+            BOOMERANG_LOOP.stop();
+        }
         MediaPlayer gameOverWAV = new MediaPlayer(new Media(new File("resources/audio/Game_Over.mp3").toURI().toString()));
+        gameOverWAV.setVolume(volume);
         gameOverWAV.play();
         gameOverWAV.setOnEndOfMedia(() -> {
             List<Score> scores = application.getScores();
