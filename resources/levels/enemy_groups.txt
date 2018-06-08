@@ -79,13 +79,13 @@ wait 1000
 }
 
 {
-continue 0.25
+continue 0.20
 Turret 200 0 Down FireAtPlayer 500
 wait 10000
 }
 
 {
-continue 0.20
+continue 0.15
 Turret 100 0 Down FireAtPlayer 500
 Turret 300 0 Down FireAtPlayer 700
 wait 30000
