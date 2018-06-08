@@ -15,67 +15,67 @@ Make multiline comments this way
 
 {
 Spammer 0 0 DownRight FireTwoSplit 500
-Spammer 450 0 DownLeft FireTwoSplit 500
-wait 6000
+Spammer 400 0 DownLeft FireTwoSplit 500
+wait 7000
 }
 
 {
 Spammer 0 0 DownRight FireDownRight 500
-Spammer 450 0 DownLeft FireDownLeft 500
+Spammer 400 0 DownLeft FireDownLeft 500
 Spammer 200 0 Down FireDown 500
-wait 10000
+wait 11000
 }
 
 {
 continue 0.5
 Spammer 200 0 SineDown FireThreeSplit 1000
-wait 4000
+wait 5000
 }
 
 {
 Thrower 100 0 DownLeft FireAtPlayer 500
 Thrower 300 0 DownRight FireAtPlayer 500
-wait 4000
+wait 3000
 }
 
 {
 Thrower 0 100 Right FireAtPlayer 500
-Thrower 450 100 Left FireAtPlayer 500
-wait 4000
+Thrower 400 100 Left FireAtPlayer 500
+wait 3000
 }
 
 {
 Thrower 0 50 DownRight FireAtPlayer 500
-Thrower 450 50 DownLeft FireAtPlayer 500
-wait 5000
+Thrower 400 50 DownLeft FireAtPlayer 500
+wait 4000
 }
 
 {
 Thrower 200 0 Down FireAtPlayer 500
-wait 2000
+wait 1000
 }
 
 {
 Thrower 100 0 DownLeft FireAtPlayer 500
 Thrower 300 0 DownRight FireAtPlayer 500
-wait 4000
+wait 3000
 }
 
 {
 Thrower 0 100 Right FireAtPlayer 500
-Thrower 450 100 Left FireAtPlayer 500
-wait 4000
+Thrower 400 100 Left FireAtPlayer 500
+wait 3000
 }
 
 {
 Thrower 0 50 DownRight FireAtPlayer 500
-Thrower 450 50 DownLeft FireAtPlayer 500
-wait 5000
+Thrower 400 50 DownLeft FireAtPlayer 500
+wait 4000
 }
 
 {
 Thrower 200 0 Down FireAtPlayer 500
-wait 2000
+wait 1000
 }
 
 {

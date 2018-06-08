@@ -517,17 +517,18 @@ public class GameController extends ParentController {
                     while (true) {
                         switch (random.nextInt(4)) {
                             case 0: // Drop arrow upgrade
-                                if (player.arrowLevel == 5 || random.nextDouble() < 0.5) continue;
+                                if (player.arrowLevel == 5) break Decide;
                                 toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 1:
-                                if (player.boomerangLevel == 5 || random.nextDouble() < 0.5) continue;
+                                if (player.boomerangLevel == 5) break Decide;
                                 toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 2:
                                 toAdd.add(new BombAdd(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 3:
+                                if (random.nextDouble() < 0.5) break Decide;
                                 toAdd.add(new HeartAdd(enemy.getX(), enemy.getY()));
                                 break Decide;
                         }

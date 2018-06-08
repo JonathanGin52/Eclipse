@@ -25,7 +25,6 @@ public class HelpController extends ParentController {
         volumeSlider.adjustValue(application.getVolume());
         volumeSlider.valueProperty().addListener(c -> {
             application.setVolume(volumeSlider.getValue());
-            System.out.println(application.getVolume());
         });
     }
 }

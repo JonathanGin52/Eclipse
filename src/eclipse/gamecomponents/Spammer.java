@@ -12,7 +12,7 @@ public class Spammer extends Enemy {
     private final static Random random = new Random();
 
     public Spammer(int xPos, int yPos, VectorPath vectorPath, FirePattern firePattern, long startDelay) {
-        super(IMAGE, 3, 300, xPos, yPos, 50, 50, vectorPath, firePattern, 0.5, 0.4, startDelay);
+        super(IMAGE, 3, 300, xPos, yPos, 50, 50, vectorPath, firePattern, 0.5, 1, startDelay);
     }
 
     @Override
@@ -21,6 +21,6 @@ public class Spammer extends Enemy {
     }
 
     public boolean dropItem() {
-        return random.nextDouble() < 0.5;
+        return random.nextDouble() < 0.4;
     }
 }
