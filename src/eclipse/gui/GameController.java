@@ -441,7 +441,7 @@ public class GameController extends ParentController {
                     // Decide a projectile
                     Decide:
                     while (true) {
-                        switch (3) {
+                        switch (random.nextInt(4)) {
                             case 0: // Drop arrow upgrade
                                 if (player.arrowLevel == 5) continue;
                                 toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));

@@ -25,6 +25,6 @@ public class Thrower extends Enemy {
     }
 
     public boolean dropItem() {
-        return random.nextDouble() < 0.05;
+        return random.nextDouble() < 0.1;
     }
 }
