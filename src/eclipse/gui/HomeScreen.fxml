@@ -9,9 +9,9 @@
 
 <AnchorPane id="home-pane" prefHeight="600.0" prefWidth="450.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eclipse.gui.HomeScreenController">
     <children>
-        <VBox alignment="CENTER" layoutX="255.0" layoutY="26.0" spacing="15.0">
+        <VBox alignment="CENTER" layoutX="225.0" layoutY="52.0" spacing="15.0">
             <children>
-                <Label style="-fx-font-size: 60;" text="Title">
+                <Label style="-fx-font-size: 30;" text="Legend of Link">
                     <font>
                         <Font name="Verdana" size="24.0" />
                     </font>

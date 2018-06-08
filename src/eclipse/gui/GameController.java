@@ -66,39 +66,25 @@ public class GameController extends ParentController {
 
     @Override
     public void init() {
-        player = new Player(); // I'm not sure if proper practice tells us to initialize objects here, or if we can just do it at declaration ^^^
+        player = new Player();
         score = new Score(0);
         gameObjects = new ArrayList<>();
         levelReader = new LevelReader("level1.txt");
 
-        // Add change listener to score property. When change is detected, update scoreLabel
+        // Add change listeners to score and health properties. When change is detected, update their respective labels
         score.scoreProperty().addListener(e -> scoreLabel.setText("Score: " + String.format("%06d", score.getScore())));
         player.getHealthProperty().addListener(e -> {
             if (checkGameOver()) {
                 gameOver();
             } else {
-                hearts.getChildren().clear();
-                int health = player.getHealth();
-                // Update heart label
-                while (health > 0) {
-                    ImageView img;
-                    if (health >= 2) {
-                        img = new ImageView(FULL_HEART);
-                        health--;
-                    } else {
-                        img = new ImageView(HALF_HEART);
-                    }
-                    health--;
-                    img.setFitWidth(15);
-                    img.setFitHeight(15);
-                    hearts.getChildren().add(img);
-                }
+                updateHearts();
             }
-            System.out.println(player.getHealthProperty());
         });
-        // Init high score
+
+        // Initialize HUD elements
         highscoreLabel.setText("High Score: " + String.format("%06d", application.getScores().get(0).getScore()));
         levelLabel.setText("Level: " + String.format("%02d", levelReader.getLevel()));
+        updateHearts();
 
         gameObjects.add(player);
         gameArea.getChildren().addAll(gameObjects);
@@ -116,6 +102,25 @@ public class GameController extends ParentController {
 
         // Start the game
         gameLoop.start();
+    }
+
+    private void updateHearts() {
+        hearts.getChildren().clear();
+        int health = player.getHealth();
+        // Update heart label
+        while (health > 0) {
+            ImageView img;
+            if (health >= 2) {
+                img = new ImageView(FULL_HEART);
+                health--;
+            } else {
+                img = new ImageView(HALF_HEART);
+            }
+            health--;
+            img.setFitWidth(15);
+            img.setFitHeight(15);
+            hearts.getChildren().add(img);
+        }
     }
 
     private boolean checkGameOver() {
@@ -240,7 +245,6 @@ public class GameController extends ParentController {
 
     private List<GameObject> shootArrow() {
         ARROW_CLIP.play();
-        System.out.println("Pew pew");
 
         List<GameObject> toAdd = new ArrayList<>();
         switch (player.arrowLevel) {
@@ -332,10 +336,8 @@ public class GameController extends ParentController {
                 Projectile proj = (Projectile) obj;
                 if (proj.isDestroyed()) {
                     if (proj instanceof Boomerang) {
-                        System.out.println("remove-----------------------");
                         player.boomerangOut = false;
                     }
-
                     toRemove.add(proj);
                 } else if (proj instanceof Bomb) {
                     updateProjectile((Bomb) proj);
@@ -372,7 +374,7 @@ public class GameController extends ParentController {
                 if (obj instanceof PowerUp) {
                     if (obj instanceof ArrowPowerUp) {
                         player.arrowLevel++;
-                    } else if (obj instanceof  BoomerangPowerUp) {
+                    } else if (obj instanceof BoomerangPowerUp) {
                         player.boomerangLevel++;
                     } else {
                         player.bombInv++;
@@ -461,7 +463,6 @@ public class GameController extends ParentController {
         }
 
         if (enemy.fire()) {
-            // Very hacky, would prefer a cleaner more efficient soln
             return enemy.getNewProjectiles().stream().map(e -> (GameObject) e).collect(Collectors.toList());
         }
 
