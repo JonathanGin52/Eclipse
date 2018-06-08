@@ -15,4 +15,9 @@ public class Thrower extends Enemy {
         super(IMAGE, 1, 100, xPos, yPos, 50, 50, vectorPath, firePattern, 1.5, 0.5, startDelay);
         setFirePattern(new FireAtPlayer(((FireAtPlayer) firePattern).getPlayer(), this, 20));
     }
+
+    @Override
+    public Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath) {
+        return new Spear(xPos, yPos, speed, vectorPath, true);
+    }
 }

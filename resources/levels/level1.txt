@@ -18,10 +18,10 @@ Thrower 300 0 DownRight FireAtPlayer 500
 wait 4000
 
 Spammer 100 0 DownLeft FireDown 1000
-Spammer 200 0 SineDown FireThreeSplit 1000
+Spammer 200 0 SineDown FireTwoSplit 1000
 Spammer 300 0 DownRight FireDown 1000
 wait 500
-Spammer 200 0 SineDown FireThreeSplit 1000
+Spammer 200 0 SineDown FireDown 1000
 
 wait 4000
 
