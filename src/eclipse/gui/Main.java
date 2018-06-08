@@ -1,6 +1,8 @@
 package eclipse.gui;
 
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -29,6 +31,7 @@ public class Main extends Application {
     private final double MINIMUM_WINDOW_HEIGHT = 600;
     private Stage stage;
     private Scene scene;
+    private DoubleProperty volume = new SimpleDoubleProperty(1.0);
 
     public static void main(String[] args) {
         launch(args);
@@ -47,6 +50,10 @@ public class Main extends Application {
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             stage.setResizable(false);
             gotoScene("HomeScreen", false);
+
+            // Add listener to volume property to auto set volume onchange
+            volume.addListener(c -> mediaPlayer.setVolume(volume.getValue()));
+
             mediaPlayer.play();
             primaryStage.show();
         } catch (Exception ex) {
@@ -94,6 +101,7 @@ public class Main extends Application {
                 mediaPlayer = new MediaPlayer(GERUDO_THEME);
                 break;
         }
+        mediaPlayer.setVolume(getVolume());
         mediaPlayer.play();
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loops music
     }
@@ -142,5 +150,13 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.sizeToScene();
         return (Initializable) loader.getController();
+    }
+
+    public double getVolume() {
+        return volume.doubleValue();
+    }
+
+    public void setVolume(double volume) {
+        this.volume.setValue(volume);
     }
 }

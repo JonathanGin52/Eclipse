@@ -32,7 +32,8 @@ public class GameController extends ParentController {
     private final Media BOOMERANG_OUT = new Media(new File("resources/audio/Boomerang_Start.wav").toURI().toString());
     private final AudioClip BOOMERANG_LOOP = new AudioClip(new File("resources/audio/Boomerang_Loop.wav").toURI().toString());
 
-    boolean paused = false;
+    private boolean paused = false;
+    private double volume;
     private AnimationTimer gameLoop;
     private List<GameObject> gameObjects;
     private Score score;
@@ -76,8 +77,13 @@ public class GameController extends ParentController {
         installMouseListener(application.getScene());
         setupGameLoop();
 
-        // Setup loop
+        // Setup audio
         BOOMERANG_LOOP.setCycleCount(AudioClip.INDEFINITE);
+        volume = application.getVolume();
+        BOOMERANG_LOOP.setVolume(volume);
+        PAUSE_OPEN_CLIP.setVolume(volume);
+        PAUSE_CLOSE_CLIP.setVolume(volume);
+        ARROW_CLIP.setVolume(volume);
 
         // Start the game
         gameLoop.start();
@@ -93,8 +99,6 @@ public class GameController extends ParentController {
             public void handle(long now) {
                 // Update screen
                 updateScreen(now);
-                // Pass pixels to AI
-                // Etc
             }
         };
     }
@@ -156,7 +160,7 @@ public class GameController extends ParentController {
                 gameOver();
             }
             if (code == KeyCode.P) {
-                if (paused == true) {
+                if (paused) {
                     PAUSE_CLOSE_CLIP.play();
                     System.out.println("Resumed");
                     gameLoop.start();
@@ -204,10 +208,9 @@ public class GameController extends ParentController {
 
         player.boomerangOut = true;
         MediaPlayer mp = new MediaPlayer(BOOMERANG_OUT);
+        mp.setVolume(volume);
         mp.play();
-        mp.setOnEndOfMedia(() -> {
-            BOOMERANG_LOOP.play();
-        }); // Play looping part after start clip
+        mp.setOnEndOfMedia(BOOMERANG_LOOP::play); // Play looping part after start clip
 
         // TODO
 

@@ -27,7 +27,7 @@ public class HomeScreenController extends ParentController {
             }
         });
         start.setOnMouseClicked(event -> {
-            START_CLIP.play();
+            START_CLIP.play(application.getVolume());
             startGame(true);
         });
         settings.setOnMouseClicked(event -> settings(false));
