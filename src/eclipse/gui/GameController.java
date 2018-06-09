@@ -499,12 +499,12 @@ public class GameController extends ParentController {
                         switch (random.nextInt(4)) {
                             case 0: // Drop arrow upgrade
                                 if (player.arrowLevel >= 5) continue Decide;
-                                if (random.nextDouble() < 0.15 * player.arrowLevel) continue Decide;
+                                if (random.nextDouble() < 0.2 * player.arrowLevel) continue Decide;
                                 toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 1:
                                 if (player.boomerangLevel >= 5) continue Decide;
-                                if (random.nextDouble() < 0.15 * player.boomerangLevel) continue Decide;
+                                if (random.nextDouble() < 0.2 * player.boomerangLevel) continue Decide;
                                 toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 2:
@@ -512,7 +512,7 @@ public class GameController extends ParentController {
                                 toAdd.add(new BombAdd(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 3:
-                                if (player.getHeight() == 20) break Decide;
+                                if (player.getHealth() >= 20) break Decide;
                                 toAdd.add(new HeartAdd(enemy.getX(), enemy.getY()));
                                 break Decide;
                         }
