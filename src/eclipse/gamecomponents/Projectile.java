@@ -20,6 +20,7 @@ public abstract class Projectile extends GameObject {
         SPRITE.setImage(img);
         SPRITE.setFitHeight(dimensions.getHeight());
         SPRITE.setFitWidth(dimensions.getWidth());
+        SPRITE.setVisible(false);
         this.vectorPath = vectorPath;
         this.enemyProj = enemyProj;
         this.getChildren().add(SPRITE);
@@ -51,6 +52,7 @@ public abstract class Projectile extends GameObject {
     // Move the projectile
     @Override
     public void update(long now) {
+        SPRITE.setVisible(true);
         age = now - startTime;
 
         Vector vector = getVector();

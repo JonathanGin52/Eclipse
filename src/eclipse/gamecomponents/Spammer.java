@@ -16,11 +16,11 @@ public class Spammer extends Enemy {
     }
 
     @Override
-    public Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath) {
-        return new Dagger(xPos, yPos, speed, vectorPath, true);
+    public Projectile getProjectile(double xPos, double yPos,VectorPath vectorPath) {
+        return new Dagger(xPos, yPos, vectorPath, true);
     }
 
     public boolean dropItem() {
-        return random.nextDouble() < 0.4;
+        return random.nextDouble() < 0.5;
     }
 }

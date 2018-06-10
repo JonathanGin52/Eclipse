@@ -20,11 +20,11 @@ public class Thrower extends Enemy {
     }
 
     @Override
-    public Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath) {
-        return new Spear(xPos, yPos, speed, vectorPath, true);
+    public Projectile getProjectile(double xPos, double yPos, VectorPath vectorPath) {
+        return new Spear(xPos, yPos, vectorPath, true);
     }
 
     public boolean dropItem() {
-        return random.nextDouble() < 0.07;
+        return random.nextDouble() < 0.1;
     }
 }

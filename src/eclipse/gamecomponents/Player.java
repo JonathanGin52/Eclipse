@@ -11,7 +11,7 @@ public class Player extends GameObject {
     public int arrowLevel = 1;
     public int boomerangLevel = 1;
     public int bombInv = 3;
-    public boolean boomerangOut = false;
+    public int boomerangOut = 0;
     public boolean insideEnemy = false;
     private ImageView img;
     private Health health;
@@ -56,6 +56,12 @@ public class Player extends GameObject {
 
     public void loseHealth(int health) {
         this.health.loseHealth(health);
+    }
+
+    public long getArrowDelay() {
+        if (arrowLevel < 2) return 400000000L; // level 1
+        else if (arrowLevel < 4) return 300000000L; // levels 2-3
+        else return 200000000L;
     }
 
     @Override

@@ -45,6 +45,13 @@ wait 3000
 }
 
 {
+Thrower 100 0 Down FireAtPlayer 500
+Thrower 300 0 Down FireAtPlayer 500
+wait 3000
+}
+
+
+{
 Thrower 0 100 Right FireAtPlayer 500
 Thrower 400 100 Left FireAtPlayer 500
 wait 3000
@@ -64,6 +71,12 @@ wait 1000
 {
 Thrower 100 0 DownLeft FireAtPlayer 500
 Thrower 300 0 DownRight FireAtPlayer 500
+wait 3000
+}
+
+{
+Thrower 100 0 Down FireAtPlayer 500
+Thrower 300 0 Down FireAtPlayer 500
 wait 3000
 }
 
@@ -94,7 +107,7 @@ wait 20000
 continue 0.20
 Turret 100 0 Down FireAtPlayer 500
 Turret 300 0 Down FireAtPlayer 700
-wait 40000
+wait 30000
 }
 
 // END

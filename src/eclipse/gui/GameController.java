@@ -56,6 +56,7 @@ public class GameController extends ParentController {
     private boolean pressedArrow = false;
     private boolean pressedBomb = false;
     private boolean pressedBoomerang = false;
+    private long lastArrow = Long.MIN_VALUE;
     private double mouseX, mouseY;
     private boolean mouseMove;
     private LevelReader levelReader;
@@ -222,8 +223,10 @@ public class GameController extends ParentController {
 
             if (!player.insideEnemy) {
                 if (mb == MouseButton.PRIMARY) {
+                    pressedArrow = true;
                     toAdd.addAll(shootArrow());
                 } else if (mb == MouseButton.SECONDARY) {
+                    pressedBomb = true;
                     toAdd.addAll(launchBomb());
                 }
             }
@@ -231,6 +234,16 @@ public class GameController extends ParentController {
             if (!toAdd.isEmpty()) {
                 gameArea.getChildren().addAll(toAdd);
                 gameObjects.addAll(toAdd);
+            }
+        });
+
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, (MouseEvent me) -> {
+            MouseButton mb = me.getButton();
+
+            if (mb == MouseButton.PRIMARY) {
+                pressedArrow = false;
+            } else if (mb == MouseButton.SECONDARY) {
+                pressedBomb = false;
             }
         });
     }
@@ -255,7 +268,7 @@ public class GameController extends ParentController {
                 }
                 if (code == KeyCode.B && !pressedBomb) {
                     pressedBomb = true;
-                    toAdd = launchBomb();
+                    toAdd.addAll(launchBomb());
                 }
             }
 
@@ -294,9 +307,14 @@ public class GameController extends ParentController {
     }
 
     private List<GameObject> shootArrow() {
-        ARROW_CLIP.play();
-
         List<GameObject> toAdd = new ArrayList<>();
+        long now = System.nanoTime();
+
+        if (!pressedArrow || lastArrow + player.getArrowDelay() > now) return toAdd;
+
+        ARROW_CLIP.play();
+        lastArrow = now;
+
         switch (player.arrowLevel) {
             case 1:
                 toAdd.add(new Arrow(player.getMidpointX(), player.getY(), 5, new Up(), false));
@@ -315,8 +333,8 @@ public class GameController extends ParentController {
             default:
                 toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 25, new Up(), false));
                 toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 25, new Up(), false));
-                toAdd.add(new Arrow(player.getMidpointX() - 10, player.getY(), 25, new UpLeft(), false));
-                toAdd.add(new Arrow(player.getMidpointX() + 10, player.getY(), 25, new UpRight(), false));
+                toAdd.add(new Arrow(player.getMidpointX() - 30, player.getY() + 5, 25, new UpLeft(), false));
+                toAdd.add(new Arrow(player.getMidpointX() + 17, player.getY() + 5, 25, new UpRight(), false));
                 break;
         }
         return toAdd;
@@ -324,30 +342,38 @@ public class GameController extends ParentController {
 
     private List<GameObject> shootBoomerang() {
         List<GameObject> toAdd = new ArrayList<>();
-        if (player.boomerangOut) {
+        if ((player.boomerangOut == 1 && player.boomerangLevel < 5) || player.boomerangOut == 2) {
             ERROR_CLIP.play();
             return toAdd;
         }
 
-        player.boomerangOut = true;
         BOOMERANG_OUT.play();
 
         switch (player.boomerangLevel) {
             case 1:
-                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 7, false, player, gameObjects, 1));
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 4, false, player, gameObjects, 1));
+                player.boomerangOut = 1;
                 break;
             case 2:
                 toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 7, false, player, gameObjects, 2));
+                player.boomerangOut = 1;
                 break;
             case 3:
                 toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 7, false, player, gameObjects, 10));
+                player.boomerangOut = 1;
                 break;
             case 4:
-                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 15, false, player, gameObjects, 10));
+                toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 17, false, player, gameObjects, 10));
+                player.boomerangOut = 1;
                 break;
             default:
-                toAdd.add(new Boomerang(player.getMidpointX() - 20, player.getY(), 15, false, player, gameObjects, 10));
-                toAdd.add(new Boomerang(player.getMidpointX() + 20, player.getY(), 15, false, player, gameObjects, 10));
+                if (player.boomerangOut == 1) {
+                    toAdd.add(new Boomerang(player.getMidpointX(), player.getY(), 17, false, player, gameObjects, 10));
+                } else {
+                    toAdd.add(new Boomerang(player.getMidpointX() - 20, player.getY(), 17, false, player, gameObjects, 10));
+                    toAdd.add(new Boomerang(player.getMidpointX() + 20, player.getY(), 17, false, player, gameObjects, 10));
+                }
+                player.boomerangOut = 2;
                 break;
         }
 
@@ -371,6 +397,9 @@ public class GameController extends ParentController {
         List<GameObject> toAdd = new ArrayList<>(); // Adding to list to prevent concurrency issues (altering list during loop)
         List<GameObject> toRemove = new ArrayList<>(); // Adding toRemove list to prevent concurrency issues (altering list during loop)
 
+        // Add automatically shot arrows when key is held
+        toAdd.addAll(shootArrow());
+
         for (GameObject obj : gameObjects) {
             if (obj instanceof Player) {
                 toRemove.addAll(updatePlayer((Player) obj));
@@ -383,7 +412,7 @@ public class GameController extends ParentController {
                 Projectile proj = (Projectile) obj;
                 if (proj.isDestroyed()) {
                     if (proj instanceof Boomerang) {
-                        player.boomerangOut = false;
+                        player.boomerangOut--;
                     }
                     toRemove.add(proj);
                 } else if (proj instanceof Bomb) {
@@ -421,13 +450,13 @@ public class GameController extends ParentController {
                     ITEM_CLIP.play();
 
                     if (obj instanceof ArrowPowerUp) {
-                        player.arrowLevel++;
+                        player.arrowLevel = player.arrowLevel < 5 ? player.arrowLevel + 1 : player.arrowLevel;
                         updateArrowBox();
                     } else if (obj instanceof BoomerangPowerUp) {
-                        player.boomerangLevel++;
+                        player.boomerangLevel = player.boomerangLevel < 5 ? player.boomerangLevel + 1 : player.boomerangLevel;
                         updateBoomerangBox();
                     } else if (obj instanceof BombAdd) {
-                        player.bombInv++;
+                        player.bombInv = player.bombInv < 3 ? player.bombInv + 1 : player.bombInv;
                         updateBombs();
                     } else {
                         player.gainHealth(2);
@@ -436,7 +465,7 @@ public class GameController extends ParentController {
                 } else if (obj instanceof Boomerang) {
                     if (((Boomerang) obj).getRemove()) {
                         toRemove.add(obj);
-                        player.boomerangOut = false;
+                        player.boomerangOut--;
                     }
                 } else {
                     // Periodically lose health when inside enemy
@@ -498,13 +527,13 @@ public class GameController extends ParentController {
                     while (true) {
                         switch (random.nextInt(4)) {
                             case 0: // Drop arrow upgrade
-                                if (player.arrowLevel >= 5) continue Decide;
-                                if (random.nextDouble() < 0.2 * player.arrowLevel) continue Decide;
+                                if (player.arrowLevel >= 5) break Decide;
+                                if (random.nextDouble() < 0.225 * player.arrowLevel) break Decide;
                                 toAdd.add(new ArrowPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 1:
-                                if (player.boomerangLevel >= 5) continue Decide;
-                                if (random.nextDouble() < 0.2 * player.boomerangLevel) continue Decide;
+                                if (player.boomerangLevel >= 5) break Decide;
+                                if (random.nextDouble() < 0.225 * player.boomerangLevel)   break Decide;
                                 toAdd.add(new BoomerangPowerUp(enemy.getX(), enemy.getY()));
                                 break Decide;
                             case 2:

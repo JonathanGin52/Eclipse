@@ -51,7 +51,8 @@ public class LevelReader {
     public List<GameObject> getNewObjects(long now, Player player) {
         if (commands == null || commands.isEmpty()) {
             commands = getRandomBlock();
-            waitFactor += 0.15 / waitFactor;
+            waitFactor += 0.06 * (1 + Math.log(waitFactor)) / waitFactor;
+            System.out.println("Spawn speed multiplier: " + waitFactor);
         }
 
         List<GameObject> toAdd = new ArrayList<>();

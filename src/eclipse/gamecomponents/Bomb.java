@@ -29,6 +29,7 @@ public class Bomb extends Projectile {
 
     @Override
     public void update(long now) {
+        SPRITE.setVisible(true);
         if (animationFrame > 13) return;
 
         if (!explode) {
@@ -59,7 +60,7 @@ public class Bomb extends Projectile {
 
     @Override
     public int getDamage() {
-        return explodeFrame ? 5 : 0;
+        return explodeFrame ? 10 : 0;
     }
 
     private void setSprite() {

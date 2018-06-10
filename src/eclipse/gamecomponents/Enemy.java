@@ -67,7 +67,7 @@ public abstract class Enemy extends GameObject {
             List<VectorPath> newProjVectors = firePattern.getProjectilePaths(now);
             List<Projectile> newProj = new ArrayList<>(newProjVectors.size());
             for (VectorPath vectorPath : newProjVectors) {
-                newProj.add(getProjectile(xPos + getWidth() / 2, yPos + 1.5 * getHeight(), 5, vectorPath));
+                newProj.add(getProjectile(xPos + getWidth() / 2, yPos + 1.5 * getHeight(), vectorPath));
             }
 
             setNewProjectiles(newProj);
@@ -79,7 +79,7 @@ public abstract class Enemy extends GameObject {
     }
 
     // Get a specific projectile associated with each type of Enemy
-    public abstract Projectile getProjectile(double xPos, double yPos, int speed, VectorPath vectorPath);
+    public abstract Projectile getProjectile(double xPos, double yPos, VectorPath vectorPath);
 
     // Whether an Enemy drops an item. Enemies have different drop rates based on their strength.
     public abstract boolean dropItem();
